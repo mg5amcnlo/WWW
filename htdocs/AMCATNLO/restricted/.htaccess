@@ -1,0 +1,5 @@
+AuthName aMCatNLO_online_MC_Tools
+AuthType Basic
+AuthUserFile /Users/madgraph/Users/amcatnlo_users
+
+require valid-user

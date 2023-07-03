@@ -1,0 +1,49 @@
+#!/usr/bin/perl -w 
+use POSIX qw(floor);
+use Sys::Hostname;
+use Mail::Sendmail;
+use Email::Valid;
+
+  chomp($uname = <>);
+  chomp($folder = <>);
+  
+  print "$uname\n";
+  print "$folder\n";
+  $link = "http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/$uname/$folder/index.html";
+  print "$link\n";
+
+
+  my $mail_to = $uname;
+
+  my $mail_smtp = 'localhost';
+  if($ENV{'MADGRAPH_SMTP'}){
+    $mail_smtp=$ENV{'MADGRAPH_SMTP'};
+  }
+
+  my $mail_from = 'amcatnlo@cern.ch';
+  if($ENV{'MADGRAPH_MAIL'}){
+    $mail_from=$ENV{'MADGRAPH_MAIL'};
+  }
+
+  my %mail = (
+    'smtp' => $mail_smtp,
+    'from' => $mail_from,
+    'to' => $mail_to,
+    'subject' => 'aMC@NLO job completed'
+  );
+
+
+  $mail{body} = <<END_MAIL;
+Dear aMC\@NLO user,
+
+The run you submitted is now completed. You cna find the result and the event files in the "My DataBase" section of the aMC\@NLO page: http://amcatnlo.cern.ch/.
+
+If you have any questions or comments please let us know.
+Thank you for using aMC\@NLO.
+
+Best regards,
+
+The aMC\@NLO Team
+END_MAIL
+
+  sendmail(%mail) or die "Error: $Mail::Sendmail::error\n";

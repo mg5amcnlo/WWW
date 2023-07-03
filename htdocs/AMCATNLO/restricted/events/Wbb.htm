@@ -1,0 +1,60 @@
+<html>
+	<body>
+	<font  color="#AA0000" face="Courier"  size=+1> <br><br>
+	<i>W</i>-boson production in association with a bottom-antibottom pair<br><br><hr></font>
+        <font  color="#000000" face="Courier"><p style="line-height:150%;">
+
+<p>
+
+
+
+<li><font size=+1>Description:</font><br>
+<ul>
+	Event files for <i>W</i>-boson production in association with a bottom-antibottom pair. The event files contain both <i>W<sup>+</sup></i> and <i>W<sup>-</sup></i>, and include the decay of these <i>W</i>-bosons to <i>W &rarr; e &nu;<sub>e</sub></i>, keeping spin correlations and off-shell effects. The bottom quarks are kept massive everywhere and no cuts are applied to them. Input parameters are the following:<p>
+	<ul>
+	<li> <i>m<sub>W</sub></i> = 80.419 GeV,
+	<li> <i>&Gamma;<sub>W</sub></i> = 2.0476 GeV,
+	<li> &alpha;<sub>EW</sub> = 1/132.507 GeV,
+	<li> <i>m<sub>Z</sub></i> = 91.188 GeV,
+	<li> <i>m<sub>b</sub></i> = 4.5 GeV,
+	<li> diagonal CKM matrix,
+	<li> MSTW2008(N)LO_nf4 for the (N)LO,
+	<li> <i>&mu;<sub>R</sub></i> = <i>&mu;<sub>F</sub></i> = <i>m<sup>T</sup><sub>W</sub> + (m<sup>T</sup><sub>b</sub> + m<sup>T</sup><sub>bbar</sub>)/2</i>, where <i>m<sup>T</sup></i> = sqrt(<i>m<sup>2</sup>+p<sub>T</sub><sup>2</sup></i>).
+	</li></ul>
+
+
+</ul>
+
+
+
+<li><font size=+1>Event files:</font><br>
+<ul>
+	The NLO events are generated with the MC subtraction terms for Herwig 6 and the files contain 1 million events. The cross sections are given between the brackets, and the uncertainty is from the MC integration only. As they are, the NLO events are still non-physical: they need to be showered with herwig 6 to be meaningful. <p>
+	<ul>
+	<li> Tevatron (no cuts): <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/Tevatron/Wbb_HW6_NLO_damp_Sud.lhe.gz">NLO (8.04 +/- 0.04 pb)</a>, LO (4.633 +/- 0.002 pb)<br><br>
+	<li> LHC 7 TeV (no cuts): <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/Wbb_HW6_NLO_damp_Sud.lhe.gz">NLO (38.68 +/- 0.08 pb)</a>, <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/Wbb_LO.lhe.gz">LO (19.37 +/- 0.01 pb)</a> <br><br>
+	<li> LHC 7 TeV (p<sub>T,W</sub> &gt; 100 GeV): <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/Wbb_HW6_NLO_damp_Sud_PtW100.lhe.gz">NLO (1.080 +/- 0.003 pb)</a> <br><br>
+	</li></ul>
+</ul>
+
+
+
+<li><font size=+1>Technical details:</font><br>
+<ul>
+	The NLO event files use the UseSudakov=.true. and DampMCsubt=.true., using the default values of the code in revision 208. A technical cut has been applied to the electron-neutriono invariant mass: events for which the invariant mass is more than 30 times the <i>W</i>-boson width away from its mass have been removed. All the events have the (off-shell) <i>W</i>-boson explicitly in the event record as intermediate particle, so its invariant mass should be conserved by Herwig. The event files without cuts were generated on March 23, 2011 and with the cut on the transverse momentum of the <i>W</i>-boson on April 2, 2011.
+</ul>
+
+
+
+<li><font size=+1>Reference:</font><br>
+<ul>
+	<a href="http://arxiv.org/abs/arxiv:1106.6019" target="_top">arXiv:1106.6019</a><br>
+	<b><i>W</i> and <i>Z/&gamma;<sup>*</sup></i> boson production in association with a bottom-antibottom pair</b><br> 
+	R.&nbsp;Frederix, S.&nbsp;Frixione, V.&nbsp;Hirschi, F.&nbsp;Maltoni, R.&nbsp;Pittau, P.&nbsp;Torrielli 
+</ul>
+
+
+</li>
+</font>
+</body>
+</html>

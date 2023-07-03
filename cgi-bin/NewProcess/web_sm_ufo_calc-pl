@@ -1,0 +1,192 @@
+#!/usr/bin/perl -w
+
+#use the CGI.pm module
+#use CGI qw/:standard/;
+
+require "../RunProcess/print_run_form.pm";
+
+#------------------------NOTES-------------------------------
+#
+# URL REFERENCES:
+# when putting in url references listing a file without
+# anything in front, like
+#   file
+# will look for the file in the local directory
+#
+# giving the reference as
+#  /file
+# will look in the server/htdocs folder
+#
+#------------------------------------------------------------
+#
+#          This is Denny's code for unwrapping the form replies
+#
+    my($zzi,@marked,$qn,$an);
+    binmode STDIN;
+    read STDIN,$zzi,$ENV{CONTENT_LENGTH};
+    $zzi =~ s/\s$//g;
+    @marked = split(/&/,$zzi);
+    foreach $input (@marked) {
+        ($qn,$an) = split(/=/,$input);
+        $an =~ tr/+/ /;
+        $an =~ s/%([a-fA-F0-9][a-fA-F0-9])/pack("C", hex($1))/eg;
+        $an =~ s/~!/ ~!/g;
+        $in{$qn} = $an
+        }
+
+
+
+#------------------------------------------------------------
+# set variables for the most common path names
+#------------------------------------------------------------
+$server = $ENV{'SERVER_NAME'};
+$dirMAD = $ENV{'MADGRAPH_DATA'};
+$dirHTML= "MadGraphData";
+$smcalc = "$ENV{'MADGRAPH_BASE'}/MG_ME/WebBin/Calculators/smcalc_ufo";
+$uname  = $ENV{REMOTE_USER};
+
+
+#------------------------------------------------------------
+# read in the values passed from the form
+#------------------------------------------------------------
+
+# call from 
+$callfrom  = $in{callfrom};
+
+# directory name
+$procname  = $in{procname};
+
+# here the web_sm_calc-pl is called as a standalone
+if( $callfrom eq "standalone"){
+       $directory="$dirMAD/$uname";
+       # check if the Cards directory exists
+       if(! (-d  "$dirMAD/$uname")){system(" mkdir $dirMAD/$uname")}
+       if(! (-d  "$dirMAD/$uname/Cards")){system(" mkdir $dirMAD/$uname/Cards")}
+       $temp_id=0;
+       $paramcard="param_card_$temp_id.dat";
+       while (-e "$dirMAD/$uname/Cards/$paramcard"){
+       $temp_id++;
+       $paramcard="param_card_$temp_id.dat";
+       }
+       
+}
+# here the web_sm_calc-pl is called in setting up the web generation
+ elsif( $callfrom eq "webgeneration"){
+ $directory = "$dirMAD/$uname/$procname";
+ $paramcard="param_card.dat";
+ }
+
+#($junk,$procname) = split $dirMAD, $directory;
+
+#model 
+#$model = $in{model};
+
+# GF value
+ $in{hgf} = 0.00001 * $in{hgf};
+#------------------------------------------------------------
+# Write input-card.dat starting from the one already present
+# in the directory. 
+#------------------------------------------------------------
+
+  &WriteParamCard($dirMAD,$paramcard,%in);
+ 
+#------------------------------------------------------------------
+#  Write out an html page while waiting to process with redirect link
+#------------------------------------------------------------------
+#
+#   Flush outputs immediately
+#
+
+    $| = 1; 
+
+if( $callfrom eq "webgeneration"){
+#    print "<META HTTP-EQUIV=\"Refresh\" CONTENT=\"5\; ";
+#    print "URL=http://$server/cgi-bin/RunProcess/print_run_web_form-pl\"> \n";
+
+    $process = $uname."/".$procname;
+    $card_complete="param_card generation complete. ";
+    $card_complete .= "Please check the new <a href=\"http://$server/$dirHTML/$process/Cards/param_card.dat\">param_card</a>.";
+
+    &PrintRunForm;
+    exit;
+}
+
+elsif($callfrom eq "standalone"){
+
+print "Content-type: text/html\n\n";
+print  "<HTML> <HEAD> \n";
+print "<TITLE>Param card generation</TITLE></HEAD>\n<BODY>\n";
+print "<H2>Generation complete</H2>\n";
+print "The parameter card has been generated and saved with the name $paramcard.\n";
+print "<BR><a href=\"http://$server/$dirHTML/$uname/Cards/$paramcard\">Download</a> the parameter card for future use/reference.\n";
+print "<BR><hr>\n";
+print "Resulting $paramcard:\n";
+print "<PRE>\n";
+open(CARD,"<$directory/Cards/$paramcard") or
+  WriteError("The resulting param_card could not be opened.");
+while(<CARD>){
+  print "$_";
+}
+print "</PRE>\n";
+close CARD;
+print "</BODY>\n</HTML>\n";
+
+}
+
+close(STDOUT);
+close(STDERR);
+close(STDIN);
+
+
+#----------------------------------------------------------------
+#  FUNCTIONS: in alphabetical order
+#----------------------------------------------------------------
+
+
+sub WriteParamCard{
+  #---------------------------------------------------------------
+  # creates the param_card.dat to send to madgraph
+  #---------------------------------------------------------------
+
+  my($dirMAD,$paramcard,%in)= @_ ;
+  
+  open(OUTCARD,"> $directory/Cards/$paramcard") or die "Could not write to param_card.dat\n";
+  open(SMIN,">$directory/Cards/sm.in") or die "Could not write to sm.in\n";
+
+  while ( ($key,$value) = each %in){
+  print SMIN "# $value = $key  ! \n";
+  }
+  
+  close (SMIN);
+  
+  system("cp $smcalc $directory/Cards/.");
+  system("cd $directory/Cards; ./smcalc_ufo<sm.in>smcalc.out");
+  system("rm -f $directory/Cards/smcalc_ufo");
+  system("rm -f $directory/Cards/sm.in");
+  system("rm -f $directory/Cards/smcalc.out");
+  system("mv $directory/Cards/param_card.dat $directory/Cards/$paramcard");
+
+  close(OUTCARD);
+   
+}#end sub WriteInputDat
+
+
+
+#------------------------------------------------------------
+# Display error message in browser and kill process
+#------------------------------------------------------------
+
+sub WriteError {
+$errormsg=shift;
+$| = 1;
+print "Content-type: text/html\n\n";
+print "<HTML>\n<HEAD> \n";
+print "<TITLE>Param card generation</TITLE></HEAD>\n<BODY>\n";
+print "<H2>Generation failed</H2>\n";
+print "$errormsg";
+print "<BR>Click the \"backwards\" button in you browser and correct the error.\n";
+print "</BODY>\n</HTML>\n";
+die;
+}
+
+

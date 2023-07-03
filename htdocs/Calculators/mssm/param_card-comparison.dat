@@ -1,0 +1,307 @@
+##******************************************************************
+##                      MadGraph/MadEvent                          *
+##******************************************************************
+##                                                                 *
+##   param_card corresponding to the comparison point (no decays)  *
+##                                                                 *
+##******************************************************************
+## Les Houches friendly file for the (MS)SM parameters of MadGraph *
+##      SM parameter set and decay widths produced by MSSMCalc     *
+##******************************************************************
+##*Please note the following IMPORTANT issues:                     *
+##                                                                 *
+##0. REFRAIN from editing this file by hand! Some of the parame-   *
+##   ters are not independent. Always use a calculator.            *
+##                                                                 *
+##1. alpha_S(MZ) has been used in the calculation of the parameters*
+##   This value is KEPT by madgraph when no pdf are used lpp(i)=0, *
+##   but, for consistency, it will be reset by madgraph to the     *
+##   value expected IF the pdfs for collisions with hadrons are    *
+##   used.                                                         *
+##                                                                 *
+##2. Values of the charm and bottom kinematic (pole) masses are    *
+##   those used in the matrix elements and phase space UNLESS they *
+##   are set to ZERO from the start in the model (particles.dat)   *
+##   This happens, for example,  when using 5-flavor QCD where     *
+##   charm and bottom are treated as partons in the initial state  *
+##   and a zero mass might be hardwired in the model definition.   *
+##                                                                 *
+##******************************************************************
+#
+BLOCK DCINFO  # Decay Program information
+     1   SDECAY      # decay calculator
+     2   1.1a        # version number
+#
+BLOCK SPINFO  # Spectrum calculator information
+     1   SOFTSUSY    # spectrum calculator                 
+     2   1.9         # version number                      
+#
+BLOCK MODSEL  # Model selection
+     1     1   sugra                                             
+#
+BLOCK SMINPUTS  # Standard Model inputs
+     1     1.32507000E+02   # alpha_em^-1(M_Z)^MSbar
+     2     1.16640000E-05   # G_F [GeV^-2]
+     3     1.18000000E-01   # alpha_S(M_Z)^MSbar
+     4     9.11880000E+01   # M_Z pole mass
+     6     1.78000000E+02   # mt pole mass
+     7     1.77700000E+00   # mtau pole mass
+#
+BLOCK MINPAR  # Input parameters - minimal models
+     1     1.00000000E+02   # m0                  
+     2     2.50000000E+02   # m12                 
+     3     1.00000000E+01   # tanb                
+     4     1.00000000E+00   # sign(mu)            
+     5    -1.00000000E+02   # A0                  
+#
+BLOCK MASS  # Mass Spectrum
+# PDG code           mass       particle
+         5     4.60000000E+00   # b-quark pole mass
+         6     1.78000000E+02   # mt pole mass (not read by ME)
+        24     8.04191404E+01   # W+
+        25     1.10762900E+02   # h
+        35     4.00615086E+02   # H
+        36     4.00247030E+02   # A
+        37     4.08528577E+02   # H+
+   1000001     5.72715810E+02   # ~d_L
+   2000001     5.46084642E+02   # ~d_R
+   1000002     5.67266777E+02   # ~u_L
+   2000002     5.47013902E+02   # ~u_R
+   1000003     5.72715810E+02   # ~s_L
+   2000003     5.46084642E+02   # ~s_R
+   1000004     5.67266777E+02   # ~c_L
+   2000004     5.47013902E+02   # ~c_R
+   1000005     5.15224253E+02   # ~b_1
+   2000005     5.43980537E+02   # ~b_2
+   1000006     3.95930570E+02   # ~t_1
+   2000006     5.85709387E+02   # ~t_2
+   1000011     2.04280587E+02   # ~e_L
+   2000011     1.45527209E+02   # ~e_R
+   1000012     1.88661921E+02   # ~nu_eL
+   1000013     2.04280587E+02   # ~mu_L
+   2000013     1.45527209E+02   # ~mu_R
+   1000014     1.88661921E+02   # ~nu_muL
+   1000015     1.36227332E+02   # ~tau_1
+   2000015     2.08226705E+02   # ~tau_2
+   1000016     1.87777460E+02   # ~nu_tauL
+   1000021     6.07618238E+02   # ~g
+   1000022     9.72807171E+01   # ~chi_10
+   1000023     1.80959888E+02   # ~chi_20
+   1000025    -3.64450624E+02   # ~chi_30
+   1000035     3.83149239E+02   # ~chi_40
+   1000024     1.80377023E+02   # ~chi_1+
+   1000037     3.83385634E+02   # ~chi_2+
+#
+BLOCK NMIX  # Neutralino Mixing Matrix
+  1  1     9.86069014E-01   # N_11
+  1  2    -5.46217310E-02   # N_12
+  1  3     1.47637908E-01   # N_13
+  1  4    -5.37346696E-02   # N_14
+  2  1     1.02047560E-01   # N_21
+  2  2     9.42730347E-01   # N_22
+  2  3    -2.74969181E-01   # N_23
+  2  4     1.58863895E-01   # N_24
+  3  1    -6.04553550E-02   # N_31
+  3  2     8.97014273E-02   # N_32
+  3  3     6.95501771E-01   # N_33
+  3  4     7.10335196E-01   # N_34
+  4  1    -1.16616232E-01   # N_41
+  4  2     3.16590608E-01   # N_42
+  4  3     6.47203433E-01   # N_43
+  4  4    -6.83592537E-01   # N_44
+#
+BLOCK UMIX  # Chargino Mixing Matrix U
+  1  1     9.15543496E-01   # U_11
+  1  2    -4.02218978E-01   # U_12
+  2  1     4.02218978E-01   # U_21
+  2  2     9.15543496E-01   # U_22
+#
+BLOCK VMIX  # Chargino Mixing Matrix V
+  1  1     9.72352114E-01   # V_11
+  1  2    -2.33519522E-01   # V_12
+  2  1     2.33519522E-01   # V_21
+  2  2     9.72352114E-01   # V_22
+#
+BLOCK STOPMIX  # Stop Mixing Matrix
+  1  1     5.38076009E-01   # O_{11}
+  1  2     8.42896321E-01   # O_{12}
+  2  1    -8.42896321E-01   # O_{21}
+  2  2     5.38076009E-01   # O_{22}
+#
+BLOCK SBOTMIX  # Sbottom Mixing Matrix
+  1  1     9.47748557E-01   # O_{11}
+  1  2     3.19018295E-01   # O_{12}
+  2  1    -3.19018295E-01   # O_{21}
+  2  2     9.47748557E-01   # O_{22}
+#
+BLOCK STAUMIX  # Stau Mixing Matrix
+  1  1     2.80949722E-01   # O_{11}
+  1  2     9.59722488E-01   # O_{12}
+  2  1    -9.59722488E-01   # O_{21}
+  2  2     2.80949722E-01   # O_{22}
+#
+BLOCK ALPHA  # Higgs mixing
+          -1.13731924E-01   # Mixing angle in the neutral Higgs boson sector
+#
+BLOCK HMIX Q=  4.64241862E+02  # DRbar Higgs Parameters
+     2     1.00000000E+01   # tan(beta) MINPAR    
+#
+BLOCK GAUGE Q=  4.64241862E+02  # The gauge couplings
+     3     1.10215283E+00   # g3(Q) MSbar
+#
+BLOCK AU Q=  4.64241862E+02  # The trilinear couplings
+  1  1     0.00000000E+00   # A_u(Q) DRbar
+  2  2     0.00000000E+00   # A_c(Q) DRbar
+  3  3    -5.04528807E+02   # A_t(Q) DRbar
+#
+BLOCK AD Q=  4.64241862E+02  # The trilinear couplings
+  1  1     0.00000000E+00   # A_d(Q) DRbar
+  2  2     0.00000000E+00   # A_s(Q) DRbar
+  3  3    -7.97132778E+02   # A_b(Q) DRbar
+#
+BLOCK AE Q=  4.64241862E+02  # The trilinear couplings
+  1  1     0.00000000E+00   # A_e(Q) DRbar
+  2  2     0.00000000E+00   # A_mu(Q) DRbar
+  3  3    -2.56155534E+02   # A_tau(Q) DRbar
+#
+BLOCK YU Q=  4.64241862E+02  # The Yukawa couplings
+  3  3     1.02748843E+00   # y_t(Q) DRbar
+#
+BLOCK YD Q=  4.64241862E+02  # The Yukawa couplings
+  3  3     2.65530718E-01   # y_b(Q) DRbar
+#
+BLOCK YE Q=  4.64241862E+02  # The Yukawa couplings
+  3  3     1.02575671E-01   # y_tau(Q) DRbar
+#
+BLOCK MSOFT Q=  4.64241862E+00  # The soft SUSY breaking masses at the scale Q
+     1     1.01434936E+02   # M_1(Q)              
+     2     1.91575435E+02   # M_2(Q)              
+     3     5.86599422E+02   # M_3(Q)              
+    21     3.23923404E+04   # mH1^2(Q)            
+    22    -1.29423935E+05   # mH2^2(Q)            
+    31     1.99046526E+02   # meL(Q)              
+    32     1.99046526E+02   # mmuL(Q)             
+    33     1.98208420E+02   # mtauL(Q)            
+    34     1.38812623E+02   # meR(Q)              
+    35     1.38812623E+02   # mmuR(Q)             
+    36     1.36393037E+02   # mtauR(Q)            
+    41     5.50830596E+02   # mqL1(Q)             
+    42     5.50830596E+02   # mqL2(Q)             
+    43     4.99373676E+02   # mqL3(Q)             
+    44     5.28875162E+02   # muR(Q)              
+    45     5.28875162E+02   # mcR(Q)              
+    46     4.18462349E+02   # mtR(Q)              
+    47     5.26114131E+02   # mdR(Q)              
+    48     5.26114131E+02   # msR(Q)              
+    49     5.22794151E+02   # mbR(Q)              
+#
+#
+#
+#                             =================
+#                             |The decay table|
+#                             =================
+#
+# - The SM decays of the top quark are included.
+#
+#
+#         PDG            Width
+DECAY        23     2.44159832E+00   # Z width (SM calculation)
+DECAY        24     2.04762779E+00   # W width (SM calculation)
+DECAY         6     0.00000000E+00   # top width (SM calculation)
+#
+#
+#         PDG            Width
+DECAY        25     0.00000000E+00   # h decays
+#
+#         PDG            Width
+DECAY        35     0.00000000E+00   # H decays
+#
+#         PDG            Width
+DECAY        36     0.00000000E+00   # A decays
+#
+#         PDG            Width
+DECAY        37     0.00000000E+00   # H+ decays
+#
+#         PDG            Width
+DECAY   1000021     0.00000000E+00   # gluino decays
+#
+#         PDG            Width
+DECAY   1000006     0.00000000E+00   # stop1 decays
+#
+#         PDG            Width
+DECAY   2000006     0.00000000E+00   # stop2 decays
+#
+#         PDG            Width
+DECAY   1000005     0.00000000E+00   # sbottom1 decays
+#
+#         PDG            Width
+DECAY   2000005     0.00000000E+00   # sbottom2 decays
+#
+#         PDG            Width
+DECAY   1000002     0.00000000E+00   # sup_L decays
+#
+#         PDG            Width
+DECAY   2000002     0.00000000E+00   # sup_R decays
+#
+#         PDG            Width
+DECAY   1000001     0.00000000E+00   # sdown_L decays
+#
+#         PDG            Width
+DECAY   2000001     0.00000000E+00   # sdown_R decays
+#
+#         PDG            Width
+DECAY   1000004     0.00000000E+00   # scharm_L decays
+#
+#         PDG            Width
+DECAY   2000004     0.00000000E+00   # scharm_R decays
+#
+#         PDG            Width
+DECAY   1000003     0.00000000E+00   # sstrange_L decays
+#
+#         PDG            Width
+DECAY   2000003     0.00000000E+00   # sstrange_R decays
+#
+#         PDG            Width
+DECAY   1000011     0.00000000E+00   # selectron_L decays
+#
+#         PDG            Width
+DECAY   2000011     0.00000000E+00   # selectron_R decays
+#
+#         PDG            Width
+DECAY   1000013     0.00000000E+00   # smuon_L decays
+#
+#         PDG            Width
+DECAY   2000013     0.00000000E+00   # smuon_R decays
+#
+#         PDG            Width
+DECAY   1000015     0.00000000E+00   # stau_1 decays
+#
+#         PDG            Width
+DECAY   2000015     0.00000000E+00   # stau_2 decays
+#
+#         PDG            Width
+DECAY   1000012     0.00000000E+00   # snu_eL decays
+#
+#         PDG            Width
+DECAY   1000014     0.00000000E+00   # snu_muL decays
+#
+#         PDG            Width
+DECAY   1000016     0.00000000E+00   # snu_tauL decays
+#
+#         PDG            Width
+DECAY   1000024     0.00000000E+00   # chargino1+ decays
+#
+#         PDG            Width
+DECAY   1000037     0.00000000E+00   # chargino2+ decays
+#
+#         PDG            Width
+DECAY   1000022     0.00000000E+00   # neutralino1 decays
+#
+#         PDG            Width
+DECAY   1000023     0.00000000E+00   # neutralino2 decays
+#
+#         PDG            Width
+DECAY   1000025     0.00000000E+00   # neutralino3 decays
+#
+#         PDG            Width
+DECAY   1000035     0.00000000E+00   # neutralino4 decays

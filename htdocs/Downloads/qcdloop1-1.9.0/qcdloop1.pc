@@ -1,0 +1,13 @@
+
+prefix=/Users/valentin/Documents/HEP_softs/QCDLoop/qcdloop1-1.9.0_installation
+exec_prefix=${prefix}
+includedir=${prefix}/include
+libdir=${exec_prefix}/lib
+
+Name: qcdloop1
+Description: A repository for one-loop scalar integrals
+URL: http://qcdloop.fnal.gov/
+Version: 1.9.0
+Cflags: -I${includedir}
+Libs: -L${libdir} -lqcdloop1
+Libs.private:

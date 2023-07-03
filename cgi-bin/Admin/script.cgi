@@ -1,0 +1,72 @@
+#!/usr/bin/perl -w
+
+#------------------------------------------------------------
+# set variables for the most common path names
+#------------------------------------------------------------
+
+
+
+$dirBASE= $ENV{'MADGRAPH_BASE'};
+$USER = $ENV{'USER'};
+my $USER = $ENV{LOGNAME} || $ENV{USER} || getpwuid($<);
+$| = 1;
+print "Content-type: text/html\n\n";
+print  "<HTML> <HEAD> \n";
+print "<META URL=$ENV{'HTTP_REFERER'}\"> \n";
+print  "</HEAD> <BODY> <CENTER>\n";
+
+#if (-e "$dirBASE/update.sh"){
+    print "A script has been found \n";
+#}
+#else {
+#    print "No update script found! Please create one called $dirBASE/update.sh!\n";
+#    print "</CENTER></BODY></HTML> \n \n";
+#    exit(0);
+#}
+
+#   print "and has been started, please wait while it is running...<br>\n";
+#   print "THIS MAY TAKE SEVERAL MINUTES, PLEASE DO NOT CLOSE OR STOP/REFRESH THIS WINDOW!!!</center><pre>\n";
+#   print "INFO: USER is $USER\n";
+#uiuc can't make sud and it's username is sudo. while it's empty for UCL
+if ( $USER ne "madgraph")   
+{   
+   system "cd $dirBASE; sudo -u madgraph $dirBASE/update.sh 2>&1";
+}
+else
+{
+#    system "cd $dirBASE; echo 'import model heft; generate g g > h' > test_cmd; cat test_cmd";
+    system "ps -a";
+    print "\n";
+#    system "cd $dirBASE; rm -rf MG5/models/heft 2>&1";
+    
+}
+
+#if (-e "$dirBASE/Users/admin_users"){
+#    system "echo OK";
+#}
+#else{
+#    system "cd $dirBASE; cp ./User_bk/admin_users ./Users/admin_users";
+#
+#}
+#if (-e "$dirBASE/Users/admin_users"){
+#    system "echo OK";
+#}
+#else{
+#    system "cd $dirBASE; cp ./Users_bk2/admin_users ./Users/admin_users";
+#}
+#if (-e "$dirBASE/Users/admin_users"){
+#    system "echo OK";
+#}
+#else{
+#    system "cd $dirBASE; mkdir ./Users;cp ./User_bk/admin_users ./Users/admin_users";
+#}
+#if (-e "$dirBASE/Users/admin_users"){
+#    system "echo OK";
+#}
+#else{
+#    system "cd $dirBASE; echo 'omatt@fynu.ucl.ac.be:9uIpj.tnZoeRw' > ./Users/admin_users";
+#}
+
+
+
+print "</BODY></HTML> \n \n";

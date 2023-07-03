@@ -1,0 +1,635 @@
+#!/usr/bin/perl -w
+use POSIX qw(floor);
+use Sys::Hostname;
+use Mail::Sendmail;
+use Email::Valid;
+use Scalar::Util qw(looks_like_number);
+
+#------------------------NOTES-------------------------------
+#
+# URL REFERENCES:
+# when putting in url references listing a file without
+# anything in front, like
+#   file
+# will look for the file in the local directory
+#
+# giving the reference as
+#  /file
+# will look in the server/htdocs folder
+#
+#------------------------------------------------------------
+#
+#          This is Denny's code for unwrapping the form replies
+#
+    my($zzi,@marked,$qn,$an);
+    binmode STDIN;
+    read STDIN,$zzi,$ENV{CONTENT_LENGTH};
+    $zzi =~ s/\s$//g;
+    @marked = split(/&/,$zzi);
+    foreach $input (@marked) {
+        ($qn,$an) = split(/=/,$input);
+        $an =~ tr/+/ /;
+        $an =~ s/%([a-fA-F0-9][a-fA-F0-9])/pack("C", hex($1))/eg;
+        $an =~ s/~!/ ~!/g;
+        $in{$qn} = $an
+        }
+
+
+#------------------------------------------------------------
+# set variables for the most common path names
+#------------------------------------------------------------
+
+$dirDATA = $ENV{'MADGRAPH_DATA'};
+$dirLOG = $ENV{'MADGRAPH_DATA'};
+$dirHTML = "MadGraphData";
+$bin = "$ENV{'MADGRAPH_BASE'}/MG_ME/WebBin";
+$server = $ENV{'SERVER_NAME'};
+$loop = "$bin/newprocess --web";
+
+
+
+#------------------------------------------------------------
+# call
+#------------------------------------------------------------
+
+   $callfrom = $in{callfrom};
+
+#------------------------------------------------------------
+# prepare the directory
+#------------------------------------------------------------
+
+#    system("cp -RP  $ENV{'MADGRAPH_BASE'}/MG_ME/Template $dirDATA/$process");
+#    system("rm -rf `find $dirDATA/$process -name CVS -type d`");
+#    system("cd $fulldir; sed -e s/my_server_here/$server/g HTML/web_run_form.html > HTML/test.html");
+#    system("cd $fulldir; sed -e s!dir_name_here!$fulldir!g HTML/test.html > HTML/web_run_form.html");     
+            
+#------------------------------------------------------------
+# read in the values passed from the form
+#------------------------------------------------------------
+$uname = $ENV{REMOTE_USER};
+$thisdir="/home/madgraph/WWW/cgi-bin/VBF";
+$srcdir="$thisdir/vbf_src_current";
+
+$datadir="/home/madgraph/WWW/htdocs/VBF/VBFdata/$uname";
+
+$rundir="$datadir/run";
+$resdir="$datadir/res";
+$logdir="$datadir/log";
+$headir="$datadir/head";
+$htmldir="$datadir/html";
+
+
+#------------------------------------------
+# Find a free directory in the private area
+#------------------------------------------
+
+# first check private dir exists and if not create it
+
+$uname = $ENV{REMOTE_USER};
+
+#system("rm -rf $datadir");
+
+  if(! -e "$datadir" ){ 
+  system("mkdir $datadir");
+}
+
+  if(! -d "$rundir" ){ 
+  system("rm  $rundir");
+}
+system("mkdir -p $rundir");
+system("cp $thisdir/complete-pl $rundir"); 
+system("cp $thisdir/check.sh $rundir"); 
+
+  if(! -e "$resdir" ){ 
+  system("mkdir $resdir");
+  system("touch $resdir/keepme");
+  }
+  if(! -e "$logdir" ){ 
+  system("mkdir $logdir");
+  }
+  if(! -e "$headir" ){ 
+  system("mkdir $headir");
+  }
+  if(! -e "$htmldir" ){ 
+  system("mkdir $htmldir");
+  }
+
+#copy and compile the code inside rundir
+system("cp $srcdir/* $rundir");
+system("cd $rundir; make > compile.log 2>&1");
+
+
+$version="502-500000";
+   $iproc = $in{iproc};
+   $order = $in{order};
+   $sqrts = $in{sqrts};
+   $mh = $in{mh};
+   $sc = $in{sc};
+   $scvar = $in{scvar};
+   $icoll=$in{icoll};
+   $iwdth=$in{iwdth};
+   $pdfset=$in{pdfset};
+   $pdf=$in{pdf};
+
+   $xiproc = $in{xiproc};
+   $xorder = $in{xorder};
+   $xsc = $in{xsc};
+   $xscvar = $in{xscvar};
+   $xicoll=$in{xicoll};
+   $xiwdth=$in{xiwdth};
+   $xpdf=$in{xpdf};
+   $xpdfset=$in{xpdfset};
+  $cnt='0';
+
+   $outputname="results-pr$iproc-c$icoll-w$iwdth-o$order-e$sqrts-m$mh-s$sc-u$scvar-p$pdfset-$pdf.html";
+   $now=time();
+   $runname="run$now-";
+#check if variables are numbers
+&check($sqrts);
+&check($mh);
+
+
+
+#------------------------------------------------------------
+#write an html page to confirm the run started
+#------------------------------------------------------------
+print "Content-type: text/html\n\n";
+print "<HTML> <BODY bgcolor=\"F8F4CB\">\n";
+print " <title> VBF @ NNLO -- Process Submitted </title>";
+print "<center>\n";
+print "<hr><br>  <font color=\"#008080\"><font size=+3>VBF @ NNLO</font></font><br><br><hr>\n";
+print "The process you requested is being computed.<br><br>\n";
+print "An e-mail will be sent to <span style=\"color:blue\">$uname</span> once the computation is completed.<br><br>\n";
+print "Click <a href=\"http://vbf-nnlo.phys.ucl.ac.be/vbf.html\">here</a> to go back to the VBF\@NNLO main page.";
+print "</center></BODY></HTML>";
+
+
+($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst)=localtime(time);
+$date=sprintf("%4d-%02d-%02d\n",$year+1900,$mon+1,$mday);
+
+
+$sqrtstev=$sqrts/1000;
+
+#write the head of the html result page
+$htmlhead=<<HEADEND;
+
+
+<HTML><HEAD><meta http-equiv="content-type" content="text/html; charset=UTF-8"></HEAD>
+
+<TITLE> Results</TITLE>
+<body bgcolor="F8F4CB">
+<hr><br>
+<center>
+<font color="#006060"><font size="+3">
+VBF @ $xicoll collider
+</font>
+</font>
+<br>
+
+<font color="#990000"><font size="+1">
+Request sent on $date
+</font>
+</font>
+
+<br><br><hr>
+<font size="+1">
+Process requested: <b>$xiproc</b> production </font><br><br>
+mh=$mh GeV, &nbsp;&nbsp; &radic;<span style="text-decoration:overline;"> s</span>=$sqrtstev TeV, &nbsp;&nbsp; up to $xorder <br><br>
+Off-shell effects: $xiwdth <br>
+PDF set: $xpdfset,  &nbsp;&nbsp;
+PDF error: $xpdf<br><br>
+Scale reference: $xsc <br>
+Theoretical uncertainity: $xscvar<br><br>
+
+
+HEADEND
+
+
+system("mkdir  $htmldir > $htmldir/log.dat");
+open(HEAD, ">$htmldir/$outputname.head");
+print HEAD $htmlhead;
+close(HEAD);
+
+
+$header="#$version-$iproc-$order-$sqrts-$mh-$pdfset-$pdf-$sc-$scvar-$icoll\n";
+$headgrep="#$version-$iproc-$order-$sqrts-$mh-$pdfset-$pdf-$sc-$scvar-$icoll";
+
+#look if the same process has already been generated
+#system("touch $rundir/search.txt");
+system("grep \"$headgrep\" $resdir/* >$rundir/search.txt");
+open (TMP, "$rundir/search.txt");
+$srcres='';
+while (<TMP>) { $srcres .= $_; }
+close TMP;
+
+
+$nlines=0;
+#check if a result file has laready been created
+if(length($srcres)>1){
+($filetoanalyse,$dummy)=split(':',$srcres);
+
+#check that the result file contains more than just one line
+open(FH,$filetoanalyse);
+$nlines++ while <FH>;
+close(FH);
+}
+
+if($nlines>2){
+&makeanalyse($filetoanalyse,$resdir,$rundir,$uname,$outputname);
+exit;
+
+}
+else {
+#write header file
+
+open (HEAD, ">$rundir/head$now.txt");
+print HEAD $header;
+close HEAD;
+#launch jobs
+
+if (($iproc=='1')||($iproc=='2')||($iproc=='3')){
+$nprocs=1;
+@procs=("$iproc");
+}
+elsif($iproc=='4'){
+$nprocs=2;
+@procs=('5','6');
+}
+elsif($iproc=='5'){
+$nprocs=2;
+@procs=('4','7');
+}
+elsif($iproc=='6'){
+$nprocs=2;
+@procs=('204');
+}
+elsif($iproc=='7'){
+$nprocs=2;
+@procs=('202','203');
+}
+
+for($ii=0; $ii<$nprocs;$ii++){
+$iiproc=$procs[$ii];
+if ($scvar=='0'){
+$imur=0;
+$imuf=0;
+&WriteRun($rundir,$cnt,$iiproc,$order,$icoll,$iwdth, $sqrts, $mh,$pdfset,$pdf, $sc, $imur,$imuf,$now);
+$cnt++;
+}
+
+elsif($scvar=='1'){
+for($imuf=-1; $imuf<2; $imuf++){
+$imur=$imuf;
+&WriteRun($rundir,$cnt,$iiproc,$order,$icoll,$iwdth, $sqrts, $mh,$pdfset,$pdf,$sc, $imur,$imuf,$now);
+$cnt++;
+}
+}
+
+elsif($scvar=='2'){
+for($imuf=-2; $imuf<3; $imuf++){
+$imur=$imuf;
+&WriteRun($rundir,$cnt,$iiproc,$order,$icoll,$iwdth, $sqrts, $mh,$pdfset,$pdf, $sc, $imur,$imuf,$now);
+$cnt++;
+}
+}
+
+elsif($scvar=='3'){
+for($imuf=-1; $imuf<2; $imuf++){
+for($imur=-1; $imur<2; $imur++){
+&WriteRun($rundir,$cnt,$iiproc,$order,$icoll,$iwdth, $sqrts, $mh, $pdfset,$pdf,$sc, $imur,$imuf,$now);
+$cnt++;
+}
+}
+}
+
+elsif($scvar=='4'){
+for($imuf=-2; $imuf<3; $imuf++){
+for($imur=-2; $imur<3; $imur++){
+&WriteRun($rundir,$cnt,$iiproc,$order,$icoll,$iwdth, $sqrts, $mh,$pdfset,$pdf,$sc, $imur,$imuf,$now);
+$cnt++;
+}
+}
+}
+
+}
+#jobs launched
+$nruns=$cnt;
+
+
+#wait the process to be completed
+system("sed \"s/CNNOWW/$now/\" $rundir/complete-pl  >$rundir/complete$now-TMP-pl");
+system("sed \"s/CNNAMEE/$uname/\" $rundir/complete$now-TMP-pl >$rundir/complete$now-TMP1-pl");
+system("sed \"s/OOUTT/$outputname/\" $rundir/complete$now-TMP1-pl >$rundir/complete$now-TMP2-pl");
+system("sed \"s/NNRUNSS/$nruns/\" $rundir/complete$now-TMP2-pl >$rundir/complete$now-pl");
+system("rm $rundir/complete$now-TMP-pl");
+system("rm $rundir/complete$now-TMP1-pl");
+system("rm $rundir/complete$now-TMP2-pl");
+
+system("sed \"s/NNOWW/$now/\" $rundir/check.sh >$rundir/check$now-TMP.sh");
+system("sed \"s/NNAME/$uname/\" $rundir/check$now-TMP.sh >$rundir/check$now.sh");
+system("rm $rundir/check$now-TMP.sh");
+system("chmod +x $rundir/check$now.sh");
+
+system("/bin/bash $rundir/check$now.sh");
+
+
+exit;
+}
+#----------------------------------------------------------------
+#  FUNCTIONS: 
+#----------------------------------------------------------------
+
+
+sub looks_like_integer { shift =~ /^-?\d+\z/ }
+
+sub looks_like_real {$string =~ m{^$RE{num}{real}$}}
+
+sub check{
+#---check if a variable is a number
+my($var)=@_;
+
+unless (looks_like_integer($var) or looks_like_real($var) ) {
+print "Content-type: text/html\n\n";
+print  "<HTML> <BODY bgcolor=\"F8F4CB\">\n";
+print" <title> Wrong Arguments </title>";
+print"<center><hr><br>";
+print"<font color=\"#006060\"><font size=\"+3\"> \n";
+         print "Wrong Arguments:\n";
+print"</font></font><br><br><hr>";
+print"Some of the variable you inserted are not valid numbers.<br><br>\n";
+print"Please go back to the <a href=\"http://vbf-nnlo.phys.ucl.ac.be/vbf.html\">VBF page</a> and re-submit the job.";
+         print "</center></BODY></HTML>";
+exit;
+}
+
+
+unless ($var >0) {
+print "Content-type: text/html\n\n";
+print  "<HTML> <BODY bgcolor=\"F8F4CB\">\n";
+print" <title> Wrong Arguments </title>";
+print"<center><hr><br>";
+print"<font color=\"#006060\"><font size=\"+3\"> \n";
+         print "Wrong Arguments:\n";
+print"</font></font><br><br><hr>";
+
+print"Some of the variable you inserted are negative.<br><br>\n";
+print"Please go back to the <a href=\"http://vbf-nnlo.phys.ucl.ac.be/vbf.html\">VBF page</a> and re-submit the job.";
+         print "</center></BODY></HTML>";
+exit;
+}
+
+}
+
+sub makeanalyse{
+
+my($file,$dir, $rundir, $name,$resname)=@_;
+# launch the analyse
+system("python $rundir/analyse.py $file >$htmldir/$resname.tail 2>&1");
+system("cat $htmldir/$resname.head $htmldir/$resname.tail >$htmldir/$resname");
+
+system("rm $htmldir/$resname.head $htmldir/$resname.tail");
+
+&sendFilesemail($name, $rundir,$resname);
+
+#clean
+system("rm $rundir/$file");
+
+}
+
+
+sub WriteRun{
+  #---------------------------------------------------------------
+  # creates the run files and submit them
+  #---------------------------------------------------------------
+
+
+my($rundir, $cnt, $iiproc,$order,$icoll,$iwdth, $sqrts, $mh,$pdfset,$pdf, $sc,$imur,$imuf,$now)= @_ ;
+
+
+$SCH='0';
+$OUTNAME="res$now-$cnt";
+
+
+if($pdfset eq "gjr"){
+$PDFLO='GJR08VFnloE.LHgrid';
+$PDFNLO='GJR08VFnloE.LHgrid';
+$PDFNNLO='JR09VFnnloE.LHgrid';
+}
+if($pdfset eq "gjrnl"){
+$PDFLO='GJR08VFnloE.LHgrid';
+$PDFNLO='GJR08VFnloE.LHgrid';
+$PDFNNLO='GJR08VFnloE.LHgrid';
+}
+if($pdfset eq "gjrnn"){
+$PDFLO='JR09VFnnloE.LHgrid';
+$PDFNLO='JR09VFnnloE.LHgrid';
+$PDFNNLO='JR09VFnnloE.LHgrid';
+}
+if($pdfset eq "abkm09"){
+$PDFLO='abkm09_5_nlo.LHgrid';
+$PDFNLO='abkm09_5_nlo.LHgrid';
+$PDFNNLO='abkm09_5_nnlo.LHgrid';
+}
+if($pdfset eq "abkm09nl"){
+$PDFLO='abkm09_5_nlo.LHgrid';
+$PDFNLO='abkm09_5_nlo.LHgrid';
+$PDFNNLO='abkm09_5_nlo.LHgrid';
+}
+if($pdfset eq "abkm09nn"){
+$PDFLO='abkm09_5_nnlo.LHgrid';
+$PDFNLO='abkm09_5_nnlo.LHgrid';
+$PDFNNLO='abkm09_5_nnlo.LHgrid';
+}
+if($pdfset eq "cteq66"){
+$PDFLO='cteq66.LHgrid';
+$PDFNLO='cteq66.LHgrid';
+$PDFNNLO='cteq66.LHgrid';
+}
+if($pdfset eq "ct10"){
+$PDFLO='CT10nlo.LHgrid';
+$PDFNLO='CT10nlo.LHgrid';
+$PDFNNLO='CT10nnlo.LHgrid';
+}
+if($pdfset eq "ct10nl"){
+$PDFLO='CT10nlo.LHgrid';
+$PDFNLO='CT10nlo.LHgrid';
+$PDFNNLO='CT10nlo.LHgrid';
+}
+if($pdfset eq "ct10nn"){
+$PDFLO='CT10nnlo.LHgrid';
+$PDFNLO='CT10nnlo.LHgrid';
+$PDFNNLO='CT10nnlo.LHgrid';
+}
+if ($pdfset eq "mstw68"){
+$PDFLO='MSTW2008lo68cl.LHgrid';
+$PDFNLO='MSTW2008nlo68cl.LHgrid';
+$PDFNNLO='MSTW2008nnlo68cl.LHgrid';
+}
+if ($pdfset eq "mstw90"){
+$PDFLO='MSTW2008lo90cl.LHgrid';
+$PDFNLO='MSTW2008nlo90cl.LHgrid';
+$PDFNNLO='MSTW2008nnlo90cl.LHgrid';
+}
+if ($pdfset eq "mstw68lo"){
+$PDFLO='MSTW2008lo68cl.LHgrid';
+$PDFNLO='MSTW2008lo68cl.LHgrid';
+$PDFNNLO='MSTW2008lo68cl.LHgrid';
+}
+if ($pdfset eq "mstw90lo"){
+$PDFLO='MSTW2008lo90cl.LHgrid';
+$PDFNLO='MSTW2008lo90cl.LHgrid';
+$PDFNNLO='MSTW2008lo90cl.LHgrid';
+}
+if ($pdfset eq "mstw68nl"){
+$PDFLO='MSTW2008nlo68cl.LHgrid';
+$PDFNLO='MSTW2008nlo68cl.LHgrid';
+$PDFNNLO='MSTW2008nlo68cl.LHgrid';
+}
+if ($pdfset eq "mstw90nl"){
+$PDFLO='MSTW2008nlo90cl.LHgrid';
+$PDFNLO='MSTW2008nlo90cl.LHgrid';
+$PDFNNLO='MSTW2008nlo90cl.LHgrid';
+}
+if ($pdfset eq "mstw68nn"){
+$PDFLO='MSTW2008nnlo68cl.LHgrid';
+$PDFNLO='MSTW2008nnlo68cl.LHgrid';
+$PDFNNLO='MSTW2008nnlo68cl.LHgrid';
+}
+if ($pdfset eq "mstw90nn"){
+$PDFLO='MSTW2008nnlo90cl.LHgrid';
+$PDFNLO='MSTW2008nnlo90cl.LHgrid';
+$PDFNNLO='MSTW2008nnlo90cl.LHgrid';
+}
+if ($pdfset eq "nnpdf21"){
+$PDFLO='NNPDF21_100.LHgrid';
+$PDFNLO='NNPDF21_100.LHgrid';
+$PDFNNLO='NNPDF21_nnlo_100.LHgrid';
+}
+if ($pdfset eq "nnpdf21nl"){
+$PDFLO='NNPDF21_100.LHgrid';
+$PDFNLO='NNPDF21_100.LHgrid';
+$PDFNNLO='NNPDF21_100.LHgrid';
+}
+if ($pdfset eq "nnpdf21nn"){
+$PDFLO='NNPDF21_nnlo_100.LHgrid';
+$PDFNLO='NNPDF21_nnlo_100.LHgrid';
+$PDFNNLO='NNPDF21_nnlo_100.LHgrid';
+}
+if ($pdfset eq "hera15"){
+$PDFLO='HERAPDF15NLO_EIG.LHgrid';
+$PDFNLO='HERAPDF15NLO_EIG.LHgrid';
+$PDFNNLO='HERAPDF15NNLO_EIG.LHgrid';
+}
+if ($pdfset eq "hera15nl"){
+$PDFLO='HERAPDF15NLO_EIG.LHgrid';
+$PDFNLO='HERAPDF15NLO_EIG.LHgrid';
+$PDFNNLO='HERAPDF15NLO_EIG.LHgrid';
+}
+if ($pdfset eq "hera15nn"){
+$PDFLO='HERAPDF15NNLO_EIG.LHgrid';
+$PDFNLO='HERAPDF15NNLO_EIG.LHgrid';
+$PDFNNLO='HERAPDF15NNLO_EIG.LHgrid';
+}
+
+open(RUN, ">$rundir/run$now-$cnt.sh");
+print RUN "#bin/bash -l \n 
+export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:/nfs/soft/madgraph/lhapdf/lib\n
+export PATH=\$PATH:/nfs/soft/madgraph/lhapdf/bin\n
+export LHAPATH=/nfs/soft/madgraph/lhapdf/share/lhapdf/PDFsets\n
+echo \" $cnt $iiproc $order $SCH $icoll $sqrts $mh $sc $imuf $imur $OUTNAME.dat $PDFLO $PDFNLO $PDFNNLO $pdf $iwdth \" | ./makeruncard\n
+./vbf >log$now-$cnt.dat\n
+rm run_card.dat\n
+";
+close(RUN);
+#make the run.sh file executable
+system("chmod +wx $rundir/run$now-$cnt.sh");
+
+#now writes the condor.cmd file
+$cmdcont=<<CMDEND;
+
+    executable     = $rundir/run$now-$cnt.sh
+
+# here you specify where to put .log, .out and .err files
+    output         = $logdir/out$now-$cnt.sh
+    error          = $logdir/err$now-$cnt.sh
+    log            = $logdir/log$now-$cnt.sh
+
+# the following two parameters enable the file transfer mechanism
+# any specify that the output files should be transferred back
+# to the submit machine from the remote machine where the job executes
+    initialdir              = $rundir
+    should_transfer_files   = YES
+    transfer_input_files    = $rundir/makeruncard, $rundir/vbf
+    when_to_transfer_output = ON_EXIT
+
+# the following two parameters are required for the ingrid cluster
+    universe       = vanilla
+    requirements   = (MADGRAPH =?= TRUE)
+
+    queue 1
+
+CMDEND
+
+
+open(CMD, ">$rundir/run$now-$cnt.cmd");
+print CMD $cmdcont;
+close(CMD);
+
+
+system("chmod +w $rundir/run$now-$cnt.sh");
+
+#launch the job
+system("/home/condor/release/bin/condor_submit $rundir/run$now-$cnt.cmd &>$rundir/pippo");
+
+}#end sub 
+
+#-------------------------
+# Send e-mail
+#-------------------------
+
+sub sendFilesemail {
+	my($useremail,$filepath,$filename)= @_ ; 
+
+  my $mail_smtp = 'smtp.sgsi.ucl.ac.be';
+  if($ENV{'MADGRAPH_SMTP'}){
+    $mail_smtp=$ENV{'MADGRAPH_SMTP'};
+  }
+
+  $mail{'smtp'} = $mail_smtp;
+  $mail{'from'} = 'VBF NNLO <vbf_nnlo@uclouvain.be>';
+  $mail{'to'} = $useremail;
+  $mail{'bcc'} = 'Marco Zaro <marco.zaro@lpthe.jussieu.fr>';
+  $mail{'subject'} = 'VBF@NNLO results';
+
+  $boundary = "====" . time() . "====";
+   $mail{'content-type'} = "multipart/mixed; boundary=\"$boundary\"";
+
+
+my $filecontent = '';
+#open (F, "$filepath/$filename") or die "Cannot read $filename: $!";
+#while (<F>) { $filecontent .= $_; }
+
+
+#close F;
+
+
+  $boundary = '--'.$boundary;
+  $mail{'body'} = <<ENDMSG;
+$boundary
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+Dear user,
+
+You can find the VBF results you requested at this address:
+http://vbf-nnlo.phys.ucl.ac.be/VBF/VBFdata/$useremail/html/$filename
+
+Cheers,
+
+the VBF @ NNLO collaboration
+
+$boundary--
+ENDMSG
+
+	sendmail(%mail) or die "Error: $Mail::Sendmail::error\n";
+
+}

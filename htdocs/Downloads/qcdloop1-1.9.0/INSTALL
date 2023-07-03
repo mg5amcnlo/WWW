@@ -1,0 +1,18 @@
+
+Installing libqcdloop1 version 1.9.0
+
+On Unix/Linux and similar systems, you can simply type
+
+./configure [--prefix=/path] [--with-maple=/path/maple]
+make
+make install
+
+Optionally supply path to maple binary to build a wrapper library
+(see usage example in wrapper.mpl)
+Use ./configure --enable-f2c with g77 and ifort
+
+Remark for GCC 4.5 users:
+With GCC version 4.5 or newer, it is possible to use link time optimization
+
+To do that, run configure with the following flags:
+> FFLAGS='-O2 -flto' LDFLAGS='-Xcompiler -flto' ./configure

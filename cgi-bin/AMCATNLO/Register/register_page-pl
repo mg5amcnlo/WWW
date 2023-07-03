@@ -1,0 +1,52 @@
+#!/usr/bin/perl -w
+
+#############################################################################
+#                                                                          ##
+#                    MadGraph/MadEvent                                     ##
+#                                                                          ##
+# FILE : register_page.pl                                                  ##
+# VERSION : 1.0                                                            ##
+# DATE : 10 April 2007                                                     ##
+# AUTHOR : Michel Herquet (UCL-CP3)                                        ##
+#                                                                          ##
+# DESCRIPTION : CGI script to display the register page with a captcha     ##
+#############################################################################
+# Import the necessary module.
+use WebService::CaptchasDotNet;
+
+my $captchas = WebService::CaptchasDotNet->new(secret   => 'zinlEfiDnxUCKhT36S4kib1BUi3RkEKE2LSXvu01',
+                                               client   => 'amcatnlo');
+
+
+my $random = $captchas->random;# ();
+my $url = $captchas->image_url;#($random);
+
+print "Content-type: text/html\n\n";
+print "<html>
+<head>
+<title>aMC\@NLO Registration</title>
+<META HTTP-EQUIV=\"EXPIRES\" CONTENT=\"20\" >
+</head>
+<font  color=\"#AA0000\" face=\"Courier\"><br><br>
+aMC\@NLO Registration <br>  -- WARNING :  WE ARE MOVING TO THE MADGRAPH SERVER, SOME FUNTIONALITIES MAY NOT WORK AS EXPECTED.<br> SORRY FOR THAT -- <br><br><hr></font>
+<font color=\"#000000\" face=\"Courier\"><p style=\"line-height:150%;\">Please complete the form below. Your username and password will be sent to the e-mail address you enter. <br>
+<FORM METHOD=\"post\" ACTION=\"register-pl
+\" NAME= \"Register\">
+
+
+First Name                    <INPUT TYPE=\"text\" NAME=\"first_name\" MAXLENGTH=\"255\"><br><br>
+Family Name                   <INPUT TYPE=\"text\" NAME=\"last_name\" MAXLENGTH=\"255\"><br><br>
+Name of your institution      <INPUT TYPE=\"text\" NAME=\"inst\" MAXLENGTH=\"255\"><br><br>
+Your e-mail address           <INPUT TYPE=\"text\" NAME=\"email\" MAXLENGTH=\"255\"><br><br>
+The letter sequence you can read on the following image:        <input name=\"password\" size=\"6\" />
+<br>
+<a href=\"http://captchas.net\">
+<img style=\"border: none; vertical-align: bottom\" 
+src=\"$url\" alt=\"The CAPTCHA image\" />
+</a>
+<input type=\"hidden\" name=\"random\" value=\"$random\" />
+<INPUT TYPE=\"submit\" VALUE=\"SUBMIT\">
+</FORM>
+<br>
+The username and password you will receive will allow you to access the MC Tools section of this website.";
+

@@ -1,0 +1,91 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+   <title> CP3 MadGraph5_aMC@NLO Home Page </title>
+   <base target="_self">
+</head>
+<body link="#0000FF" vlink="#0000FF" alink="#FF0000">
+<div align="center">
+  <center>
+  <img SRC="banner.gif" height=80 width=690 align=center><br>
+
+  <table border="0" bordercolor="#ffffff" width="800">
+    <tr>
+      <td width="192" rowspan="3">
+      <img SRC="sch.gif" height=82 width=152 align=right></td>
+      <td width="364" align="center"><font size="5">
+      <a href="index.html" target="_top"> The MadGraph5_aMC@NLO homepage</a>
+      <td width="194" rowspan="3">
+      <img SRC="tch.gif" height=82 width=152 align=left></td>
+    </tr>
+ <tr>
+      <td width="400" align="center">
+       <a href="http://madgraph.phys.ucl.ac.be" target="_top">UCL</a>
+      <a href="http://madgraph.hep.uiuc.edu" target="_top">UIUC</a>
+<a href="https://launchpad.net/madgraph5" target="_top">Launchpad</a>
+       <br>by the <a href="http://cp3wks05.fynu.ucl.ac.be/twiki/bin/view/Main/MadGraphTeam" target="F3">MG/ME Development team</a> <br></td>
+
+<!--
+    <tr>
+      <a href="http://madgraph.phys.ucl.ac.be" target="_top">UCL</a></font> 
+      <a href="http://madgraph.hep.uiuc.edu" target="_top">UIUC</a></font>
+      <a href="http://madgraph.roma2.infn.it" target="_top">Fermi</a></font> 
+      <td width="364" align="center">by<a href="http://maltoni.home.cern.ch" target="_top">
+      Fabio Maltoni</a>,
+      <a href="http://www.physics.uiuc.edu/People/Faculty/profiles/Stelzer/index.html" target="_top">
+      Tim Stelzer</a> <br>
+      and the <a href="team.html" target="F3">CP3 Development team</a> <br></td>
+    </tr>
+--> 
+ </table>
+  </center>
+</div>
+<div align="center">
+  <center>
+  <table border="0" bordercolor="#FFFFFF" width="690" height="30">
+    <tr>
+      <td width="100" valign="bottom" align="center"><a href="new_gen_proc_card.html" target="F3">Generate 
+      Process</a></td>
+      <td width="100" valign="bottom" align="center"><a href="cgi-bin/Register/register_page.pl" target="F3">Register</a></td>
+      <td width="100" valign="bottom" align="center"><a href="tools.html" target="F3">Tools</a></td>
+      <td width="100" valign="bottom" align="center"><a href="cgi-bin/NewProcess/print_db.cgi" target="F3">My Database</a></td>
+      <td width="100" valign="bottom" align="center"><a href="cgi-bin/RunProcess/webqstat-pl" target="F3">Cluster Status</a></td>
+<!--      <td width="100" valign="bottom" align="center"><a href="http://cp3wks05.fynu.ucl.ac.be/Manual/manual.html" target="F3">Documents</a></td>
+      <td width="100" valign="bottom" align="center"><a href="http://cp3wks05.fynu.ucl.ac.be/news.html" target="F3">News</a></td> -->
+      <td width="200" valign="bottom" align="center"><a href="cgi-bin/NewProcess/download.cgi" target="F3">Downloads</a><br>(needs <a href="cgi-bin/Register/register_page.pl" target="F3">account</a>)</td>
+      <td width="100" valign="bottom" align="center"><a href="https://cp3.irmp.ucl.ac.be/projects/madgraph/" target="_top">Wiki</a></td>
+      <td width="100" valign="bottom" align="center"><a href="https://answers.launchpad.net/mg5amcnlo" target="_top">Answers</a></td>
+      <td width="100" valign="bottom" align="center"><a href="https://bugs.launchpad.net/mg5amcnlo" target="_top">Bug reports</a></td>
+<!--      <td width="100" valign="bottom" align="center"><a href="cgi-bin/Admin/admin_page.cgi" target="F3">Admin</a></td> -->
+
+      </tr>  
+</table>
+  </center>
+</div>
+<!--
+<br><br>
+<center>
+<font color="red">
+Important warning for users:<br>
+An error was introduced in version 4.1.16-17 (Feb 2-9) which drastically degraded the efficiency of unweighting. If you generated a process or downloaded code between those dates, please regenerate the process/download a new version.
+<!--
+For a few weeks, avoid if possible to re-use already existing processes since compatibilities of older generated files (e.g. event files) with the latest versions of softwares (e.g. interface to pythia) is not guaranteed. We strongly advise you to create a new process each time you want to use the madgraph cluster.
+
+</font>
+</center>
+-->
+
+<div align="center">
+  <center>
+  <table border="0" cellpadding="0" cellspacing="0" width="100%">
+    <tr>
+      <td width="40%"><hr></td>
+      <td width="40%"><hr></td>
+    </tr>
+  </table>
+  </center>
+</div>
+</body>
+</html>

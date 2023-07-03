@@ -1,0 +1,259 @@
+#!/usr/bin/perl -w 
+use POSIX qw(floor);
+use Sys::Hostname;
+use Mail::Sendmail;
+use Email::Valid;
+use WebService::CaptchasDotNet;
+
+$dirLogData = $ENV{'MADGRAPH_BASE'}."/Users";
+
+&get_form_data();
+$valid_data = &check_form_data();
+&check_captcha();
+if ($valid_data == 0) {
+    &compute_password();
+    &send_email();
+    &print_thankyou_page();
+    &log_entry();
+}
+else {
+    &print_error_page();
+}
+
+sub check_captcha
+{
+    my $captchas = WebService::CaptchasDotNet->new(secret   => 'lRzV48CeZVw6ggwXq3tFZEUrm3DBw0IuIPo7N5I3',
+                                               username => 'madgraph');
+    if (not $captchas->verify ($FORM{'password'}, $FORM{'random'}))
+    {
+	print "Content-type: text/html\n\n";
+        print "<HTML>\n<HEAD>\n<BODY BGCOLOR=\"#CCCCCC\">\n</HEAD>";
+        print "<H2>Error !</H2>\n\n";
+        print "<P>\n";
+        print "The entered letter sequence (captcha) is not correct!\n";
+ 	print "<A HREF=\"/cgi-bin/Register/register_page.pl\" TARGET=\"F3\">Return</A>
+  	to the registration page\n";
+  	print "</BODY>\n</HTML>";
+        exit;
+    }
+}
+sub check_form_data
+#-------------------------------------------
+#  Simple checks to make sure that the data
+#  in the form is reasonable
+#--------------------------------------------
+{
+    my ($good, $to, $first_name, $last_name, $before, $after,$inst);
+    $good = 0;
+    $to = $FORM{'email'}; 
+    $first_name = $FORM{'first_name'};
+    $last_name = $FORM{'last_name'};
+    $inst =$FORM{'inst'}; 
+    unless (Email::Valid->address($to)) {
+        $good =  $good + 1;
+    }
+    if (($first_name =~ /[^[:alpha:]]/) ||
+        (length($first_name) < 2) ||
+        (length($first_name) > 100)) {
+        $good = $good + 4;
+    }
+    if (($last_name =~ /[^[:alpha:]]/) ||
+        (length($last_name) < 2) ||
+        (length($last_name) > 100) ){
+        $good = $good + 8;
+    }
+#################################################
+##   TEMP ENTRY FOR SCHOOL
+#################################################
+    if( $inst ne 'CERN18'){
+	$good=$good+16;
+    }
+
+################# END TEMP SCHOOL
+
+    return $good;
+}
+
+sub get_form_data
+{
+  read(STDIN, $buffer, $ENV{'CONTENT_LENGTH'});
+  @pairs = split(/&/, $buffer);
+  foreach $pair (@pairs) {
+    ($name, $value) = split(/=/, $pair);
+    $value =~ tr/+/ /;
+    $value =~ s/%([a-fA-F0-9][a-fA-F0-9])/pack("C", hex($1))/eg;
+    $FORM{$name} = $value;
+  }
+}
+
+sub compute_password
+{
+#  $full_name = $FORM{'name'}; 
+#  ($first_name,$last_name) = split(/\+/, $full_name);
+
+  $first_name = $FORM{'first_name'};
+  $last_name = $FORM{'last_name'};
+
+  $name1 = substr($first_name,0,1);
+  $name2 = substr($first_name,1,1);
+  $name3 = substr($last_name,0,1);
+  $name4 = substr($last_name,1,1);
+
+  $num = floor(sqrt(( ord($name1) *  ord($name2) *  ord($name3) )));
+
+  $passwd = "$name1$name4$name3$num";
+  return "$passwd"
+}
+
+sub log_entry
+  #---------------------------------------------------------------
+  # this creates a log file and appends any new submission to the
+  # log file
+  #---------------------------------------------------------------
+{
+  my $now_string = localtime;
+  my $to = $FORM{'email'}; 
+  my $first_name = $FORM{'first_name'};
+  my $last_name = $FORM{'last_name'};
+  my $inst = $FORM{'inst'};
+  open(USERDATA,">> $dirLogData/users.txt") || die  "Error opening file $dirLogData/users.txt";
+  print USERDATA "New entry:  $now_string \n";
+  print USERDATA "First name: $first_name \n";
+  print USERDATA "Last name:  $last_name \n";
+  print USERDATA "e-mail:     $to \n";
+  print USERDATA "institution:$inst \n";
+}
+
+sub send_email
+{
+  my $passwd = compute_password();
+  my $mail_to = $FORM{'email'};
+  my $inst = $FORM{'inst'};
+
+  my $mail_smtp = 'localhost';
+  if($ENV{'MADGRAPH_SMTP'}){
+    $mail_smtp=$ENV{'MADGRAPH_SMTP'};
+  }
+
+  my $mail_from = 'madgraph@'.hostname();
+  if($ENV{'MADGRAPH_MAIL'}){
+    $mail_from=$ENV{'MADGRAPH_MAIL'};
+  }
+
+  my %mail = (
+    'smtp' => $mail_smtp,
+    'from' => $mail_from,
+    'to' => $mail_to,
+    'subject' => 'MadGraph and MadEvent Registration'
+  );
+
+  $first_name = ucfirst($first_name);
+
+  $mail{body} = <<END_MAIL;
+Dear $first_name,
+
+Thank you for registering to use Madgraph and MadEvent online!
+
+Your Username is: $mail_to
+Your Password is: $passwd
+
+We hope you find the web site useful.
+
+If you have any questions or comments please let us know.
+
+Best regards,
+
+Fabio Maltoni and Tim Stelzer
+END_MAIL
+
+  sendmail(%mail) or die "Error: $Mail::Sendmail::error\n";
+
+  open (FILE, ">> $dirLogData/database.txt") ;
+#  print FILE "$first_name $last_name $mail_to $passwd \n";
+  print FILE "$first_name $last_name $mail_to\n";
+  close (FILE);
+
+  system("cd /tmp; /usr/bin/htpasswd -b $dirLogData/users $mail_to $passwd;  /usr/bin/htpasswd -b $dirLogData/run_users $mail_to $passwd");
+###############################
+##    PROV FOR SCHOOL        ##
+  if ($inst eq 'CERN18') {
+      system("cd /tmp; /usr/bin/htpasswd -b $dirLogData/run_users $mail_to $passwd");
+  }
+########### END PROV FOR SCHOOL
+
+}
+
+
+sub print_thankyou_page
+{
+  my $passwd = compute_password();
+  print "Content-type: text/html\n\n";
+  print "<HTML>\n<HEAD>\n<BODY BGCOLOR=\"#CCCCCC\">\n</HEAD>";
+  print "<H2>Confirmation!</H2>\n\n";
+  print "<P>\n";
+  print "Thank you for submitting your form.\n";
+  print "<P>\n";
+  print "Your password is:  $passwd ";
+  print "Your user name password will also be emailed to you shortly.\n ";
+  print "</P>\n";
+  print "<A HREF=\"/new_gen_proc_card.html\" TARGET=\"F3\">Return</A>
+  to the home page\n";
+  print "</BODY>\n</HTML>";
+
+}
+
+sub print_error_page
+{
+  my ($to, $first_name, $last_name, $institution);  
+  $to = " $FORM{'email'}"; 
+  $first_name = $FORM{"first_name"};
+  $last_name = $FORM{"last_name"};
+  $inst = $FORM{"inst"};
+  print "Content-type: text/html\n\n";
+  print "<HTML>\n<HEAD>\n<BODY BGCOLOR=\"#CCCCCC\">\n</HEAD>";
+  print "<H3>Form Error!</H3>\n\n";
+  print "<P>\n";  
+  print "Thank you for submitting your form.\n";
+  print "<P>\n";
+
+  print "Unfortunately some of the entries were not valid.\n ";
+  print "<UL>";
+  if ($valid_data >= 16) {
+      print "<LI> For limited time, registration are restricted on this cluster. Please use another cluster\n";
+      $valid_data = $valid_data - 16;
+  }
+  if ($valid_data >= 8) {
+      print "<LI>The family name must be between 2 and 100 alphabetic characters.\n";
+      $valid_data = $valid_data - 8;
+  }
+  if ($valid_data >= 4) {
+      print "<LI>The first name must be between 2 and 100 alphabetic characters.\n";
+      $valid_data = $valid_data - 4;
+  }
+  if ($valid_data >= 1) {
+      print "<LI>The e-mail address must contain at least two characters on each side of the @ sign.\n";
+  }
+  print "</UL>";
+  print " \n";
+
+  print "<FORM METHOD=\"post\" ACTION=\"/cgi-bin/Register/register-pl\" NAME=\"Register\">  \n";
+  print "<PRE> \n";
+  print "<h2> ";
+  print "
+First Name                    <INPUT TYPE=\"text\" NAME=\"first_name\" MAXLENGTH=\"100\" VALUE=\"$first_name\"> \n
+";
+  print "
+Family Name                   <INPUT TYPE=\"text\" NAME=\"last_name\" MAXLENGTH=\"100\" VALUE=\"$last_name\"> \n
+";
+  print "
+Name of your institution      <INPUT TYPE=\"text\" NAME=\"inst\" MAXLENGTH=\"100\" VALUE=\"$inst\"> \n
+";
+
+  print "
+Your e-mail address           <INPUT TYPE=\"text\" NAME=\"email\" MAXLENGTH=\"255\" VALUE=\"$to\"> \n
+  ";
+  print "<INPUT TYPE=\"submit\" VALUE=\"submit\"> \n";
+  print "</PRE> </FORM> \n";
+  print "</BODY>\n</HTML>";
+
+}

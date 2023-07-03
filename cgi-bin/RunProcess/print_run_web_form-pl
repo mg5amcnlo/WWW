@@ -1,0 +1,39 @@
+#!/usr/bin/perl -w
+
+#use the CGI.pm module
+#use CGI qw/:standard/;
+
+$server = $ENV{'SERVER_NAME'};
+$dirDATA = $ENV{'MADGRAPH_DATA'};
+$referer = $ENV{'HTTP_REFERER'};
+$dirHTML= "MadGraphData";
+
+@list = split "/index.html",$referer;
+$process = $list[0];
+@list = split "/",$process;
+$process = $list[$#list-1]."/".$list[$#list];
+$directory = "$dirDATA/$process";
+
+require "print_run_form.pm";
+
+# Check if a process is already running -> die
+
+if (-e "$directory/RunWeb") {
+
+print <<ENDPRINT;
+Content-type: text/html
+
+<html>
+<head>
+<META HTTP-EQUIV="Refresh" CONTENT="5;
+URL=http://$server/$dirHTML/$process/HTML/crossx.html">
+<TITLE>Web Run $directory </TITLE></HEAD><BODY>
+Warning, already running events in directory $directory, you are going to be redirected to the 
+<a href="http://$server/$dirHTML/$process/crossx.html">run page</a>.
+</BODY></HTML>
+ENDPRINT
+    die;
+}
+
+&PrintRunForm;
+

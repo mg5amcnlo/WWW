@@ -1,0 +1,19 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <title> Plotting Interface </title>
+</head>
+<body link="#0000FF" vlink="#0000FF" alink="#FF0000">
+
+<center><font color="#008080"><font size=+3>Plotting Interface</font></font></center>
+
+<form ACTION="/cgi-bin/NewProcess/plotting.cgi" METHOD="post"  ENCTYPE="multipart/form-data">
+
+<h3>Zipped LHE event file :  <INPUT TYPE="file" NAME="lhe_file"> </h3>
+<h3>plot_card file :  <INPUT TYPE="file" NAME="plot_card_file"> </h3> <br>
+<input TYPE="submit" VALUE="Upload & Plot">
+</form>
+Remark: if no plot_card file is given, this <a href="/EXAMPLES/Cards/plot_card.dat">default one</a> is used.
+
+</body>

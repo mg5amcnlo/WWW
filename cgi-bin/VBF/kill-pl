@@ -1,0 +1,91 @@
+#!/usr/bin/perl -w
+use POSIX qw(floor);
+use Sys::Hostname;
+use Mail::Sendmail;
+use Email::Valid;
+use Scalar::Util qw(looks_like_number);
+
+#------------------------NOTES-------------------------------
+#
+# URL REFERENCES:
+# when putting in url references listing a file without
+# anything in front, like
+#   file
+# will look for the file in the local directory
+#
+# giving the reference as
+#  /file
+# will look in the server/htdocs folder
+#
+#------------------------------------------------------------
+#
+#          This is Denny's code for unwrapping the form replies
+#
+    my($zzi,@marked,$qn,$an);
+    binmode STDIN;
+    read STDIN,$zzi,$ENV{CONTENT_LENGTH};
+    $zzi =~ s/\s$//g;
+    @marked = split(/&/,$zzi);
+    foreach $input (@marked) {
+        ($qn,$an) = split(/=/,$input);
+        $an =~ tr/+/ /;
+        $an =~ s/%([a-fA-F0-9][a-fA-F0-9])/pack("C", hex($1))/eg;
+        $an =~ s/~!/ ~!/g;
+        $in{$qn} = $an
+        }
+
+
+#------------------------------------------------------------
+# set variables for the most common path names
+#------------------------------------------------------------
+
+$dirDATA = $ENV{'MADGRAPH_DATA'};
+$dirLOG = $ENV{'MADGRAPH_DATA'};
+$dirHTML = "MadGraphData";
+$bin = "$ENV{'MADGRAPH_BASE'}/MG_ME/WebBin";
+$server = $ENV{'SERVER_NAME'};
+$loop = "$bin/newprocess --web";
+
+
+
+#------------------------------------------
+# Find a free directory in the private area
+#------------------------------------------
+
+# first check private dir exists and if not create it
+
+  $uname = $ENV{REMOTE_USER};
+#  if(! -e "$dirDATA/$uname" ){ 
+#  system("mkdir $dirDATA/$uname")};
+
+# If no dirname is given or it already exists then use a generic PROC#
+#       $temp_id=0;
+#       while (-e "$dirDATA/$uname/PROC$temp_id"){
+#       $temp_id++;
+#       }
+#      $procname="PROC$temp_id";
+#      $process="$uname/PROC$temp_id";
+#      $fulldir="$dirDATA/$process";
+
+#------------------------------------------------------------
+# call
+#------------------------------------------------------------
+
+   $callfrom = $in{callfrom};
+
+#------------------------------------------------------------
+# prepare the directory
+#------------------------------------------------------------
+
+#    system("cp -RP  $ENV{'MADGRAPH_BASE'}/MG_ME/Template $dirDATA/$process");
+#    system("rm -rf `find $dirDATA/$process -name CVS -type d`");
+#    system("cd $fulldir; sed -e s/my_server_here/$server/g HTML/web_run_form.html > HTML/test.html");
+#    system("cd $fulldir; sed -e s!dir_name_here!$fulldir!g HTML/test.html > HTML/web_run_form.html");     
+            
+#------------------------------------------------------------
+# read in the values passed from the form
+#------------------------------------------------------------
+$pid=$in{pid};
+
+system("/home/condor/release/bin/condor_rm $pid");
+exit;

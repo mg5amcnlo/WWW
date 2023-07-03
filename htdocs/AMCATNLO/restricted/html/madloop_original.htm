@@ -1,0 +1,65 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.77 [en]C-gatewaynet  (Win95; U) [Netscape]">
+   <title> MadLoop </title>
+
+<SCRIPT language=JavaScript  type="text/javascript">
+
+function disable_submit()
+{
+  var the_element = document.getElementById("submit");
+  the_element.value = "Preparing directory, please wait";
+  the_element.disabled = true;
+}
+
+</script>
+</head>
+<body>
+
+	<font  color="#AA0000" face="Courier"><br><br>
+
+	Compare with MadLoop (using MGv4):<br><br><hr></font>
+        <font  color="#000000" face="Courier"><p style="line-height:150%;">
+
+<p>
+From this page you can run MadLoop to obtain the value of the virtual contribution for a given process, evaluated on a single phase space point. The finite part,
+as well as the single and double pole of the loop-amplitude squared against the born are provided<br> 
+MadLoop will run on the <a href="http://madgraph.cism.ucl.ac.be/" target="_top">MadGraph</a> server at <a href=http://cp3.irmp.ucl.ac.be/ target="_top">CP3/UCLouvain</a>.<br><br>
+Please respect the following constraints on the input process:<br>
+<table>
+<tr><td valign="top"> -></td><td> It must have contributing tree-level (Born) diagrams</td></tr>
+<tr><td valign="top"> -></td><td> All contributing diagrams must factorize the same powers of all couplings </td></tr>
+<tr><td valign="top"> -></td><td> If any born diagram contains a 4-gluon vertex, be aware that the corresponding R2 contribution will be missing</td></tr>
+<tr><td valign="top"> -></td><td> The process must not only include gluons</td></tr>
+<tr><td valign="top"> -></td><td> The numbers you will get correspond to the following <a href="madloop_conv.htm">conventions</a></td></tr>
+</table>
+<br>
+Please input below the process, using the MadGraph5 particle names and conventions (spaces between particles and ">" to separate initial and final state):
+<FORM NAME="particle" 
+      METHOD="POST" 
+      ACTION="/cgi-bin/AMCATNLO/MadLoop/madloop_PS.py">
+<INPUT TYPE=HIDDEN NAME=callfrom  VALUE="form"> 
+
+
+<input name="proc_string" type="text" size="25">
+QED power:
+<input name="alphaew" type="text" size="2" value="0">
+<br><br>
+Model:
+      <select name =model>
+        <option value="smNLO">SM, 4 light flavours
+      <option value="smzerobNLO" selected>SM, 5 light flavours
+      </select> 
+      (see the model parameters <a href="madloop_param.htm">here</a>)
+<br>
+<br>
+<input id="submit"    TYPE="Submit" VALUE="Submit"></td>
+</form>
+
+<hr>
+
+
+</body>
+</html>

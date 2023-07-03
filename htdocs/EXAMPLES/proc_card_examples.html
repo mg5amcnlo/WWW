@@ -1,0 +1,195 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.77 [en]C-gatewaynet  (Win95; U) [Netscape]">
+   <title> MadGraphII Web Site </title>
+</head>
+<body>
+
+<h2> MadGraph 5 Process Cards</h2>
+
+Note that the web didn't allow all the possibility of a personal computer. For such reason some proc_card maybe not functional or refused.
+In general:
+<ol>
+<li> You cann't specify any path in the proc_card
+<li> You cann't use any external script
+</ol>
+
+<table BORDER>
+<tr><th>Process</th><th> card </th><th>Comments</th></tr>
+
+<tr>
+<td> top pair </td>
+<td><pre>
+generate p p > t t~ QED=2 QCD=2 
+output 
+launch 
+</pre>
+</td>
+<td>
+By default, MadGraph 5 imports the standard model. Therefore, no specic command required for that.
+Note that if the couplings are not present, MG5 will take the minimal QED one for process having only QED/QCD order.
+And will not restrict the order otherwise.
+</td>
+</tr>
+
+<tr>
+<td> Stop pair </td>
+<td><pre>
+import model mssm 
+generate p p > t1 t1~ 
+add process p p > t2 t2~ 
+output -f
+</pre>
+<td>
+&nbsp;
+</td>
+</tr>
+
+
+<tr>
+<td> Slepton pair production</td>
+<td>
+<pre>
+import model mssm 
+define sl- = el- mul- ta1- er- mur- ta2- 
+define sl+ = el+ mul+ ta1+ er+ mur+ ta2+ 
+generate p p > sl+ sl- 
+output
+</pre>
+</td>
+<td>
+Example using user define multi-particles
+</td>
+</tr>
+
+<tr>
+<td> W jets</td><td>
+<pre>
+generate p p > w+ j j
+output -f
+</pre>
+</td>
+<td>
+Note that QED is set automaticaly to it's minimal value (i.e. one)
+</td>
+</tr>
+
+<tr>
+<td> W jets</td><td>
+<pre>
+generate p p > w+ j j QED=3
+output -f
+</pre>
+</td>
+<td>
+Including all QED contributions
+</td>
+</tr>
+
+<tr>
+<td> Gluino decay</td><td>
+<pre>
+generate go > ul > u~ u n1 
+output 
+</pre>
+</td>
+<td>
+The result will be given in GeV
+</td>
+</tr>
+
+<tr> <td>top pair decay</td>
+<td>
+<pre>
+generate p p > t t~ QED=0, \ 
+(t > W+ b, W+ > j j), \ 
+(t~ > w- b~, W- > l- vl~) 
+output
+</pre></td>
+<td>
+note that the "\" allow the line splitting.
+</td>
+</tr>
+</table>
+
+
+<h2> MadGraph 4 Process Cards</h2>
+
+<br>
+For the syntax rules of the process look <a href="example.html">here</a>.
+<p>
+<table BORDER >
+<tr>
+<th>NAME</th>
+<th>MODEL</th>
+<th>PROCESS(ES)</th>
+<th>QCD</th>
+<th>QED</th>
+<th>Comment</th>
+</tr>
+
+<tr>
+<td align=center><a href="Cards/proc_card_0.dat">H + 2 jets</a>
+<td align=center> sm 
+<td nowrap> pp> hjj
+<td align=center>0
+<td align=center>99
+<td> Higgs production through weak-boson fusion. 
+
+
+<tr>
+<td align=center><a href="Cards/proc_card_4.dat">H + 2 jets</a>
+<td align=center> heft
+<td nowrap> pp> hjj
+<td align=center>99
+<td align=center>0
+<td> Higgs production through a top loop (shrunk).
+
+<tr>
+<td align=center><a href="Cards/proc_card_1.dat">W + up to 3 jets</a>
+<td align=center> sm 
+<td nowrap> pp> e- ve~ <br>pp> e- ve~ j<br>pp> e- ve~ jj<br>pp> e- ve~ jjj<br>
+<td align=center>99
+<td align=center>2
+<td> Inclusive production of a W-boson in association with 0,1,2,3 jet. Events generated with this code are 
+suitable to be run through a matching algorithm (such as MLM or CKKW) with a PS, so to obtain an inclusive W+jet sample.
+
+<tr>
+<td align=center><a href="Cards/proc_card_2.dat">ttbb: signal and backgrounds</a>
+<td align=center> sm 
+<td nowrap> pp>h>tt~bb~ <BR> pp>tt~bb~ <BR> pp>tt~bb~/h <BR>
+<td align=center>2<BR>99<BR>2<BR>
+<td align=center>2<BR>0<BR>2<BR>
+<td> Joint generation of signal and background for associated production of Higgs and a pair of tops. 
+<tr>
+
+<tr>
+<td align=center><a href="Cards/proc_card_3.dat">single top</a>
+<td align=center> sm 
+<td nowrap> pp>tj, t~j <BR> pp>tb~,tb~ <BR> pp>tW-,t~W+ <BR>
+<td align=center>0<BR>0<BR>1<BR>
+<td align=center>2<BR>2<BR>1<BR>
+<td> Joint generation of the three channels for single top production: t-channel, s-channel and W-associated.
+<tr>
+
+<tr>
+<td align=center><a href="Cards/proc_card_5.dat">SUSY decay chain</a>
+<td align=center> mssm 
+<td nowrap> uu>(ul>u n1)(ul>u(n2>e+e-n1))
+<td align=center>2
+<td align=center>4
+<td> Select only diagrams compatible with the specified decay
+chain. Specified intermediate particles are restricted to be close to
+the mass shell (within a number of widths specified by the bwcutoff
+parameter in the run_card.dat).<BR>
+Note that multiparticle labels can be used only in initial and final
+states, not for intermediate particles.
+<tr>
+
+
+
+</table>
+</body>
+</html>

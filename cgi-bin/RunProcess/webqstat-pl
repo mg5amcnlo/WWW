@@ -1,0 +1,71 @@
+#!/usr/bin/perl -w
+
+#use the CGI.pm module
+#use CGI qw/:standard/;
+
+
+#------------------------------------------------------------
+# set variables for the most common path names
+#------------------------------------------------------------
+#$server = $ENV{'SERVER_NAME'};
+$dirMAD = $ENV{'MADGRAPH_BASE'}."/WWW/htdocs/MadGraphData";
+#$dirMain= $ENV{'MADGRAPH_BASE'}."/WWW/htdocs";
+#$dirHTML = "MadGraphData";
+#------------------------------------------------------------
+# write qstat
+#------------------------------------------------------------
+
+print "Content-type: text/html\n\n";
+print  "<HTML>\n";
+print "<BODY> \n \n";
+print " <PRE> \n";
+print  "<center>\n";
+  system (" rm -f $dirMAD/qstat.log");
+  system ("export PATH=$PATH:/usr/local/condor/7.6.1/x86_64/bin/:/home/condor/release/bin/; condor_q -g madgraph apache rikkert mzaro hirschi alwall ptorielli omatt partois &> $dirMAD/qstat.log");
+  open (TEMP,"$dirMAD/qstat.log") || die "Error reading $dirMAD/qstat.log";
+  @qstat=<TEMP>;
+  close(TEMP);
+
+  @rjobs=grep { $_ =~ / R /} @qstat;	
+  @qjobs=grep { $_ =~ /( Q | I )/} @qstat;
+  @hjobs=grep { $_ =~ / H /} @qstat;
+
+  $run=$#rjobs + 1;
+  $que=$#qjobs + 1;
+  $hol=$#hjobs + 1;
+
+  if($#qstat>0){
+	print  "<b>Jobs summary: $que in queue, $run running, $hol on hold. </b>\n"}
+	else{ 
+	print  "<b>No jobs on the cluster</b>\n"};
+
+  print   "----------------------------------------------------------------\n";
+#  print   "Job id           Name             User             Time Use S Queue           \n";
+#  print   "---------------- ---------------- ---------------- -------- - --------        \n";
+
+  if($#qstat > 0){
+  $i=2;
+  while ($i<$#qstat+1){ 
+      print $qstat[$i];
+	$i=$i+1;
+  };
+  };
+#   if ($ENV{'HTTP_REFERER'} ne "http://".$server."/F1.html") {
+#   print "<a href=\"$ENV{'HTTP_REFERER'}\">Go Back</a>";
+#   }
+  print  " </PRE> \n";
+  print  "</center>\n";
+print "</BODY></HTML> \n \n";
+#
+#   That's all folks!
+#
+close(STDOUT);
+close(STDERR);
+close(STDIN);
+
+
+
+
+
+
+

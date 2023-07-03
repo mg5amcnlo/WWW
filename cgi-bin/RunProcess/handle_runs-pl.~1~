@@ -1,0 +1,679 @@
+#!/usr/bin/perl -w
+
+#use the CGI.pm module
+#use CGI qw/:standard/;
+
+require "print_run_form.pm";
+
+#------------------------NOTES-------------------------------
+#
+# URL REFERENCES:
+# when putting in url references listing a file without
+# anything in front, like
+#   file
+# will look for the file in the local directory
+#
+# giving the reference as
+#  /file
+# will look in the server/htdocs folder
+#
+#------------------------------------------------------------
+
+#------------------------------------------------------------
+# Batch managment
+#------------------------------------------------------------
+
+$para_tag=1;
+#Uncomment this for psb batch managing
+#$para_tag=1
+
+#------------------------------------------------------------
+# set variables for the most common path names
+#------------------------------------------------------------
+$server = $ENV{'SERVER_NAME'};
+#$dirMAD = $ENV{'MADGRAPH_DATA'};
+$dirMAD = "/data";
+$dirBIN = "$ENV{'MADGRAPH_BASE'}/MG_ME/WebBin";
+$dirEXR = "$ENV{'MADGRAPH_BASE'}/MG_ME/ExRootAnalysis";
+$dirHTML= "MadGraphData";
+#$uname = $ENV{REMOTE_USER};
+
+#------------------------------------------------------------
+# Read the form sent from the web
+#------------------------------------------------------------
+
+read (STDIN,$buffer,$ENV{'CONTENT_LENGTH'});
+@text=split(/\r\n/,$buffer);
+
+#------------------------------------------------------------
+# Parse the form, look for known variables
+#------------------------------------------------------------
+
+for($i=0;$i<$#text;$i++){
+# Define delimiter by first line
+  if($i==0) {$delim=$text[$i];chomp $delim}
+
+  elsif($text[$i] =~ /name=\"directory\"/){
+    $i+=2;$directory=$text[$i];
+    @list = split "/", $directory;
+    $process="/".$list[$#list-1]."/".$list[$#list];
+  }
+  # Look for uploaded file. Write to file defined by "name" (needs $directory and $delim)
+  elsif(($filename,$filegiven)=$text[$i] =~ /name=\"([\d\D]*)?\"; filename=\"([\d\D]*)?\"/){
+    $files{"$filename"}=$filegiven;
+    $filename=$directory."/Cards/$filename";
+    if($filegiven ne ""){
+      $i+=3;
+      open(CICCIO,">$filename") or WriteError("File $filename could not be opened");
+      $fileok=0;
+      while(!($text[$i] =~ "$delim" && $i<$#text)){
+	$filecont=$text[$i];
+	if($filecont ne "") {$fileok=1;}
+	print CICCIO "$filecont\n";
+	$i++;
+      }
+      close CICCIO;
+      # Check that the resulting file is not empty
+      if($fileok == 0) {
+	WriteError("File $filegiven empty or absent. Please provide another file");
+      }
+    }
+  }
+# Look for all other variables and put them in the hash $invars
+  elsif(($variable) = $text[$i] =~
+	/Content-Disposition: form-data; name=\"([\d\D]*)?\"/){
+    $i+=2;$in{$variable}=$text[$i];
+  }
+}
+
+#------------------------------------------------------------
+# read in the values passed from the form
+#------------------------------------------------------------
+
+# dir
+$whattodo=$in{whattodo};
+$run     =$in{run};
+
+if( -e "$directory/bin/madevent"){
+    $crossxhtml = "http://$server/$dirHTML/$process/crossx.html";
+}else{
+    $crossxhtml = "http://$server/$dirHTML/$process/HTML/crossx.html";
+}
+
+
+#
+#   Flush outputs immediately
+#
+$| = 1;
+
+if($whattodo eq "banner_run"){
+
+    chdir("$directory/Cards");
+    system("rm -f param_card.dat run_card.dat pythia_card.dat pgs_card.dat");
+    system("mkdir temp; cp ../Events/${run}_banner.txt temp/banner.txt; cd temp; ../../bin/split_banner.pl banner.txt > /dev/null");
+
+    chdir("$directory/Cards/temp");
+    if(-e "param_card.dat") { system("mv param_card.dat ../"); }
+    if(-e "run_card.dat") { system("mv run_card.dat ../"); }
+    if(-e "pythia_card.dat") { system("mv pythia_card.dat ../"); }
+    if(-e "pgs_card.dat") { system("mv pgs_card.dat ../"); }
+    if(-e "delphes_card.dat") { system("mv delphes_card.dat ../"); }
+    if(-e "delphes_trigger.dat") { system("mv delphes_trigger.dat ../"); }
+
+    chdir("$directory/Cards");
+    system("rm -rf temp");
+
+    &PrintRunForm;
+    exit;
+}
+
+$edit=$in{"Edit"};
+$callfrom=$in{"callfrom"};
+
+if($edit ne ""){
+    ($dum,$card) = split(" ",$edit);
+    ($noext,$dummy) = split(".dat",$card);
+    
+    open(INCARD,"$directory/Cards/$card")  or open(INCARD,"$directory/Cards/$noext"."_default.dat") or WriteError("Could not read from $directory/Cards/$card or $directory/Cards/$noext"."_default.dat");
+    $| = 1;
+    print <<ENDPRINT;
+Content-type: text/html
+
+<HTML>
+<HEAD>
+<style type="text/css" rev=stylesheet media=screen><!-- 
+textarea { 
+  font-size: 11px; 
+  text-align: left; 
+  color: black; 
+  font-family: courier, monospace; 
+}
+--></style>
+<TITLE>Edit $card</TITLE>
+</HEAD>
+<BODY>
+<p><center><font size=+1> Edit card $card </font></p>
+<FORM ACTION="http://$server/cgi-bin/RunProcess/handle_runs-pl" 
+      ENCTYPE="multipart/form-data" 
+      METHOD=POST>
+<INPUT TYPE=HIDDEN NAME=directory VALUE="$directory"> 
+<INPUT TYPE=HIDDEN NAME=callfrom  VALUE="edit_card"> 
+<INPUT TYPE=HIDDEN NAME=whattodo  VALUE="$whattodo"> 
+<INPUT TYPE=HIDDEN NAME=run   VALUE="$run"> 
+<INPUT TYPE=HIDDEN NAME=card  VALUE="$card"> 
+<INPUT TYPE=SUBMIT VALUE="Send"> the form to replace $card.<BR>
+<TEXTAREA rows="50" cols="80" NAME=filegiven>
+ENDPRINT
+   while(<INCARD>){
+       print "$_";
+   }
+print <<ENDPRINT;
+</TEXTAREA>
+</center>
+ENDPRINT
+   print "</BODY>\n</HTML>\n";
+   exit;
+}
+
+print "Content-type: text/html\n\n";
+print  "<HTML> <HEAD> \n";
+
+if( $callfrom eq "edit_card"){
+
+    $run_name=$in{"run_name"};
+    $card=$in{"card"};
+    chdir("$directory/Cards");
+    if (-e "tmp.dat" ) {system("rm -f tmp.dat");}
+    $found=0;
+    for($i=0;$i<$#text;$i++){
+	if($text[$i] =~ "$delim") {$found=0;}
+	if($found==1 && ($text[$i] ne "")) {system("echo \"$text[$i]\" >> tmp.dat");}
+	if($text[$i] =~ 'name="filegiven"') {$found=1;}
+    }
+    if (! -e "tmp.dat") {WriteError("Problem creating card. Please contact the MadGraph team.");}
+    system("mv tmp.dat $card");
+
+    $card_complete = "Card replaced. Please check the new <a href=\"http://$server/$dirHTML/$process/Cards/$card\">$card</a>.";
+
+print  "</HEAD> <BODY>\n";
+print <<ENDPRINT;
+<center><font size=+3>Pythia Run Form for $run</font></center>
+
+<br>
+<font color="red" size=+1>$card_complete</font><BR>
+<br>
+Please provide the necessary parameter cards for the pythia/pgs run.<br>
+For each card you have the alternatives:
+<ul>
+<li>Use the present card (default or previously generated/uploaded)
+<li>Generate a card using the web form
+<li>Upload a card
+<li>Use a default card
+</ul>
+
+<FORM ACTION="http://$server/cgi-bin/RunProcess/handle_runs-pl" 
+      ENCTYPE="multipart/form-data" 
+      METHOD=POST>
+<INPUT TYPE=HIDDEN NAME=directory  VALUE="$directory"> 
+<INPUT TYPE=HIDDEN NAME=run  VALUE="$run"> 
+<INPUT TYPE=HIDDEN NAME=whattodo  VALUE="gen_pythia_card"> 
+<BR>
+<center> <INPUT TYPE=SUBMIT VALUE="Send"> the form to generate the cards. </center>
+<BR>
+
+ENDPRINT
+
+    PrintPythiaForm();
+
+    PrintPGSForm();
+
+    print "</FORM></BODY></HTML> \n \n";
+    exit;
+}
+
+if( $whattodo eq "pythia"){
+
+    # Check if a process is already running -> die
+
+    if (-e "$directory/RunWeb") {
+    print "<META HTTP-EQUIV=\"Refresh\" CONTENT=\"5\; ";
+    print "URL=$crossxhtml\"> \n";
+    print "\n <TITLE>Web Run $directory </TITLE></HEAD> \n <BODY>";
+    print  "Warning, already running events in directory $directory, you are going to be redirected to the <a href=\"$crossxhtml\">run page</a>.\n";
+    print "</BODY></HTML> \n";
+    die;
+    }
+
+print  "</HEAD> <BODY>\n";
+print <<ENDPRINT;
+<center><font size=+3>Pythia Run Form for $run</font></center>
+
+<br>
+<br>
+Please provide the necessary parameter cards for the pythia/pgs run.<br>
+For each card you have the alternatives:
+<ul>
+<li>Use the present card (default or previously generated/uploaded)
+<li>Generate a card using the web form
+<li>Upload a card
+<li>Use a default card
+</ul>
+
+<FORM ACTION="http://$server/cgi-bin/RunProcess/handle_runs-pl" 
+      ENCTYPE="multipart/form-data" 
+      METHOD=POST>
+<INPUT TYPE=HIDDEN NAME=directory  VALUE="$directory"> 
+<INPUT TYPE=HIDDEN NAME=directory  VALUE="$directory"> 
+<INPUT TYPE=HIDDEN NAME=run  VALUE="$run"> 
+<INPUT TYPE=HIDDEN NAME=whattodo  VALUE="gen_pythia_card"> 
+<BR>
+<center> <INPUT TYPE=SUBMIT VALUE="Send"> the form to generate the cards. </center>
+<BR>
+
+ENDPRINT
+
+    PrintPythiaForm();
+
+    PrintPGSForm();
+
+    print "</FORM></BODY></HTML> \n \n";
+    exit;
+}
+
+if( $whattodo eq "pgs"){
+
+    # Check if a process is already running -> die
+
+    if (-e "$directory/RunWeb") {
+    print "<META HTTP-EQUIV=\"Refresh\" CONTENT=\"5\; ";
+    print "URL=$crossxhtml\"> \n";
+    print "\n <TITLE>Web Run $directory </TITLE></HEAD> \n <BODY>";
+    print  "Warning, already running events in directory $directory, you are going to be redirected to the <a href=\"$crossxhtml\">run page</a>.\n";
+    print "</BODY></HTML> \n";
+    die;
+    }
+
+print  "</HEAD> <BODY>\n";
+print <<ENDPRINT;
+<center><font size=+3>Detector simulation form for $run</font></center>
+
+<br>
+<br>
+Please provide the necessary parameter cards for the pythia/pgs run.<br>
+For each card you have the alternatives:
+<ul>
+<li>Use the present card (default or previously generated/uploaded)
+<li>Generate a card using the web form
+<li>Upload a card
+<li>Use a default card
+</ul>
+
+<FORM ACTION="http://$server/cgi-bin/RunProcess/handle_runs-pl" 
+      ENCTYPE="multipart/form-data" 
+      METHOD=POST>
+<INPUT TYPE=HIDDEN NAME=directory  VALUE="$directory"> 
+<INPUT TYPE=HIDDEN NAME=run  VALUE="$run"> 
+<INPUT TYPE=HIDDEN NAME=whattodo  VALUE="gen_pgs_card"> 
+<BR>
+<center> <INPUT TYPE=SUBMIT VALUE="Send"> the form to generate the cards. </center>
+<BR>
+
+ENDPRINT
+
+    PrintPGSForm();
+    print "</FORM></BODY></HTML> \n \n";
+    exit;
+}
+
+if( $whattodo eq "gen_pythia_card"){
+
+#----------------------------------------------------------------
+# Check option for pythia_card
+#----------------------------------------------------------------
+    &HandlePythiaForm();
+
+}
+if ($whattodo eq "gen_pythia_card" || $whattodo eq "gen_pgs_card"){
+
+#----------------------------------------------------------------
+# Check option for detector simulation
+#----------------------------------------------------------------
+
+    &HandleDetectorForm();
+#------------------------------------------------------------
+# Write input-card.dat starting from the one already present
+# in the directory. 
+#------------------------------------------------------------
+    if($whattodo eq "gen_pythia_card"){
+	&WriteConfirmPythia;
+    } else {
+	&WriteConfirmPGS;
+    }
+}
+
+print  "<META HTTP-EQUIV=\"Refresh\" CONTENT=\"5\; ";
+
+if( $whattodo eq "remove"){
+    print "URL=$ENV{'HTTP_REFERER'}\"> \n";
+    print  "</HEAD> <BODY> <CENTER>\n";
+    print "Removing all files except banner of $run <br> \n";
+    system ("cd $directory; ./bin/rmrun $run > /dev/null; ./bin/gen_crossxhtml-pl");
+}
+
+if( $whattodo eq "remove_pythia"){
+    print "URL=$ENV{'HTTP_REFERER'}\"> \n";
+    print  "</HEAD> <BODY> <CENTER>\n";
+    print "Removing pythia files of $run <br> \n";
+    system ("cd $directory/Events; rm -f ${run}_pythia_events.hep.gz ${run}_pythia_events.root > /dev/null; ../bin/gen_crossxhtml-pl");
+}
+
+if( $whattodo eq "remove_pgs"){
+    print "URL=$ENV{'HTTP_REFERER'}\"> \n";
+    print  "</HEAD> <BODY> <CENTER>\n";
+    print "Removing pgs files of $run <br> \n";
+    system ("cd $directory/Events; rm -f ${run}_pgs_events.* > /dev/null; ../bin/gen_crossxhtml-pl");
+}
+
+if( $whattodo eq "remove_delphes"){
+    print "URL=$ENV{'HTTP_REFERER'}\"> \n";
+    print  "</HEAD> <BODY> <CENTER>\n";
+    print "Removing delphes files of $run <br> \n";
+    system ("cd $directory/Events; rm -f ${run}_delphes_events.* > /dev/null; ../bin/gen_crossxhtml-pl");
+}
+
+if( $whattodo eq "removebanner"){
+    print "URL=$ENV{'HTTP_REFERER'}\"> \n";
+    print  "</HEAD> <BODY> <CENTER>\n";
+    print "Removing the banner for $run <br> \n";
+    system ("cd $directory/Events; rm -f ${run}_banner.txt > /dev/null; ../bin/gen_crossxhtml-pl");
+}
+
+if( $whattodo eq "remove_level"){
+    print "URL=$ENV{'HTTP_REFERER'}\"> \n";
+    print  "</HEAD> <BODY> <CENTER>\n";
+    open (OUT,"> $directory/ME_launch.cmd") || die "Could not open the launch file";
+    print OUT "source $dirBIN/python.sh; \n";
+    $tag = $in{"tag"};
+    $level = $in{"level"};
+    print "Removing $level for ${run} and tag $ tag <br> \n";
+    print OUT "echo 'remove ${run} $level --tag=$tag --web; quit' | python3 $directory/bin/madevent \n";
+
+    close(OUT);
+    exec("cd $directory; bash $directory/ME_launch.cmd !>& remove.log &");
+
+}
+
+if( $whattodo eq "banner"){
+    print "URL=$ENV{'HTTP_REFERER'}\"> \n";
+    print  "</HEAD> <BODY> <CENTER>\n";
+    open (OUT,"> $directory/ME_launch.cmd") || die "Could not open the launch file";
+    print OUT "source $dirBIN/python.sh; \n";
+    $run_name = $in{"run"};
+    print "Running banner associated to run $run_name <br> \n";
+    print OUT "echo 'banner_run $run_name --web; quit' | python3 $directory/bin/madevent \n";
+
+    close(OUT);
+    exec("cd $directory; bash $directory/ME_launch.cmd !>& remove.log &");
+
+}
+
+
+
+if( $whattodo eq "runpythia"){
+    print "URL=$crossxhtml\"> \n";
+    print  "</HEAD> <BODY> <CENTER>\n";
+    print "Running Pythia on $run (please be patient, this might take quite a while).<br>\n";
+    print "Click <a href=\"$crossxhtml\">here</a> to see generation status. <br> \n";
+
+    if ( -e "$directory/bin/madevent"){
+        open (OUT,"> $directory/ME_launch.cmd") || die "Could not open the launch file";
+        print OUT "source $dirBIN/python.sh; \n";
+	print OUT "echo 'pythia  $run  --web; quit' | $directory/bin/madevent \n";
+        close(OUT);
+        exec("cd $directory; bash $directory/ME_launch.cmd !>& pythia.log &");
+    }else{
+	$syscall = "cd $directory; touch RunWeb; echo \"Running Pythia\" > status; bin/gen_crossxhtml-pl $run; ";
+	$syscall .= "cd $directory/Events; ../bin/run_pythia $dirBIN/pythia-pgs 1 $run $dirEXR >> ../$run.log 2>&1; ";
+	if( -e "$directory/Cards/pgs_card.dat"){
+	    $syscall .= "cd $directory; echo \"Running PGS\" > status; bin/gen_crossxhtml-pl $run; ";
+        $syscall .= "cd $directory/Events;../bin/run_pgs $dirBIN/pythia-pgs 1 $run $dirEXR >> ../$run.log 2>&1;cd ..;rm -f RunWeb;rm -f status;./bin/gen_crossxhtml-pl";
+	} elsif( -e "$directory/Cards/delphes_card.dat"){
+	    $syscall .= "cd $directory; echo \"Running Delphes\" > status; bin/gen_crossxhtml-pl $run; ";
+        $syscall .= "cd $directory/Events;../bin/run_delphes $dirBIN/Delphes 1 $run $dirEXR >> ../$run.log 2>&1;cd ..;rm -f RunWeb;rm -f status;./bin/gen_crossxhtml-pl";
+	} else {
+	    $syscall .= "cd $directory;rm -f RunWeb;rm -f status;./bin/gen_crossxhtml-pl";
+	}
+	system($syscall);
+    }
+}
+
+if( $whattodo eq "runpgs"){
+    if( -e "$directory/Cards/pgs_card.dat"){
+	print "URL=\"$crossxhtml\"> \n";
+	print  "</HEAD> <BODY> <CENTER>\n";
+	print "Running PGS on $run (please be patient, this might take quite a while).<br>\n";
+	print "Click <a href=\"$crossxhtml\">here</a> to see generation status. <br> \n";    
+
+        if ( -e "$directory/bin/madevent"){
+            open (OUT,"> $directory/ME_launch.cmd") || die "Could not open the launch file";
+            print OUT "source $dirBIN/python.sh; \n";
+            print OUT "echo 'pgs  $run  --web; quit' | python3 $directory/bin/madevent \n";
+            close(OUT);
+            exec("cd $directory; bash $directory/ME_launch.cmd !>& pgs.log &");
+	}else{
+	    system ("cd $directory; touch RunWeb; echo \"Running PGS\" > status; bin/gen_crossxhtml-pl $run");
+        system ("cd $directory/Events;../bin/run_pgs $dirBIN/pythia-pgs 1 $run $dirEXR >> ../$run.log 2>&1;cd ..;rm -f RunWeb;rm -f status;./bin/gen_crossxhtml-pl");
+	}
+
+    } elsif( -e "$directory/Cards/delphes_card.dat"){
+	print "URL=\"$crossxhtml\"> \n";
+	print  "</HEAD> <BODY> <CENTER>\n";
+	print "Running Delphes on $run (please be patient, this might take quite a while).<br>\n";
+	print "Click <a href=\"$crossxhtml\">here</a> to see generation status. <br> \n";
+
+	if ( -e "$directory/bin/madevent"){
+	    open (OUT,"> $directory/ME_launch.cmd") || die "Could not open the launch file";
+	    print OUT "source $dirBIN/python.sh; \n";
+	    print OUT "echo 'delphes  $run  --web; quit' | python3 $directory/bin/madevent \n";
+	    close(OUT);
+	    exec("cd $directory; bash $directory/ME_launch.cmd !>& delphes.log &");
+	}else{
+	    system ("cd $directory; touch RunWeb; echo \"Running Delphes\" > status; bin/gen_crossxhtml-pl $run");
+            system ("cd $directory/Events;../bin/run_delphes $dirBIN/Delphes 1 $run $dirEXR >> ../$run.log 2>&1;cd ..;rm -f RunWeb;rm -f status;./bin/gen_crossxhtml-pl");
+	}
+    }
+}
+if( $whattodo eq "stop_job"){
+    print "URL=$ENV{'HTTP_REFERER'}\"> \n";
+    print  "</HEAD> <BODY> <CENTER>\n";
+    if ( open IDDATA,"$directory/RunWeb") {
+        while ($buffer = <IDDATA>){
+	    print "Killing job $buffer <br> \n";
+	    system("kill -2 $buffer");
+	}
+	close IDDATA;
+    }
+}
+
+print "<br> You are going to be redirected to the run page...";
+print "</CENTER></BODY></HTML> \n \n";
+#
+#   That's all folks!
+#
+close(STDOUT);
+close(STDERR);
+close(STDIN);
+
+
+#----------------------------------------------------------------
+#  SubRoutines
+#----------------------------------------------------------------
+
+
+sub WritePythiaCard{
+  #---------------------------------------------------------------
+  # creates the PythiaCard
+  #---------------------------------------------------------------
+
+  $minteractions=$minteractions+$shower;
+
+  open(OUTCARD,"> $directory/Cards/pythia_card.dat") or die "Could not write to pythia_input.dat\n";
+
+          print OUTCARD "!...Parton showering on or off\n";
+          print OUTCARD "      MSTP(61)=$showering\n";
+          print OUTCARD "      MSTP(71)=$showering\n";
+          print OUTCARD " \n";
+          print OUTCARD "!...Fragmentation/hadronization on or off \n";
+          print OUTCARD "      MSTJ(1)=$hadronization\n";
+          print OUTCARD " \n";
+          print OUTCARD "!...Multiple interactions on or off \n";
+          print OUTCARD "      MSTP(81)=$minteractions \n";
+          print OUTCARD " \n";
+          print OUTCARD "!...Don't stop execution after 10 errors \n";
+          print OUTCARD "      MSTU(21)=1 \n";
+          print OUTCARD " \n";
+
+  close(OUTCARD);
+
+}#end sub WritePythiaCard
+
+sub WriteConfirmPythia{
+  #---------------------------------------------------------------
+  # writes the html form back to the user
+  #---------------------------------------------------------------
+
+    $urlCARDS="http://$server/$dirHTML$process/Cards";
+
+    $| = 1;
+    print "<TITLE>Pythia card generation</TITLE></HEAD>\n<BODY>\n";
+    print " <FORM METHOD=\"POST\" ACTION=\"http://$server/cgi-bin/RunProcess/handle_runs-pl\"";
+    print " ENCTYPE=\"multipart/form-data\">\n";
+    print "<P>Please check your cards and save for future use/reference:</P>\n";
+    print "<TABLE BORDER=2 align=\"center\">\n<tr>";
+    print "<td colspan=2 align=center> Cards for $run </td>\n";
+    print "<tr align=center><td>Pythia</td><td>Detector</td>\n";
+    print "<tr align=center>\n";
+    if(-e "$directory/Cards/pythia_card.dat"){
+	print "<td><a href=\"$urlCARDS/pythia_card.dat\">pythia_card.dat</a></td>\n";}
+    else {
+	print "<td>N/A</td>\n";}
+    if(-e "$directory/Cards/pgs_card.dat"){
+	print "<td><a href=\"$urlCARDS/pgs_card.dat\">pgs_card.dat</a></td>\n";}
+    elsif(-e "$directory/Cards/delphes_card.dat"){
+	print "<td><a href=\"$urlCARDS/delphes_card.dat\">delphes_card.dat</a>";
+	if ( -e "$directory/Cards/delphes_trigger.dat"){
+	    print "<br>\n<a href=\"$urlCARDS/delphes_trigger.dat\">delphes_trigger.dat</a>\n";}
+	print "</td>\n";
+    }
+    else {
+	print "<td>N/A</td>\n";}
+    print "</tr>\n</table>\n";
+    print "<P> <a href=\"http://$server/cgi-bin/RunProcess/webqstat-pl\">Check</a> the status of the cluster before submitting the job.</P>\n";
+    
+    print " <input name=\"directory\" value=\"$directory\" type=\"hidden\" > \n";
+    print "<input name=\"whattodo\" value=\"runpythia\" type=\"hidden\" > \n";
+    print "<input name=\"run\" value=\"$run\" type=\"hidden\" > \n";
+    print "<P> <INPUT TYPE=SUBMIT VALUE=Send> to the server and start the run.\n";
+    
+    print "</BODY>\n</HTML>\n";
+    exit;
+}#end sub WriteConfirmPythia
+
+sub WriteConfirmPGS{
+  #---------------------------------------------------------------
+  # writes the html form back to the user
+  #---------------------------------------------------------------
+
+    $urlCARDS="http://$server/$dirHTML$process/Cards";
+
+    $| = 1;
+    print "<TITLE>Detector card generation</TITLE></HEAD>\n<BODY>\n";
+    print " <FORM METHOD=\"POST\" ACTION=\"http://$server/cgi-bin/RunProcess/handle_runs-pl\"";
+    print " ENCTYPE=\"multipart/form-data\">\n";
+    print "<P>Please check your cards and save for future use/reference:</P>\n";
+    print "<TABLE BORDER=2 align=\"center\">\n<tr>";
+    print "<td colspan=2 align=center> Cards for $run </td>\n";
+    print "<tr align=center><td>Detector</td>\n";
+    print "<tr align=center>\n";
+    if(-e "$directory/Cards/pgs_card.dat"){
+	print "<td><a href=\"$urlCARDS/pgs_card.dat\">pgs_card.dat</a></td>\n";}
+    elsif(-e "$directory/Cards/delphes_card.dat"){
+	print "<td><a href=\"$urlCARDS/delphes_card.dat\">delphes_card.dat</a></td>\n";}
+    else {
+	print "<td>N/A</td>\n";}
+    print "</tr>\n</table>\n";
+    print "<P> <a href=\"http://$server/cgi-bin/RunProcess/webqstat-pl\">Check</a> the status of the cluster before submitting the job.</P>\n";
+    
+    print " <input name=\"directory\" value=\"$directory\" type=\"hidden\" > \n";
+    print "<input name=\"whattodo\" value=\"runpgs\" type=\"hidden\" > \n";
+    print "<input name=\"run\" value=\"$run\" type=\"hidden\" > \n";
+    print "<P> <INPUT TYPE=SUBMIT VALUE=Send> to the server and start the run.\n";
+    
+    print "</BODY>\n</HTML>\n";
+    exit;
+}#end sub WriteConfirmPGS
+
+sub WriteConfirmForm{
+  #---------------------------------------------------------------
+  # writes the html form back to the user
+  #---------------------------------------------------------------
+
+    $urlCARDS="/$dirHTML$process/Cards";
+
+    $| = 1;
+    print "<TITLE>Param card generation</TITLE></HEAD>\n<BODY>\n";
+    print " <FORM METHOD=\"POST\" ACTION=\"http://$server/cgi-bin/RunProcess/webgenerate_events-pl\"";
+    print " ENCTYPE=\"multipart/form-data\">\n";
+  
+    print "<P>Please check your cards and save for future use/reference:</P>\n";
+    print "<TABLE BORDER=2 align=\"center\">\n<tr>";
+    print "<td colspan=5 align=center> Cards for input parameters </td>\n";
+    print "<tr align=center><td>Model</td>\n";
+    print "<td>Run</td>\n";
+    print "<td>Plotting</td>\n";
+    print "<td>Pythia</td>\n";
+    print "<td>PGS</td>\n";
+    print "<tr>\n";
+    print "<td><a href=\"$urlCARDS/param_card.dat\">param_card.dat</a></td>\n";
+    print "<td><a href=\"$urlCARDS/run_card.dat\">run_card.dat</a></td>\n";
+    if(-e "$directory/Cards/plot_card.dat"){
+	print "<td><a href=\"$urlCARDS/plot_card.dat\">plot_card.dat</a></td>\n";}
+    else {
+	print "<td>N/A</td>\n";}
+    if(-e "$directory/Cards/pythia_card.dat"){
+	print "<td><a href=\"$urlCARDS/pythia_card.dat\">pythia_card.dat</a></td>\n";}
+    else {
+	print "<td>N/A</td>\n";}
+    if(-e "$directory/Cards/pgs_card.dat"){
+	print "<td><a href=\"$urlCARDS/pgs_card.dat\">pgs_card.dat</a></td>\n";}
+    else {
+	print "<td>N/A</td>\n";}
+    print "</tr>\n</table>\n";
+    print "<P> <a href=\"http://$server/cgi-bin/RunProcess/webqstat-pl\">Check</a> the status of the cluster before submitting the job.</P>\n";
+    
+    print " <input name=\"directory\" value=\"$directory\" type=\"hidden\" > \n";
+#  print " <input name=\"nevents\" value=\"".$in{"nevents"}."\" type=\"hidden\" > \n";
+    print " <input name=\"nevents\" value=\"10000\" type=\"hidden\" > \n";
+    print " <input name=\"num_run\" value=\"1\" type=\"hidden\" > \n";
+    print " <input name=\"run_name\" value=\"$run\" type=\"hidden\" > \n";
+    print "<input name=\"callfrom\" value=\"confirm-form\" type=\"hidden\" > \n";
+    print "<P> <INPUT TYPE=SUBMIT VALUE=Send> to the server and start the run.\n";
+    
+    print "</BODY>\n</HTML>\n";
+    exit;
+}#end sub WriteConfirmForm
+
+sub WriteError {
+#------------------------------------------------------------
+# Display error message in browser and kill process
+#------------------------------------------------------------
+
+$errormsg=shift;
+$| = 1;
+print "<TITLE>Param card generation</TITLE></HEAD>\n<BODY>\n";
+print "<H2>Generation failed</H2>\n";
+print "$errormsg";
+print "<BR>Click the \"backwards\" button in you browser and correct the error.\n";
+print "</BODY>\n</HTML>\n";
+die;
+} # end sub WriteError

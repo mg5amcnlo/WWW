@@ -1,0 +1,59 @@
+<html>
+	<body>
+	<font  color="#AA0000" face="Courier"  size=+1> <br><br>
+        Higgs boson production in vector boson fusion (VBF)<br><br><hr></font>
+        <font  color="#000000" face="Courier"><p style="line-height:150%;">
+
+<p>
+
+
+
+<li><font size=+1>Description:</font><br>
+<ul>
+Event files for Higgs boson production in VBF, at the 8 TeV LHC. The Higgs boson is not decayed in the event files. Input parameters are the following:<p>
+	<ul>
+	<li> <i>m<sub>H</sub></i> = 125 GeV,
+	<li> &alpha;<sub>EW</sub> = 1/132.507 GeV,
+	<li> <i>G<sub>F</sub></i> = 1.16639 10<sup>-5</sup> GeV<sup>-2</sup>,
+	<li> <i>m<sub>Z</sub></i> = 91.188 GeV,
+	<li> <i>&Gamma;<sub>Z</sub></i> = 2.496 GeV,
+	<li> <i>&Gamma;<sub>W</sub></i> = 2.089 GeV,
+	<li> diagonal CKM matrix,
+	<li> MSTW2008NLO pdfs,
+        <li> <i>&mu;<sub>R</sub></i> = <i>&mu;<sub>F</sub></i> = m<sub>W</sub> (computed from the other parameters)
+        <li> For numerical stability reasons, events are generated requiring at least two anti-kt jets with p<sub>T</sub> > 2 GeV, R=0.5
+	</li></ul>
+
+
+</ul>
+
+<li><font size=+1>Event files:</font><br>
+<ul>
+    The NLO events are generated with the MC subtraction terms for Herwig 6, Pythia 6 (virtuality ordered) and Herwig++. Each event file contains 1 million events. The NLO cross-section is <b>1.633&nbsp;+/-&nbsp;0.003 pb </b> (the uncertainty is from the MC integration only). The Herwig 6 sample contains weight information to obtain scale and PDF uncertainties on the fly. As they are, the NLO events are still non-physical: they need to be showered with the corresponding MC in order to give meaningful results. <p>
+	<ul>
+	<li><a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/8TeV/vbf125_HERWIG6_mw.lhe.gz"> Herwig 6</a><br><br>
+	<li><a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/8TeV/vbf125_PYTHIA6Q_mw.lhe.gz"> Pythia 6</a> <br><br>
+	<li><a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/8TeV/vbf125_HERWIGPP_mw.lhe.gz"> Herwig++</a> <br><br>
+	</li></ul>
+</ul>
+
+
+
+<li><font size=+1>Technical details:</font><br>
+<ul>
+    The NLO event files use the UseSudakov=.true. and DampMCsubt=.true.. All interferences (e.g. between identical final state quarks) are included in the computation, with the only exception of the virtuals (pentagon diagrams have not been included, as they are known to be completely negligible).
+</ul>
+
+
+<li><font size=+1>Reference:</font><br>
+<ul>
+	<a href="http://arxiv.org/abs/arxiv:1304.7927" target="_top">arXiv:1304.7927</a><br>
+	<b>Higgs production through vector-boson fusion at the NLO matched with parton showers</b><br> 
+	S.&nbsp;Frixione, P.&nbsp;Torrielli, M.&nbsp;Zaro 
+</ul>
+
+
+</li>
+</font>
+</body>
+</html>

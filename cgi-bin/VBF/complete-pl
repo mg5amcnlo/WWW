@@ -1,0 +1,111 @@
+#!/usr/bin/perl -w
+use POSIX qw(floor);
+use Sys::Hostname;
+use Mail::Sendmail;
+use Email::Valid;
+use Scalar::Util qw(looks_like_number);
+
+$dirDATA = $ENV{'MADGRAPH_DATA'};
+$dirLOG = $ENV{'MADGRAPH_DATA'};
+$dirHTML = "MadGraphData";
+$bin = "$ENV{'MADGRAPH_BASE'}/MG_ME/WebBin";
+$server = $ENV{'SERVER_NAME'};
+$loop = "$bin/newprocess --web";
+
+
+$now='CNNOWW';
+$name='CNNAMEE';
+$nruns=NNRUNSS;
+
+
+$datadir="/home/madgraph/WWW/htdocs/VBF/VBFdata/$name";
+
+$rundir="$datadir/run";
+$resdir="$datadir/res";
+$logdir="$datadir/log";
+$headir="$datadir/head";
+$htmldir="$datadir/html";
+
+
+system("cat $rundir/head$now.txt >$resdir/res$now.txt");
+
+system("rm $rundir/head$now.txt");
+
+for($i=0; $i<$nruns; $i++){
+system("cat $rundir/res$now-$i.dat >>$resdir/res$now.txt");
+
+#clean
+system("rm $rundir/res$now-$i.dat");
+system("rm $rundir/log$now-$i.dat");
+system("rm $rundir/run$now-$i.sh");
+system("rm $rundir/run$now-$i.cmd");
+}
+
+
+&makeanalyse("res$now.txt",$resdir,$rundir,$name);
+
+exit;
+
+############################################
+
+sub makeanalyse{
+
+$outputname="OOUTT";
+
+my($file,$resdir, $rundir, $name)=@_;
+
+system("python $rundir/analyse.py $resdir/$file >$htmldir/$outputname.tail 2>&1");
+system("cat $htmldir/$outputname.head $htmldir/$outputname.tail >$htmldir/$outputname");
+
+#system("rm $htmldir/$outputname.head $htmldir/$outputname.tail");
+
+#send via mail the result
+
+&sendFilesemail($name, $rundir,$outputname);
+}
+
+#-------------------------
+# Send e-mail
+#-------------------------
+
+sub sendFilesemail {
+	my($useremail,$filepath,$filename)= @_ ; 
+
+  my $mail_smtp = 'smtp.sgsi.ucl.ac.be';
+  if($ENV{'MADGRAPH_SMTP'}){
+    $mail_smtp=$ENV{'MADGRAPH_SMTP'};
+  }
+
+  $mail{'smtp'} = $mail_smtp;
+  $mail{'from'} = 'VBF NNLO <vbf_nnlo@uclouvain.be>';
+  $mail{'to'} = $useremail;
+  $mail{'bcc'} = 'Marco Zaro <marco.zaro@lpthe.jussieu.fr>';
+  $mail{'subject'} = 'VBF@NNLO results';
+
+  $boundary = "====" . time() . "====";
+   $mail{'content-type'} = "multipart/mixed; boundary=\"$boundary\"";
+
+
+my $filecontent = '';
+
+
+  $boundary = '--'.$boundary;
+  $mail{'body'} = <<ENDMSG;
+$boundary
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+Dear user,
+
+You can find the VBF results you requested at this address:
+http://vbf-nnlo.phys.ucl.ac.be/VBF/VBFdata/$useremail/html/$filename
+
+Cheers,
+
+the VBF @ NNLO collaboration
+
+$boundary--
+ENDMSG
+
+	sendmail(%mail) or die "Error: $Mail::Sendmail::error\n";
+
+}

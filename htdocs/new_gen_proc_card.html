@@ -1,0 +1,178 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.77 [en]C-gatewaynet  (Win95; U) [Netscape]">
+   <title> MadGraph5_aMC@NLO home page </title>
+
+<SCRIPT language=JavaScript  type="text/javascript">
+
+function showmg5format(mode)
+{
+  var the_element = document.getElementById("mg5_format_choice");
+  var onium_model  = document.getElementById("onium");
+  var helpformat_element = document.getElementById("helpformat");
+  var order1 = document.getElementById("qcd");
+  var order2 = document.getElementById("qed");
+  if (mode == "mg5")
+  {
+    the_element.style.display = "table-row";
+    onium_model.disabled=true;
+    helpformat_element.href="https://server06.fynu.ucl.ac.be/projects/madgraph/wiki/HelpSyntax";
+  }
+  else
+  {
+    the_element.style.display = "none";
+    onium_model.disabled=false;
+    helpformat_element.href="./EXAMPLES/example.html";
+    order1.style.display = "table-row";
+    order2.style.display = "table-row";    
+  }
+
+}
+
+function wait_text()
+{
+        var the_element = document.getElementById("submitbutton");
+	the_element.value = 'please wait (this might take a couple of minutes)'
+        the_element.setAttribute('disabled','disabled');
+        document.getElementById("mainform").submit();
+}
+
+</script>
+</head>
+<body>
+
+<center><font color="#008080"><font size=+3>Ressource for  MadGraph5_aMC@NLO</font></font></center>
+<br>
+<!--
+
+<br>
+Code can be generated either by (only LO process can be generated online):
+<HR>
+
+
+<FORM NAME="particle"  id="mainform"
+      METHOD="POST" 
+      ACTION="/cgi-bin/NewProcess/webnewprocess_mg5-pl">
+<INPUT TYPE=HIDDEN NAME=callfrom  VALUE="form"> 
+
+<font size="+2">I.</font> Fill the form:
+<table>
+<tr>
+<td>Model:</td>
+<td>  <select name = model>
+      <option value="sm" selected> SM
+      <option value="sm-full"> SM (with CKM)
+      <option value='DY_SM'> SM + DY resonances
+      <option value="heft"> HiggsEFT
+      <option value="mssm">  MSSM
+      <option value="nmssm">  NMSSM
+      <option value="4Gen"> 4th generation
+      <option value="RS"> Randall-Sundrum
+      <option value="2HDM"> 2HDM
+      <option value="TopEffTh"> Top Effective field Theory (dim 6)
+      <option value="EWdim6"> Weak Bosons Effective field Theory (dim 6)      
+      <option value="sm_v4"> SM (MG4 version)
+      <option value="heft_v4"> HiggsEFT (MG4 version)
+      <option value="mssm_v4">  MSSM  (MG4 version)
+      
+      </select> 
+</td><td>
+ <a href="particles.html">Model descriptions</a>
+</td></tr>
+<tr>
+<td>Input Process:&nbsp;</td><td><input TYPE=textarea NAME="description" VALUE=" " id="process" size=120></td>
+<td> <a id=helpformat href="EXAMPLES/example_mg5.html">Examples/format</a>
+</tr>
+<tr><td></td><td> Example: p p &gt; w+ j j QED=3, w+ &gt; l+ vl</td></tr>
+</table>
+<table>
+<tr>
+</tr>
+<tr>
+<td>  p and j definitions:
+<td>  <select name = nf> 
+      <option value="define p = g u d s u~ d~ s~; define j = p"> <font color="#0000FF">p</font>=<font color="#0000FF">j</font>=d u s d~ u~ s~ g
+      <option value="define p = g u c d s u~ c~ d~ s~; define j = p" selected> <font color="#0000FF">p</font>=<font color="#0000FF">j</font>=d u s c d~ u~ s~ c~ g
+      <option value="define p = g u c d s b u~ c~ d~ s~ b~; define j = p"> <font color="#0000FF">p</font>=<font color="#0000FF">j</font>=d u s c b d~ u~ s~ c~ b~ g
+      </select>
+</td>
+</tr>
+<tr>
+<td>  sum over leptons:
+<td>  <select name = nl>
+      <option value="define l+ = e+ mu+; define l- = e- mu-; define vl = ve vm vt; define vl~ = ve~ vm~ vt~" selected > 
+      l+ = e+, mu+; l- = e-, mu-; vl = ve, vm, vt; vl~ = ve~, vm~, vt~
+      <option value="define l+ = e+ mu+ ta+; define l- = e- mu- ta-; define vl = ve vm vt; define vl~ = ve~ vm~ vt~" > 
+      l+ = e+, mu+ ta+; l- = e-, mu- ta-; vl = ve, vm, vt; vl~ = ve~, vm~, vt~
+      <option value="define l = e+ mu+ e- mu-; define vl = ve vm vt ve~ vm~ vt~" > 
+      l = e+, mu+, e-, mu-; vl = ve, vm, vt, ve~, vm~, vt~
+      <option value="define l = e+ mu+ ta+ e- mu- ta-; define vl = ve vm vt ve~ vm~ vt~" > 
+      l = e+, mu+, ta+, e-, mu-, ta-; vl = ve, vm, vt, ve~, vm~, vt~
+      </select>
+</td>
+</tr>
+</table>
+<tr>
+<td><input TYPE="submit" VALUE="Submit"  OnClick='wait_text()' id='submitbutton'></td>
+</form>
+
+<hr>
+
+
+<FORM ACTION="/cgi-bin/NewProcess/upload_mg5-pl" 
+      ENCTYPE="multipart/form-data" 
+      METHOD=POST>
+<font size="+2">II.</font> Upload the proc_card.dat
+<table>
+<td> <a href="EXAMPLES/proc_card_examples.html">Process card examples</a>
+<tr><td>proc_card format <select name=program onClick="showmg5format(this.value);"> 
+                           <option value="mg5"> MadGraph 5</option>
+                           <option value="mg4"> MadGraph 4</option>
+</td></tr> 
+<tr><td> 
+<INPUT TYPE="FILE" NAME="proc_card"> 
+ </td><td>and <INPUT TYPE=SUBMIT VALUE="send"> it to the server.
+</table>
+</FORM>
+
+<hr>
+<FORM ACTION="/cgi-bin/NewProcess/upload_banner_mg5.pl" 
+      ENCTYPE="multipart/form-data" 
+      METHOD=POST>
+<font size="+2">III.</font> Upload the full banner (all cards are uploaded as the "current" ones)
+<br>
+<INPUT TYPE="FILE" NAME="banner"> 
+and <INPUT TYPE=SUBMIT VALUE="send"> it to the server.
+</FORM>
+-->
+<center><table>
+<tr>
+  <td> <center><b><u>Generate events</u></b></center></td><td> <center><b><u>Bug Report/question with attachment</u></b></center></td>
+  <td> <center><b><u>Wiki/Documentation</u></b></center></td><td> <center><b><u>contact us/question (no attachment)</u></b></center></td>
+</tr>
+<tr>
+  <td> <a target=blank href=https://nloaccess.in2p3.fr/tools/MG5/index><img src=./logos-nloaccess-1.png width=200px></br><img src=strong.png  width=200px></a></td>
+  <td> <center><a href=https://bugs.launchpad.net/mg5amcnlo><img src=./bug.png></a></center></td>
+  <td> <a href=https://cp3.irmp.ucl.ac.be/projects/madgraph/><img src=./documentation.png></a></td>
+  <td> <a href=https://answers.launchpad.net/mg5amcnlo><img src=./question.png></a></td>
+</tr>
+</table>
+</center>
+<br>
+<p>
+<br><b>Please note the correct reference for MadGraph5_aMC@NLO, <a href="http://arxiv.org/abs/arXiv:1405.0301">arXiv:1405.0301 [hep-ph]</a></b>.
+</p>
+
+
+
+<hr>
+<center><tiny><a href="cgi-bin/Admin/admin_page.cgi" target="F3">MadTeam</a></td>
+</tiny></center>
+
+
+
+
+</body>
+</html>

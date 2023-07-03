@@ -1,0 +1,15 @@
+ procID   =  1
+ order    =  3
+ schann   =  0
+ icoll    =  1
+ energy_cm=   7000.
+ mass     =   300.
+ sc0mh1Q^2=  1
+ muf/sc   =   1.
+ mur/sc   =   1.
+ output   = res1328982796-0.dat           
+ pdflo    = MSTW2008lo68cl.LHgrid              
+ pdfnlo   = MSTW2008lo68cl.LHgrid              
+ pdfnnlo  = MSTW2008lo68cl.LHgrid              
+ PDF err  =  0
+ HWDTH    =  1

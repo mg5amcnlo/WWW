@@ -1,0 +1,133 @@
+<html>
+	<body>
+	<font  color="#AA0000" face="Courier"  size=+1> <br><br>
+	<i>W<sup>+</sup></i> + 1 jet production<br><br><hr></font>
+        <font  color="#000000" face="Courier"><p style="line-height:150%;">
+
+<p>
+
+<li><font size=+1>Description:</font><br>
+<ul>
+
+	Event files for the production of a <i>W<sup>+</sup></i>-boson in association with a jet. The decays of the <i>W</i>-boson to positrons and neutrinos are included (with spin correlations and off-shell effects). Input parameters are the following:<p>
+	<ul>
+	<li> <i>m<sub>W</sub></i> = 80.419 GeV,
+	<li> <i>&Gamma;<sub>W</sub></i> = 2.0476 GeV,
+	<li> &alpha;<sub>EW</sub> = 1/132.507 GeV,
+	<li> <i>m<sub>Z</sub></i> = 91.188 GeV,
+	<li> diagonal CKM matrix,
+	<li> MSTW2008(N)LO for the (N)LO,
+	<li> <i>&mu;<sub>R</sub></i> = <i>&mu;<sub>F</sub></i> = sqrt(<i>m<sub>l&nu;</sub><sup>2</sup>+p<sub>T,l&nu;</sub><sup>2</sup></i>) (i.e. <i>W</i>-boson transverse mass)
+	<li> jets are defined with anti-<i>k<sub>T</sub></i> algorithm with <i>R</i> = 0.4 (and minimum <i>p<sub>T</sub></i> defined below) 
+	</li></ul>
+
+
+</ul>
+
+
+
+<li><font size=+1>Event files:</font><br>
+<ul>
+	The NLO events are generated with the MC subtraction terms for Herwig 6 and the files contain 5 million events and are for LHC 7 TeV. As they are, the NLO events are still non-physical: they need to be showered with herwig 6 to be meaningful. <p>
+	<ul>
+	<li> <i>p<sub>T</sub>(j)</i> > 2.5 GeV: <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_NLO_HW6_minpTj2.5_Damp_Sud.lhe.gz">NLO Herwig</a> <br><br>
+	<li> <i>p<sub>T</sub>(j)</i> > 5 GeV: <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_NLO_HW6_minpTj5_Damp_Sud.lhe.gz">NLO Herwig</a> <br><br>
+	<li> <i>p<sub>T</sub>(j)</i> > 10 GeV: <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_NLO_HW6_minpTj10_Damp_Sud.lhe.gz">NLO Herwig</a> (has only 4999999 events) <br><br>
+	<li> <i>p<sub>T</sub>(j)</i> > 25 GeV: <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_NLO_HW6_minpTj25_Damp_Sud.lhe.gz">NLO Herwig</a> <br><br>
+	</li></ul>
+</ul>
+
+
+<li><font size=+1>Plots:</font><br>
+<ul>
+	The plot below shows the transverse momentum of the hardest jet in <i>W</i> + jet events at the MC@NLO level. The colors correspond to different cuts at the generation level, i.e. from the 4 event files above. The black line is the fixed order NLO result. At the analysis level the jets have been reconstructed with a minimum <i>p<sub>T</sub>(j)</i> cut at 2.5 GeV. <br>
+	<a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_ptj.pdf"> <img src="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_ptj.png" alt="Comparison of the transverse momentum of the hardest jet." width=400 /></a><br>
+	The lower inset of the plot clearly shows the onset of the coloured curves: at about 20 GeV the blue and the red curves coincide, at about 40 GeV the green curve as well and at 80-100 GeV also the magenta curves lies on top of the other three. This clearly shows that for a correct description of events at NLO accuracy the cut on the <i>p<sub>T</sub></i> at the generation level should be about a factor 4 smaller than the cut at the analysis level. At low <i>p<sub>T</sub></i> the discrepancy between the fixed order and the aMC@NLO results is non-negligible (although always within a quite reasonable 20%). This is no real surprise given that non-perturbative corrections become sizable here. For jets with a <i>p<sub>T</sub></i> larger than 15 GeV the difference is already down to 10%. <p>
+
+	Also for other observables and distributions the differences between the four event files and the fixed order results can easily be explained. The factor 4 in cuts at the generation level versus cuts at the analysis level found in the plot above also applies to all these distributions, as expected. In fact, for many observables a smaller value is sufficient, greatly increasing the efficiency of the cuts: the difference between the generation level and analysis level is smaller and therefore a larger cut can be applied at the generation level to have an unbiased sample at the analysis level. <p>
+
+	Below the full set of plots can be found. In general the differences between NLO and aMC@NLO are small in regions of phase-space and observables where they should be small and the differences that are there can be explained by considering the effects of the parton shower. <p>
+	<ul>
+	<li> <b>Fixed cut at the analysis level.</b><br> Each of the plots contain 5 solid curves corresponding to the four different event files above,  i.e. with generation cuts <i>p<sub>T</sub></i> > 2.5, 5, 10 and 25 GeV, respectively, and the black line which is the fixed order NLO result. The lower panels show the ratio of the MC@NLO over the NLO results. <p>
+		<ul>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_ana_2.5.pdf"><i>p<sub>T</sub>(j)</i> > 2.5 GeV (analysis)</a> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_ana_2.5.top">(data)</a> <br>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_ana_5.pdf"><i>p<sub>T</sub>(j)</i> > 5 GeV (analysis)</a> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_ana_5.top">(data)</a> <br>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_ana_10.pdf"><i>p<sub>T</sub>(j)</i> > 10 GeV (analysis)</a> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_ana_10.top">(data)</a> <br>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_ana_25.pdf"><i>p<sub>T</sub>(j)</i> > 25 GeV (analysis)</a> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_ana_25.top">(data)</a> <br>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_ana_50.pdf"><i>p<sub>T</sub>(j)</i> > 50 GeV (analysis)</a> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_ana_50.top">(data)</a> <br>
+		</li></ul><br>
+	<li> Fixed cut at the generation level: each of the plots has 5 solid lines which corresponds to the 5 different cuts at the analysis level, <i>p<sub>T</sub></i> > 2.5, 5, 10, 25 and 50 GeV, respectively. The dashed lines correspond to fixed order (NLO) results with these cuts at the generation level. <p>
+		<ul>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_gen_2.5.pdf"><i>p<sub>T</sub>(j)</i> > 2.5 GeV (generation)</a> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_gen_2.5.top">(data)</a> <br>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_gen_5.pdf"><i>p<sub>T</sub>(j)</i> > 5 GeV (generation)</a> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_gen_5.top">(data)</a> <br>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_gen_10.pdf"><i>p<sub>T</sub>(j)</i> > 10 GeV (generation)</a> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_gen_10.top">(data)</a> <br>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_gen_25.pdf"><i>p<sub>T</sub>(j)</i> > 25 GeV (generation)</a> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_gen_25.top">(data)</a> <br>
+		</li></ul><br>
+<!----
+	<li> Same plots as above, except that also a cut on the pseudo-rapidity of the jets has been applied, |&eta;<i>(j)</i>| < 3, at the <i>analysis</i> level. <br><p>
+		<ul>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_gen_2.5_r.pdf"><i>p<sub>T</sub>(j)</i> > 2.5 GeV (generation)</a> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_gen_2.5_r.top">(data)</a> <br>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_gen_5_r.pdf"><i>p<sub>T</sub>(j)</i> > 5 GeV (generation)</a> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_gen_5_r.top">(data)</a> <br>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_gen_10_r.pdf"><i>p<sub>T</sub>(j)</i> > 10 GeV (generation)</a> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_gen_10_r.top">(data)</a> <br>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_gen_25_r.pdf"><i>p<sub>T</sub>(j)</i> > 25 GeV (generation)</a> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_gen_25_r.top">(data)</a> <br>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_ana_2.5_r.pdf"><i>p<sub>T</sub>(j)</i> > 2.5 GeV (analysis)</a> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_ana_2.5_r.top">(data)</a> <br>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_ana_5_r.pdf"><i>p<sub>T</sub>(j)</i> > 5 GeV (analysis)</a> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_ana_5_r.top">(data)</a> <br>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_ana_10_r.pdf"><i>p<sub>T</sub>(j)</i> > 10 GeV (analysis)</a> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_ana_10_r.top">(data)</a> <br>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_ana_25_r.pdf"><i>p<sub>T</sub>(j)</i> > 25 GeV (analysis)</a> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_ana_25_r.top">(data)</a> <br>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_ana_50_r.pdf"><i>p<sub>T</sub>(j)</i> > 50 GeV (analysis)</a> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_ana_50_r.top">(data)</a> <br>
+		</li></ul><br>
+---->
+	<li> Comparison with LO: same plots as above, except that the dashed lines are the LOwPS (instead of the fixed order NLO) with the same generation cut as the NLOwPS. Note that the LOwPS curves were generate without CKKW/MLM matching and are therefore biased (the results depend on the generation cut).<p>
+		<ul>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_gen_2.5_LO.pdf"><i>p<sub>T</sub>(j)</i> > 2.5 GeV (generation)</a> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_gen_2.5_LO.top">(data)</a> <br>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_gen_5_LO.pdf"><i>p<sub>T</sub>(j)</i> > 5 GeV (generation)</a> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_gen_5_LO.top">(data)</a> <br>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_gen_10_LO.pdf"><i>p<sub>T</sub>(j)</i> > 10 GeV (generation)</a> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_gen_10_LO.top">(data)</a> <br>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_gen_25_LO.pdf"><i>p<sub>T</sub>(j)</i> > 25 GeV (generation)</a> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_gen_25_LO.top">(data)</a> <br>
+		</li></ul><br>
+<!----
+	<li> Same plots as above except that <i>R</i> = 0.2 has been used at the <i>analysis</i> level for the aMC@NLO (and at the generation level for fixed order NLO). <br><p>
+		<ul>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_gen_2.5_0.2.pdf"><i>p<sub>T</sub>(j)</i> > 2.5 GeV (generation)</a> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_gen_2.5_0.2.top">(data)</a> <br>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_gen_5_0.2.pdf"><i>p<sub>T</sub>(j)</i> > 5 GeV (generation)</a> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_gen_5_0.2.top">(data)</a> <br>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_gen_10_0.2.pdf"><i>p<sub>T</sub>(j)</i> > 10 GeV (generation)</a> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_gen_10_0.2.top">(data)</a> <br>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_gen_25_0.2.pdf"><i>p<sub>T</sub>(j)</i> > 25 GeV (generation)</a> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_gen_25_0.2.top">(data)</a> <br>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_ana_2.5_0.2.pdf"><i>p<sub>T</sub>(j)</i> > 2.5 GeV (analysis)</a> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_ana_2.5_0.2.top">(data)</a> <br>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_ana_5_0.2.pdf"><i>p<sub>T</sub>(j)</i> > 5 GeV (analysis)</a> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_ana_5_0.2.top">(data)</a> <br>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_ana_10_0.2.pdf"><i>p<sub>T</sub>(j)</i> > 10 GeV (analysis)</a> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_ana_10_0.2.top">(data)</a> <br>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_ana_25_0.2.pdf"><i>p<sub>T</sub>(j)</i> > 25 GeV (analysis)</a> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_ana_25_0.2.top">(data)</a> <br>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_ana_50_0.2.pdf"><i>p<sub>T</sub>(j)</i> > 50 GeV (analysis)</a> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_ana_50_0.2.top">(data)</a> <br>
+		</li></ul><br>
+---->
+	<li> Increased jet pseudo-cone size: same plots as above except that <i>R</i> = 0.7 has been used at the <i>analysis</i> level for the aMC@NLO (and at the generation level for fixed order NLO). <br><p>
+		<ul>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_gen_2.5_0.7.pdf"><i>p<sub>T</sub>(j)</i> > 2.5 GeV (generation)</a> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_gen_2.5_0.7.top">(data)</a> <br>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_gen_5_0.7.pdf"><i>p<sub>T</sub>(j)</i> > 5 GeV (generation)</a> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_gen_5_0.7.top">(data)</a> <br>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_gen_10_0.7.pdf"><i>p<sub>T</sub>(j)</i> > 10 GeV (generation)</a> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_gen_10_0.7.top">(data)</a> <br>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_gen_25_0.7.pdf"><i>p<sub>T</sub>(j)</i> > 25 GeV (generation)</a> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_gen_25_0.7.top">(data)</a> <br>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_ana_2.5_0.7.pdf"><i>p<sub>T</sub>(j)</i> > 2.5 GeV (analysis)</a> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_ana_2.5_0.7.top">(data)</a> <br>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_ana_5_0.7.pdf"><i>p<sub>T</sub>(j)</i> > 5 GeV (analysis)</a> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_ana_5_0.7.top">(data)</a> <br>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_ana_10_0.7.pdf"><i>p<sub>T</sub>(j)</i> > 10 GeV (analysis)</a> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_ana_10_0.7.top">(data)</a> <br>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_ana_25_0.7.pdf"><i>p<sub>T</sub>(j)</i> > 25 GeV (analysis)</a> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_ana_25_0.7.top">(data)</a> <br>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_ana_50_0.7.pdf"><i>p<sub>T</sub>(j)</i> > 50 GeV (analysis)</a> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/W1j_fixed_ana_50_0.7.top">(data)</a> <br>
+		</li></ul><br>
+	</li></ul>
+</ul>
+
+
+<li><font size=+1>Technical details:</font><br>
+<ul>
+	The NLO event files use the UseSudakov=.true. and DampMCsubt=.true., using the default values of the code in revision 246. technical cut has been applied to the electron-neutriono invariant mass: events for which the invariant mass is more than 30 times the <i>W</i>-boson width away from its mass have been removed. All the events have the (off-shell) <i>W</i>-boson explicitly in the event record as intermediate particle, so its invariant mass should be conserved by Herwig. The event files were generated on May 31, 2011.
+</ul>
+
+<li><font size=+1>Reference:</font><br>
+<ul>
+	<a href="http://arxiv.org/abs/arxiv:1110.5502" target="_top">arXiv:1110.5502</a><br>
+	<b>aMC@NLO predictions for Wjj production at the Tevatron</b><br> 
+	R.&nbsp;Frederix, S.&nbsp;Frixione, V.&nbsp;Hirschi, F.&nbsp;Maltoni, R.&nbsp;Pittau, P.&nbsp;Torrielli 
+</ul>
+
+
+</li>
+</font>
+</body>
+</html>

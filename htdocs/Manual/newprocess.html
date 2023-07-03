@@ -1,0 +1,33 @@
+<pre>
+Information on the process to be generated is found in the file
+index.html in this directory, which should be viewed using your web
+browser. If the file index.html is missing, you need to generate a
+process. Please refer to the README file one directory above this for
+instructions on how to do this.
+
+
+To generate events:
+-------------------
+
+1) Specify the model parameters. The model parameters include masses
+and widths for the particles and coupling constants. They are given by
+the file param_card.dat in the Cards directory. Although it is
+possible to edit this file manually, this is not recommended since
+there are dependencies among the parameters which need to be taken
+into account. Instead the param_card.dat should be generated using one
+of the Calculators found on the MG/ME homepages (stated above).  Click
+Calculators, choose model and follow the instructions. Place the
+resulting param_card.dat in the Cards directory.
+
+2) Specify the run parameters. The run parameters includes collider
+type and energy, choice of parton distribution functions and scales.
+They are given by the file run_card.dat in the Cards directory. This
+file should be edited manually, following the syntax given in the
+example file.
+
+3) Run bin/generate_events to generate the events and calculate the
+cross-section.
+
+4) Follow the generation and look at the results in the file
+HTML/crossx.html, using your web browser.
+

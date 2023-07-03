@@ -1,0 +1,195 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.77 [en]C-gatewaynet  (Win95; U) [Netscape]">
+   <title> MadGraphII Web Site </title>
+</head>
+<body>
+
+<center><font color="#008080"><font size=+3>Basic Syntax Rules</font>
+</font></center>
+<ul>
+<li> Use a  ">"  to separate the initial state particles  from the 
+final state ones.
+<li> Spaces, commas and all characters series which do not correspond to the allowed names for
+particles (see <a href="../sm_particles.html">Particle names</a>) and do not  belong to the  syntax
+(e.g. ">" or "/" ) are IGNORED. Particles names are case insensitive.
+For example, "ppxx,x>vZq qWq,q" is equivalent to "pp>Z" (The W has to be followed by a + or a -
+to be correctly iterpreted as a W boson).
+<li>  Use " x x > <FONT COLOR="#990099">z</FONT>  > y y y "  form to require
+particle <FONT COLOR="#990099">z</FONT> to appear in
+a s-channel intermediate state.   
+<li>  Use " x x  > y y y /<FONT COLOR="#990099">z</FONT>"  
+form to exclude particle <FONT COLOR="#990099">z</FONT> to appear in any
+diagram. 
+<li>  Use " x x > <FONT COLOR="#990099">y6(z1>y1(z2>y2y3))(z3>y4y5)</FONT>"  form to select only diagrams
+compatible with generation of y6 z1 z3 and with the decay of z1 into y1 and z2, z2 into y2 and y3, and z3 into y4 and y5. Note that specified intermediate particles are restricted to be close to the mass shell.
+Multi-labels (see below) can appear only for initial- and final-state particles, not for intermediate particles.
+<li> Use the multi-label "p", only in the initial state (to the left of 
+">") to indicate a proton or an anti-proton.<br> The symbol "p~" does not 
+exist. <br>The type of initial state (pp or ppbar or parton-parton 
+fixed energy) is specified later, during the run, in the input-card.dat.
+<li> Use the multi-label "j" only in the final state (to the right of 
+">"). 
+
+</ul>
+
+
+
+<center><font color="#008080"><font size=+3>Process Examples</font>
+</font></center>
+
+<table BORDER >
+<tr>
+<th>PROCESS</th>
+
+<th>QCD</th>
+
+<th>QED</th>
+
+<th>Sample Diagram</th>
+
+<th>Notes</th>
+</tr>
+
+<tr>
+<td nowrap>uu~ > dd~</td>
+
+<td>99</td>
+
+<td>99</td>
+
+<td><img SRC="uux_ddx_9999.gif" ></td>
+
+<td>Both the QCD and QED are set to the a maximum conventional value of
+99. This entails that all the possible contributions (W,gluon,photon,Z)
+appear. In total 4 diagrams appear.</td>
+</tr>
+
+<tr>
+<td nowrap>uu~ > dd~</td>
+
+<td>99</td>
+
+<td>0</td>
+
+<td align=center><img align=center SRC="uux_ddx_9900.gif" ></td>
+
+<td>The maximum number of QED couplings is set to zero so only 
+QCD is on. The QED&nbsp; contributions (W,photon,Z) are now off.</td>
+</tr>
+
+<tr>
+<td nowrap>uu~ > dd~ /w+</td>
+
+<td>0</td>
+
+<td>99</td>
+
+<td><img  SRC="uux_ddx_0099_w.gif" ></td>
+
+<td>The maximum number of QCD couplings is set to zero, and the contribution
+from an internal W+ (or W-) are eliminated. As a result only the contributions
+from the exchange of a photon and a Z appear.</td>
+</tr>
+
+<tr>
+<td nowrap>uu~ > z > dd~a</td>
+
+<td>0</td>
+
+<td>99</td>
+
+<td><img SRC="uux_z_ddxa_0099.gif" ></td>
+
+<td>The maximum number of QCD couplings is set to zero, and the presence
+of a Z in an s-channel diagram is requested. As a result possible contributions
+from the exchange of a W in the t-channel or a photon in the s-channel are excluded.</td>
+</tr>
+
+
+<tr>
+<td nowrap>gg > tt~ > b b~ e+ e- ve~ ve</td>
+
+<td>02</td>
+
+<td>04</td>
+
+<td><img SRC="gg_ttx_0204.gif" ></td>
+
+<td> This is t tbar production with semileptonic decays for both tops.
+The maximum number of QCD couplings is set to 2  and the QED is set to 4
+(even though in this  specific case 99 for both would have given the same 
+result). The requirement of having the two top on-shell, avoids the 
+generation of non resonant contributions such as gg>bb~ZZ with the 
+subsequent decays of the Z's, giving in total 203 diagrams instead of just 
+3.
+</tr>
+
+<tr>
+<td nowrap>uu > (ul>u n1)(ul>u(n2>e+(el->e-n1))</td>
+
+<td>02</td>
+
+<td>04</td>
+
+<td><img SRC="uu_ulul_decay.jpg"></td>
+
+<td> SUSY u squark pair production, with different decay of the two squarks. Only diagrams compatible with the chosen decay chain are generated.
+</tr>
+
+</table>
+
+<center><font color="#008080">
+<font size=+3>Process Input Examples using Protons and Jets</font></font></center>
+&nbsp;
+<table BORDER >
+<tr>
+<th>PROCESS</th>
+
+<th>QCD</th>
+
+<th>QED</th>
+
+<th>Directories</th>
+
+<th colspan=2>Subprocesses</th>
+<th> Notes </th>
+</tr>
+
+<tr>
+<td> pp > e+ ve </td>
+<td> 0 </td> <td> 2 </td> 
+<td> Pdxu_e+ve <br> Pudx_e+ve 
+</td>
+<td nowrap> d~ u -> e+ ve <br> u d~ -> e+ ve </td>
+<td nowrap> s~ c -> e+ ve <br> c s~ -> e+ ve </td>
+<td> The special codes p and j, sum over gluon, and n light quark flavors
+and their anti_particles, as specified by the option. MadGraph is able to 
+identify and combine  explicitly identical subprocesses.
+</tr>
+
+<tr>
+<td> pp>W+>l+vljj </td>
+<td> 2 </td> <td> 2 </td> 
+<td> 
+Puxu_e+veuxd <br>
+Puu_e+veud  <br>
+...
+</td>
+<td nowrap> u~ u -> e+ ve u~ d <br> g g -> mu+ vm s c~ <br> ... </td>
+<td nowrap> u~ u -> mu+ vm u~ d <br> g g -> e+ ve s c~ <br> ...</td> 
+
+<td> In this example, W+ + jets  production is requested, with the subsequent 
+leptonic decay of the W+. If l=e,mu is chosen in the options, 
+then both possibilities are included. 
+MadGraph is able to identify and combine  explicitly identical subprocesses.
+</tr>
+
+
+<tr>
+
+</table>
+</body>
+</html>

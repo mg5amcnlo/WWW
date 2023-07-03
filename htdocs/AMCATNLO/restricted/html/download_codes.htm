@@ -1,0 +1,314 @@
+<html>
+  <body>
+  <font  color="#AA0000" face="Courier"><br><br>
+      Optimized process-specific NLO MadGraph5_aMC@NLO codes<br><hr><br>
+    </font>
+    <font  color="#000000" face="Courier">
+      Here you find a collection of MadGraph5_aMC@NLO codes dedicated to key
+  processes at the LHC at NLO accuracy. In some cases, virtuals cannot yet be
+  calculated by MadLoop (for example for Higgs production in the Higgs
+  Effective Field Theory), while in others analytic expressions might
+  be faster than MadLoop. We stress that all contributions to the
+  cross sections except the finite part of the virtuals are still
+  obtained with MadGraph5_aMC@NLO, by generating the process with the [real=QCD]
+  option. It is only the finite part of the virtuals that it is added
+  "by hand". Therefore, the codes listed here provide explicit
+  examples on how to interface aMC@NLO with BLHA-compliant external
+  codes for one-loop corrections
+     <p>
+      <table border="1" cellpadding="10" style="font-size: 11px;">
+	<colgroup>
+	  <col span="1" style="width: 250;">
+	  <col span="1" style="width: 115;">
+	  <col span="1" style="width: 115;">
+	  <col span="1" style="width: 350;">
+	</colgroup>
+	<tr>
+	  <th>Process</th>
+	  <th>Codes</th>
+	  <th>References</th>
+	  <th>Extra info</th>
+	</tr>
+	  <td colspan="4" ><b> Higgs characterization. <br>
+	    Comparison plots:
+	    <a
+  href="http://madgraph.cism.ucl.ac.be/AMCATNLO/restricted/plots/X-amcatnlo-pt.ps">
+  pt of the "Higgs"</a>
+	    <a
+  href="http://madgraph.cism.ucl.ac.be/AMCATNLO/restricted/plots/X-amcatnlo-y.ps">rapidity
+  of the "Higgs"</a>
+	    
+ <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/restricted/plots/X-amcatnlo-jr.ps">jet rates</a>
+	    
+	    </b></td>
+	</tr>
+	  <td colspan="4" ><b>  <br>
+                  New codes (version 2.1) fox X2 production:</b>
+              All codes use the <a href="http://feynrules.irmp.ucl.ac.be/wiki/HiggsCharacterisation">Higgs Characterization</a> model (<b>v4.0</b> since December 11, 2013)<br>
+              Please read the included README file.</b><br><br>
+          <b>X0 aMC@NLO codes can now be generated automatically</b> with the <a href="http://feynrules.irmp.ucl.ac.be/wiki/HiggsCharacterisation">NLO Higgs Characterisation Model</a> (v1.0, January 24, 2014).<br>
+          For an application to VBF and VH associated produciton see <a href="http://arxiv.org/abs/arXiv:1311.1829">arXiv:1311.1829</a>
+      </td>
+	</tr>
+	<tr>
+	  <td><img src="figs/2pnew.png" height="18" ></td>
+          <td align=center> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/restricted/codes/2dot1codes/X2to2a.tar.gz">Decay to 2 photons</a><br>
+              <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/restricted/codes/2dot1codes/X2to4l.tar.gz">Decay to 2 Zs</a><br>
+	      <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/restricted/codes/2dot1codes/X2to2l2v.tar.gz">Decay to 2 Ws</a></td>
+	  <td align=center>
+              <a href="http://arxiv.org/abs/arXiv:1306.6464">arXiv:1306.6464</a>
+	  </td>
+	  <td> Virtuals from V. Ravindran et al. The 'kq', 'kg' parameters in the param_card.dat allow to change the relative strength of the spin-2 particle coupling to quarks and gluons. Codes include the leptonic decay of vector bosons. Interactions of the spin-2 particle with leptons are disabled.</td>	
+	</tr>
+	  <td colspan="4" ><b>  <br>
+                  Older codes (version beta3) for X0, X1 and X2 production:</b>
+              All codes use the <a href="http://feynrules.irmp.ucl.ac.be/wiki/HiggsCharacterisation">Higgs Characterization 2.0</a> model (since April 17, 2013)<br>
+Please read the included README file.</b></td>
+	</tr>
+	<tr>
+	  <td><img src="figs/0pm.png" height="18" ></td>
+          <td align=center> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/restricted/codes/beta3_codes/X0to2a.tar.gz">Decay to 2 photons</a><br>
+              <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/restricted/codes/beta3_codes/X0to4l.tar.gz">Decay to 2 Zs</a><br>
+	      <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/restricted/codes/beta3_codes/X0to2l2v.tar.gz">Decay to 2 Ws</a></td>
+	  <td align=center>
+              <a href="http://arxiv.org/abs/arXiv:1306.6464">arXiv:1306.6464</a>
+	  </td>
+	  <td> Virtuals coded by hand by R. Frederix and M. Zaro from the known analytic results. Setting the 'ca' parameter in the param_card.dat to 0 or 1 allows to obtain respectively a pseudoscalar or a scalar resonance. The mixed case is not allowed in aMCatNLO. Codes include the leptonic decay of vector bosons.</td>	
+	</tr>
+	<tr>
+	  <td><img src="figs/1.png" height="18" ></td>
+           <td align=center>   <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/restricted/codes/beta3_codes/X1to4l.tar.gz">Decay to 2 Zs</a><br>
+	      <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/restricted/codes/beta3_codes/X1to2l2v.tar.gz">Decay to 2 Ws</a></td>
+	  <td align=center>
+              <a href="http://arxiv.org/abs/arXiv:1306.6464">arXiv:1306.6464</a>
+	  </td>
+          <td> Virtuals coded by hand by R. Frederix and M. Zaro from the known analytic results.<br> 
+              The 1- (vector) case can be obtained setting the parameters<br> 
+              <img src="figs/1mparam.png" height="22" >.<br>
+              For the 1+ (axial-vector) case:  <br>
+              <img src="figs/1pparam.png" height="22" >.<br>
+              Mixed cases are also possible. Codes include the leptonic decay of vector bosons.</td>	
+	</tr>
+	<tr>
+	  <td><img src="figs/2pnew.png" height="18" ></td>
+          <td align=center> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/restricted/codes/beta3_codes/X2to2a.tar.gz">Decay to 2 photons</a><br>
+              <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/restricted/codes/beta3_codes/X2to4l.tar.gz">Decay to 2 Zs</a><br>
+	      <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/restricted/codes/beta3_codes/X2to2l2v.tar.gz">Decay to 2 Ws</a></td>
+	  <td align=center>
+              <a href="http://arxiv.org/abs/arXiv:1306.6464">arXiv:1306.6464</a>
+	  </td>
+	  <td> Virtuals from V. Ravindran et al. The 'kq', 'kg' parameters in the param_card.dat allow to change the relative strength of the spin-2 particle coupling to quarks and gluons. Codes include the leptonic decay of vector bosons.</td>	
+	</tr>
+	<tr>
+	  <td colspan="4" ><b>  <br>
+	</tr>
+	<tr>
+	  <td colspan="4" ><b>ADD and RS codes for all di-final states, based on version beta3 (July 31, 2013)</b><br>Please read the included README file.<br></td>
+	</tr>
+	<tr>
+	  <td> p p > a a </td>
+          <td align=center> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/restricted/codes/beta3_codes/DiPhoton_ADD.tar.gz">here</a></td>
+	  <td align=center> 
+              <a href="http://arxiv.org/abs/arXiv:0811.1670">arXiv:0811.1670</a>
+              <br>
+              <a href="http://arxiv.org/abs/arXiv:1209.6527">arXiv:1209.6527</a>
+           </td>
+	  <td>ADD graviton process for di-photon production. Both
+	  signal and SM backgrounds (including interferences). Number
+	  of extra dimension (can be taken between 2 and 6) and the
+	  string scale can be set in the param_card.</td>
+	</tr>
+	<tr>
+	  <td> p p > e+ e- </td>
+          <td align=center> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/restricted/codes/beta3_codes/DrellYan_ADD.tar.gz">here</a></td>
+	  <td align=center> 
+              <a href="http://arxiv.org/abs/hep-ph/0411018">hep-ph/0411018</a>
+              <br>
+              <a href="http://arxiv.org/abs/arXiv:1307.7013">arXiv:1307.7013</a>
+           </td>
+	  <td>ADD graviton process for Drell-Yan production. Both
+	  signal and SM backgrounds (including interferences). Number
+	  of extra dimension (can be taken between 2 and 6) and the
+	  string scale can be set in the param_card.</td>
+	</tr>
+	<tr>
+	  <td> p p > w+ w- </td>
+          <td align=center> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/restricted/codes/beta3_codes/WW_ADD.tar.gz">here</a></td>
+	  <td align=center> 
+              <a href="http://arxiv.org/abs/arXiv:1003.5450">arXiv:1003.5450</a>
+              <br>
+              <a href="http://arxiv.org/abs/arXiv:1307.7013">arXiv:1307.7013</a>
+           </td>
+	  <td>ADD graviton process for double W-boson production. Both
+	  signal and SM backgrounds (including interferences). Number
+	  of extra dimension (can be taken between 2 and 6) and the
+	  string scale can be set in the param_card.</td>
+	</tr>
+	<tr>
+	  <td> p p > z z </td>
+          <td align=center> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/restricted/codes/beta3_codes/ZZ_ADD.tar.gz">here</a></td>
+	  <td align=center> 
+              <a href="http://arxiv.org/abs/arXiv:0909.2651">arXiv:0909.2651</a>
+              <br>
+              <a href="http://arxiv.org/abs/arXiv:1307.7013">arXiv:1307.7013</a>
+           </td>
+	  <td>ADD graviton process for double Z-boson production. Both
+	  signal and SM backgrounds (including interferences). Number
+	  of extra dimension (can be taken between 2 and 6) and the
+	  string scale can be set in the param_card.</td>
+	</tr>
+	<tr>
+	  <td> p p > a a </td>
+          <td align=center> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/restricted/codes/beta3_codes/AA_RS-nomass.tar.gz">here</a></td>
+	  <td align=center> 
+              <a href="http://arxiv.org/abs/arXiv:1408.3970">arXiv:1408.3970</a>
+           </td>
+	  <td>RS graviton process for di-photon production. Both
+	  signal and SM backgrounds (including interferences).</td>
+	</tr>
+	<tr>
+	  <td> p p > e+ e- </td>
+          <td align=center> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/restricted/codes/beta3_codes/EE_RS-nomass.tar.gz">here</a></td>
+	  <td align=center> 
+              <a href="http://arxiv.org/abs/arXiv:1408.3970">arXiv:1408.3970</a>
+           </td>
+	  <td>RS graviton process for Drell-Yan production. Both
+	  signal and SM backgrounds (including interferences).</td>
+	</tr>
+	<tr>
+	  <td> p p > w+ w- </td>
+          <td align=center> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/restricted/codes/beta3_codes/WW_RS-nomass.tar.gz">here</a></td>
+	  <td align=center> 
+              <a href="http://arxiv.org/abs/arXiv:1408.3970">arXiv:1408.3970</a>
+           </td>
+	  <td>RS graviton process for WW production. Both
+	  signal and SM backgrounds (including interferences).</td>
+	</tr>
+	<tr>
+	  <td> p p > z z </td>
+          <td align=center> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/restricted/codes/beta3_codes/ZZ_RS-nomass.tar.gz">here</a></td>
+	  <td align=center> 
+              <a href="http://arxiv.org/abs/arXiv:1408.3970">arXiv:1408.3970</a>
+           </td>
+	  <td>RS graviton process for ZZ production. Both
+	  signal and SM backgrounds (including interferences).</td>
+	</tr>
+	<tr>
+	  <td colspan="4" ><br>
+	</tr>
+	<tr>
+	  <td colspan="4" ><b>Pair production of scalar leptoquarks in the eejj and evjj decay channels.</b><br>
+              Based on MG5_aMC version 2.2.2.<br></td>
+	</tr>
+	<tr>
+	  <td> p p > LQ LQ~ </td>
+          <td align=center> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/restricted/codes/SLQ_PAIR.tar.gz">here</a></td>
+	  <td align=center> 
+              <a href="http://arxiv.org/abs/arXiv:1506.07369">arXiv:1506.07369</a>
+           </td>
+	  <td>Scalar leptoquark pair production. Contact the authors for details. </td>
+	</tr>
+	<tr>
+	  <td colspan="4" ><br>
+	</tr>
+	<tr>
+	  <td colspan="4" ><b>Single top production in association with a W-boson based on version MadGraph5_aMC@NLO v2.1.0.</b><br>
+              Please read the included README file. These codes do not work correctly with MadSpin.<br></td>
+	</tr>
+	<tr>
+	  <td> p p > w+ t~ and<br>p p > w- t </td>
+          <td align=center> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/restricted/codes/WT_DR.tar.gz">here</a></td>
+	  <td align=center> 
+	    --
+           </td>
+	  <td>Single top production in the tW channel. Uses the
+	  diagram removal (DR) method to remove top pair production
+	  contributions (as introduced in arXiv:0805.3067
+	  [hep-ph]) </td>
+	</tr>
+	<tr>
+	  <td> p p > h w+ t~ and<br>p p > h w- t </td>
+          <td align=center> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/restricted/codes/HWT_DR.tar.gz">here</a></td>
+	  <td align=center> 
+	    --
+           </td>
+	  <td>Single top production in the tW channel in association
+	  with a Higgs boson. Uses the diagram removal (DR) method to
+	  remove top pair production contributions (as introduced in
+	  arXiv:0805.3067 [hep-ph]) </td>
+	</tr>
+	<tr>
+	  <td colspan="4" ><br>
+	</tr>
+	<tr>
+	  <td colspan="4"><b> More to come soon... </b> </td>
+	</tr>
+      </table>
+	   <font  color="#AA0000" face="Courier"><br><br>
+      Special Needs<br><hr><br>
+    </font>
+    <font  color="#000000" face="Courier">
+      Here you find a collections of codes for special needs.
+     <p>
+      <table border="1" cellpadding="10" style="font-size: 11px;">
+	<colgroup>
+	  <col span="1" style="width: 300;">
+	  <col span="1" style="width: 300;">
+	  <col span="1" style="width: 115;">
+	  <col span="1" style="width: 300;">
+	</colgroup>
+	<tr>
+	  <th>Process</th>
+	  <th>Codes</th>
+	  <th>Info</th>
+	  <th>Comments</th>
+	</tr>
+	  <td colspan="4" ><b> Inclusive Heavy Higgs in VV >4 leptons
+  final states : codes for background+interference.<br>
+	  MC@NLO code for the signal at NLO with full heavy quark dependence is
+  available </b> <a
+  href="http://www.hep.phy.cam.ac.uk/theory/webber/MCatNLO/">here</a>.</td>
+	</tr>
+	<tr>
+	  <td>g g > W+ W- > e+ ve mu- vm~</td>
+	  <td align=center><a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/restricted/codes/gg_vee+mu-vmx.tar.gz">Code</a></td>
+	  <td align=center><a
+	  href="http://cp3.irmp.ucl.ac.be/~alaureys/gg_vv/gg_vv.html" target="_MAIN">More info<a></td>
+	  <td>  Virtual provided by MCFM and MadLoop. Features the interference of the Higgs with the
+  continuum  WW background.</td>	
+	</tr>
+	<tr>
+	  <td>g g > e+ e- mu+ mu- </a></td>
+	  <td align=center><a
+	  href="http://madgraph.cism.ucl.ac.be/AMCATNLO/restricted/codes/gg_e+e-mu+mu-.tar.gz">Code</a>
+	  <td align=center>  <a
+	  href="http://cp3.irmp.ucl.ac.be/~alaureys/gg_vv/gg_evmv.html"
+	  target="_MAIN">More Info<a></td>
+	  <td> Virtual provided by MCFM and MadLoop. Features the interference of the Higgs with the
+  continuum  ZZ background.</td>	
+	</tr>
+	<tr>
+	  <td>g g > e+ e- vm vm~ </td>
+	  <td align=center><a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/restricted/codes/gg_e-e+vevex.tar.gz">Code</a></td>
+	  <td align=center><a
+	  href="http://cp3.irmp.ucl.ac.be/~alaureys/gg_vv/gg_eevv.html"
+	  target="_MAIN">More
+	  Info</a></td>
+	  <td> Virtual provided by MCFM and MadLoop. Features the interference of the Higgs with the
+  continuum  ZZ background.</td>	
+	</tr>
+	<tr>
+	  <td>g g > e+ e- ve ve~ </td>
+	  <td align=center> Not yet available </td>
+	  <td align=center><a
+	  href="http://cp3.irmp.ucl.ac.be/~alaureys/gg_vv/gg_zzww.html"
+	  target="_MAIN">More
+	  Info</a></td>
+	  <td> In progress. Features the interference of the Higgs with the
+  continuum  WW/ZZ background.</td>	
+	</tr>
+     </table>
+    </font>
+</center>
+</body>
+</html>

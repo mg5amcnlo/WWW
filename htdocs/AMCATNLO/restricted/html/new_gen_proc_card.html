@@ -1,0 +1,76 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.77 [en]C-gatewaynet  (Win95; U) [Netscape]">
+   <title> MadGraph 5 process generation page </title>
+
+<SCRIPT language=JavaScript  type="text/javascript">
+
+function disable_submit()
+{
+  var the_element = document.getElementById("submit");
+  the_element.value = "Preparing directory, please wait";
+  the_element.disabled = true;
+}
+
+</script>
+</head>
+<body>
+
+	<font  color="#AA0000" face="Courier"><br><br>
+	Online Monte-Carlo Generation:<br><br><hr></font>
+        <font  color="#000000" face="Courier"><p style="line-height:150%;">
+
+<p>
+From this page you can generate events and compute cross-sections for some processes included in the aMC@NLO framework.<br>
+Processes will run on the <a href="http://madgraph.cism.ucl.ac.be/" target="_top">MadGraph</a> server at <a href=http://cp3.irmp.ucl.ac.be/ target="_top">CP3/UCLouvain</a>.
+To be able to run processes, please send an email request.<br>
+<br>
+Please choose a process from the list:
+
+<!-- second form -->
+<FORM NAME="particle" 
+      METHOD="POST" 
+      ACTION="/cgi-bin/AMCATNLO/MCGen/webnewprocess-pl">
+<INPUT TYPE=HIDDEN NAME=callfrom  VALUE="form"> 
+
+<table>
+<tr>
+<td> <b>Collider:</b></td>
+<td><b>Process:</b></td>
+</tr>
+<tr>
+<td>  
+
+      <select name =collider>
+      <option value="LHC7" selected>LHC 7TeV: p p
+      <option value="LHC14">LHC 14TeV: p p
+      <option value="TEV"> Tevatron run II 1.96 TeV: p pbar 
+      </select> 
+       >
+       </td><td>
+      <select name =process>
+      <option value="w" selected> w > e ve 
+      </select> 
+</td><td>
+ <a href="./processes.html">Process descriptions</a>
+</td></tr>
+
+
+
+<tr>
+</table>
+<br>
+And enter the desired number of events (<1M):
+<input name="nevts" value="10000" size="7" type="text">
+<br>
+<br>
+<td><input id="submit" onClick="disable_submit();return true;"   TYPE="Submit" VALUE="Submit"></td>
+</form>
+
+<hr>
+
+
+</body>
+</html>

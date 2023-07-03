@@ -1,0 +1,104 @@
+<html>
+	<body>
+	<font  color="#AA0000" face="Courier"  size=+1> <br><br>
+          Single-top <i>t</i>-channel production in the four- and five-flavour scheme<br><br><hr></font>
+        <font  color="#000000" face="Courier"><p style="line-height:150%;">
+
+<p>
+
+
+
+<li><font size=+1>Description:</font><br>
+<ul>
+  Event files for <i>t</i>-channel single-top production in the four-
+  and five-flavour scheme at the LHC and at the Tevatron. No top decays are included. The bottom is considered as massive in the four-flavour scheme, and massless in the five-flavour scheme. Input parameters are the following:<p>
+	<ul>
+	<li> &alpha;<sub>EW</sub> = 1/132.338 GeV,
+	<li> <i>m<sub>W</sub></i> = 80.398 GeV,
+        <li> <i>m<sub>b</sub></i> = 4.75 GeV in the four-flavour scheme,
+        <li> <i>m<sub>b</sub></i> = 0 in the five-flavour scheme,
+        <li> <i>m<sub>t</sub></i> = 172.5 GeV,
+        <li> <i>sin</i><sup>2</sup> &theta;<sub>W</sub> = 0.22265,
+        <li> MSTW2008(N)LO_nf4 for the (N)LO in the four-flavour scheme,
+        <li> MSTW2008(N)LO for the (N)LO in the five-flavour scheme,
+	<li> <i>&mu;<sub>R</sub></i> = <i>&mu;<sub>F</sub></i> = 4 
+	  sqrt(<i>m<sub>b</sub><sup>2</sup>+p<sub>T,b</sub><sup>2</sup></i>)
+	  in the four-flavour scheme,
+        <li> <i>&mu;<sub>R</sub></i> = <i>&mu;<sub>F</sub></i> =
+	  <i>m<sub>top</sub></i> in the five-flavour scheme.
+	</li></ul>
+
+
+</ul>
+
+
+
+<li><font size=+1>Event files:</font><br>
+<ul>
+	The NLO events are generated with the MC subtraction terms for
+  Herwig 6. The cross sections
+  are given below, and the uncertainty is from the MC integration only. As they are, the NLO events are still non-physical: they need to be showered with Herwig 6 to be meaningful.<p>
+	<ul>
+	<li> LHC 8 TeV: <a
+	  href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/8TeV/st4f_tch_NLO.events.gz">
+	  4F NLO
+	  (51.65 +/- 0.08 pb)</a>, <a
+	  href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/8TeV/st4f_tch_LO.events.gz">
+	  4F LO
+	  (44.69 +/- 0.04 pb)</a>, <a
+	  href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/8TeV/st5f_tch_NLO.events.gz">
+	  5F NLO
+	  (55.48 +/- 0.07 pb)</a> <br><br>
+	<li> LHC 7 TeV: <a
+	  href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/st4f_tch_NLO.events.gz">
+	  4F NLO
+	  (39.37 +/- 0.05 pb)</a>,
+	  <a
+	  href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/st4f_tch_LO.events.gz">
+	  4F LO
+	  (33.740 +/- 0.008 pb)</a>,
+	  <a
+	  href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/7TeV/st5f_tch_NLO.events.gz">
+	  5F NLO (42.338 +/- 0.015 pb) </a> <br><br>
+	<li> Tevatron:
+	  <a
+	  href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/Tevatron/st4f_tch_NLO.events.gz">
+	  4F NLO
+	  (0.9195 +/- 0.0017 pb)</a>,
+	  <a
+	  href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/Tevatron/st4f_tch_LO.events.gz">
+	  4F LO
+	  (0.76573 +/- 0.00018 pb)</a>,
+	  <a
+	  href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/Tevatron/st5f_tch_NLO.events.gz">
+	  5F NLO (1.0077 +/- 0.0005 pb) </a> <br><br>
+	</li></ul>
+	The codes relevant to the generation of POWHEG samples
+	for the same process can be found <a
+	href="http://powhegbox.mib.infn.it/"> here</a> <br><br> 
+</ul>
+
+
+
+<li><font size=+1>Technical details:</font><br>
+<ul>
+	The NLO event files use the UseSudakov=.true. and
+  DampMCsubt=.true., using the default values of the code. In the five-flavour computation diagrams not featuring a bottom quark in the initial state are not imporved by finite
+  <i>m<sub>b</sub></i> effects. Analytic virtuals from 	<a href="http://arxiv.org/abs/arxiv:0903.0005" target="_singletop">arXiv:0903.0005</a><br>
+</ul>
+
+
+
+<li><font size=+1>Reference:</font><br>
+<ul>
+	<a href="http://arxiv.org/abs/arxiv:1207.5391" target="_singletop4f">arXiv:1207.5391</a><br>
+	<b>Single-top <i>t</i>-channel hadroproduction in the
+  four-flavour scheme with POWHEG and aMC@NLO</b><br> 
+	R.&nbsp;Frederix, E.&nbsp;Re, P.&nbsp;Torrielli 
+</ul>
+
+
+</li>
+</font>
+</body>
+</html>

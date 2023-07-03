@@ -1,0 +1,101 @@
+# Input file for Gen2HB generated from the web interface
+Block MODSEL # Select Model
+     1   10    # 10=2HDM
+Block SMINPUTS      # Standard Model inputs
+     1        1.27934000e+02   # alpha_em(MZ)(-1) SM MSbar
+     2        1.16637000e-05   # G_Fermi
+     3        1.17200000e-01   # alpha_s(MZ) SM MSbar
+     4        9.11876000e+01   # MZ(Pole)
+Block ADDSMINPUTS   # Additional SM inputs needed
+     1        1.05000000e-01   # Ms(pole)
+     2        4.20000000e+00   # Mb(pole)
+     3        1.25000000e+00   # Mc(pole)
+     4        1.74300000e+02   # Mt(pole)
+     5        1.06000000e-01   # Mmu(pole)
+     6        1.77700000e+00   # Mtau(pole)
+     7        1.05000000e-01   # Ms MSbar
+     8        4.20000000e+00   # Mb MSbar
+     9        1.25000000e+00   # Mc MSbar
+    10        1.74300000e+02   # Mt MSbar
+    11        1.06000000e-01   # Mmu MSbar
+    12        1.77700000e+00   # Mtau MSbar
+    13        9.74500000e-01   # Vud
+    14        2.24000000e-01   # Vus
+    15        3.70000000e-03   # Vub
+    16        2.24000000e-01   # Vcd
+    17        9.73700000e-01   # Vcs
+    18        4.20000000e-02   # Vcb
+    19        1.00000000e-02   # Vtd
+    20        4.00000000e-02   # Vts
+    21        9.99100000e-01   # Vtb
+Block BASIS  # Basis convention choice
+     1   2   # Standard Basis
+Block MINPAR  # Minimal parameter set
+     1   1       1.38150000e-01   # lambda1, coeff of 1111
+     2   1       1.38150000e-01   # lambda2, coeff of 2222
+     3   1       7.42800000e-02   # lambda3, coeff of 1122
+     4   1      -2.12420000e-01   # lambda4, coeff of 1221
+     5   1       0.00000000e+00   # Re part of lambda5, coeff of 1212
+     5   2       0.00000000e+00   # Im part of lambda5, coeff of 1212
+     6   1       0.00000000e+00   # Re part of lambda6, coeff of 1112
+     6   2       0.00000000e+00   # Im part of lambda6, coeff of 1112
+     7   1       0.00000000e+00   # Re part of lambda7, coeff of 2212
+     7   2       0.00000000e+00   # Im part of lambda7, coeff of 2212
+     8   1       1.00000000e+02   # Tan(beta)
+     9   1       0.00000000e+00   # Phase of v2
+    10   1       2.49975000e+03   # Norm of mu3
+Block YUKAWA2  # Yukawa couplings of second doublet in the generic basis
+     1   1   1       0.00000000e+00   # G_1D Real part
+     1   1   2       0.00000000e+00   # G_1D Imaginary part
+     1   2   1       0.00000000e+00   # G_2D Real part
+     1   2   2       0.00000000e+00   # G_2D Imaginary part
+     1   3   1       0.00000000e+00   # G_3D Real part
+     1   3   2       0.00000000e+00   # G_3D Imaginary part
+     2   1   1       0.00000000e+00   # G_1S Real part
+     2   1   2       0.00000000e+00   # G_1S Imaginary part
+     2   2   1       0.00000000e+00   # G_2S Real part
+     2   2   2       0.00000000e+00   # G_2S Imaginary part
+     2   3   1       0.00000000e+00   # G_3S Real part
+     2   3   2       0.00000000e+00   # G_3S Imaginary part
+     3   1   1       0.00000000e+00   # G_1B Real part
+     3   1   2       0.00000000e+00   # G_1B Imaginary part
+     3   2   1       0.00000000e+00   # G_2B Real part
+     3   2   2       0.00000000e+00   # G_2B Imaginary part
+     3   3   1       0.00000000e+00   # G_3B Real part
+     3   3   2       0.00000000e+00   # G_3B Imaginary part
+     4   1   1       0.00000000e+00   # G_1U Real part
+     4   1   2       0.00000000e+00   # G_1U Imaginary part
+     4   2   1       0.00000000e+00   # G_2U Real part
+     4   2   2       0.00000000e+00   # G_2U Imaginary part
+     4   3   1       0.00000000e+00   # G_3U Real part
+     4   3   2       0.00000000e+00   # G_3U Imaginary part
+     5   1   1       0.00000000e+00   # G_1C Real part
+     5   1   2       0.00000000e+00   # G_1C Imaginary part
+     5   2   1       1.25000000e+00   # G_2C Real part
+     5   2   2       0.00000000e+00   # G_2C Imaginary part
+     5   3   1       0.00000000e+00   # G_3C Real part
+     5   3   2       0.00000000e+00   # G_3C Imaginary part
+     6   1   1       0.00000000e+00   # G_1T Real part
+     6   1   2       0.00000000e+00   # G_1T Imaginary part
+     6   2   1       0.00000000e+00   # G_2T Real part
+     6   2   2       0.00000000e+00   # G_2T Imaginary part
+     6   3   1       1.74300000e+02   # G_3T Real part
+     6   3   2       0.00000000e+00   # G_3T Imaginary part
+     7   1   1       0.00000000e+00   # G_1E Real part
+     7   1   2       0.00000000e+00   # G_1E Imaginary part
+     7   2   1       0.00000000e+00   # G_2E Real part
+     7   2   2       0.00000000e+00   # G_2E Imaginary part
+     7   3   1       0.00000000e+00   # G_3E Real part
+     7   3   2       0.00000000e+00   # G_3E Imaginary part
+     8   1   1       0.00000000e+00   # G_1MU Real part
+     8   1   2       0.00000000e+00   # G_1MU Imaginary part
+     8   2   1       0.00000000e+00   # G_2MU Real part
+     8   2   2       0.00000000e+00   # G_2MU Imaginary part
+     8   3   1       0.00000000e+00   # G_3MU Real part
+     8   3   2       0.00000000e+00   # G_3MU Imaginary part
+     9   1   1       0.00000000e+00   # G_1TA Real part
+     9   1   2       0.00000000e+00   # G_1TA Imaginary part
+     9   2   1       0.00000000e+00   # G_2TA Real part
+     9   2   2       0.00000000e+00   # G_2TA Imaginary part
+     9   3   1       0.00000000e+00   # G_3TA Real part
+     9   3   2       0.00000000e+00   # G_3TA Imaginary part

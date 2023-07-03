@@ -1,0 +1,642 @@
+#!/usr/bin/perl -w
+
+#------------------------NOTES-------------------------------
+#
+# URL REFERENCES:
+# when putting in url references listing a file without
+# anything in front, like
+#   file
+# will look for the file in the local directory
+#
+# giving the reference as
+#  /file
+# will look in the server/htdocs folder
+#
+#------------------------------------------------------------
+#
+#          This is Denny's code for unwrapping the form replies
+#
+    my($zzi,@marked,$qn,$an);
+    binmode STDIN;
+    read STDIN,$zzi,$ENV{CONTENT_LENGTH};
+    $zzi =~ s/\s$//g;
+    @marked = split(/&/,$zzi);
+    foreach $input (@marked) {
+        ($qn,$an) = split(/=/,$input);
+        $an =~ tr/+/ /;
+        $an =~ s/%([a-fA-F0-9][a-fA-F0-9])/pack("C", hex($1))/eg;
+        $an =~ s/~!/ ~!/g;
+        $in{$qn} = $an
+        }
+
+
+#------------------------------------------------------------
+# set variables for the most common path names
+#------------------------------------------------------------
+
+$dirDATA = $ENV{'MADGRAPH_DATA'};
+$dirLOG = $ENV{'MADGRAPH_DATA'};
+$dirHTML = "MadGraphData";
+$bin = "$ENV{'MADGRAPH_BASE'}/MG_ME/WebBin";
+$server = $ENV{'SERVER_NAME'};
+$loop = "$bin/newprocess --web";
+
+
+
+#------------------------------------------
+# Find a free directory in the private area
+#------------------------------------------
+
+# first check private dir exists and if not create it
+
+  $uname = $ENV{REMOTE_USER};
+  if(! -e "$dirDATA/$uname" ){ 
+  system("mkdir $dirDATA/$uname");
+  system("touch $dirDATA/$uname/index.html")};
+
+# If no dirname is given or it already exists then use a generic PROC#
+       $temp_id=0;
+       while (-e "$dirDATA/$uname/PROC$temp_id"){
+       $temp_id++;
+       }
+      $procname="PROC$temp_id";
+      $process="$uname/PROC$temp_id";
+      $fulldir="$dirDATA/$process";
+
+#------------------------------------------------------------
+# call
+#------------------------------------------------------------
+
+   $callfrom = $in{callfrom};
+
+#------------------------------------------------------------
+# prepare the directory
+#------------------------------------------------------------
+
+    system("cp -RP  $ENV{'MADGRAPH_BASE'}/MG_ME/Template $dirDATA/$process");
+    system("rm -rf `find $dirDATA/$process -name CVS -type d`");
+#    system("cd $fulldir; sed -e s/my_server_here/$server/g HTML/web_run_form.html > HTML/test.html");
+#    system("cd $fulldir; sed -e s!dir_name_here!$fulldir!g HTML/test.html > HTML/web_run_form.html");     
+            
+      if($callfrom eq 'form'){
+#------------------------------------------------------------
+# read in the values passed from the form
+#------------------------------------------------------------
+   $interaction = $in{description};
+   $qcdOrder = $in{qcd};
+   $qedOrder = $in{qed};
+   $model = $in{model};
+   $nf    = $in{nf};
+   $nl    = $in{nl};
+#get rid of spaces
+   $interaction =~ s/\s+//g; 
+#set everything to lowercase
+#   $interaction =~ s/(.)/\L$1/g;
+   $interaction_raw_input=$interaction;
+   $interaction          = &CleanProcessName($interaction);
+#------------------------------------------------------------------
+# write contents to input.dat file which will be used to run madgraph
+#------------------------------------------------------------------
+&WriteProcCard($interaction, $qcdOrder, $qedOrder, $model, $nf, $nl, $process);
+}
+
+elsif($callfrom eq 'upload'){
+#------------------------------------------------------------
+# the proc_card.dat is already available in the directory now
+#------------------------------------------------------------
+#move the proc_card.dat in the right directory
+system("mv $dirDATA/$uname/proc_card.dat $fulldir/Cards/proc_card.dat");
+# extract the model name and process:
+
+open (INPUT, "$fulldir/Cards/proc_card.dat");
+@input=<INPUT>;
+close(INPUT);
+    $model='none';
+    $interaction='unknown';
+    $qcdOrder='0';
+    $qedOrder='0';
+    $found=0;
+    $foundproc=0;
+    foreach $i (@input){
+	if($found==1){$model = $i;$found=0};
+	if($foundproc==1 && $i =~ '>'){$interaction = $i};
+	if($foundproc==1 && $i =~ /QCD/i){$qcdOrder = $i};
+	if($foundproc==1 && $i =~ /QED/i){$qedOrder = $i};
+	if($foundproc==1 && $i =~ /end_coup/i){$foundproc=0};
+	if($i =~ '# Begin MODEL'){$found=1};
+	if($i =~ '# Begin PROCESS'){$foundproc=1};
+	}
+	chomp($model);
+    $model =~ s/\s+//g;  # clean from spaces
+    ($interaction, $junk)=split(/#/ , $interaction);
+    ($qcdOrder, $junk)=split(/#/ , $qcdOrder);
+    ($junk,$qcdOrder)=split(/=/ , $qcdOrder);
+    ($qedOrder, $junk)=split(/#/ , $qedOrder);
+    ($junk,$qedOrder)=split(/=/ , $qedOrder);
+ } elsif($callfrom eq 'upload_banner'){
+#------------------------------------------------------------
+# the proc_card.dat is already available in the directory now
+#------------------------------------------------------------
+#move the proc_card.dat in the right directory
+system("mv $dirDATA/$uname/proc_card.dat $fulldir/Cards/proc_card.dat");
+# extract the model name and process:
+
+open (INPUT, "$fulldir/Cards/proc_card.dat");
+@input=<INPUT>;
+close(INPUT);
+    $model='none';
+    $interaction='unknown';
+    $qcdOrder='0';
+    $qedOrder='0';
+    $found=0;
+    $foundproc=0;
+    foreach $i (@input){
+	if($found==1){$model = $i;$found=0};
+	if($foundproc==1 && $i =~ '>'){$interaction = $i};
+	if($foundproc==1 && $i =~ /QCD/i){$qcdOrder = $i};
+	if($foundproc==1 && $i =~ /QED/i){$qedOrder = $i};
+	if($foundproc==1 && $i =~ /end_coup/i){$foundproc=0};
+	if($i =~ '# Begin MODEL'){$found=1};
+	if($i =~ '# Begin PROCESS'){$foundproc=1};
+	}
+	chomp($model);
+    $model =~ s/\s+//g;  # clean from spaces
+    ($interaction, $junk)=split(/#/ , $interaction);
+    ($qcdOrder, $junk)=split(/#/ , $qcdOrder);
+    ($junk,$qcdOrder)=split(/=/ , $qcdOrder);
+    ($qedOrder, $junk)=split(/#/ , $qedOrder);
+    ($junk,$qedOrder)=split(/=/ , $qedOrder);
+ }
+
+#------------------------------------------------------------
+# prepare the model form
+#------------------------------------------------------------
+
+    $modelcalc="$ENV{'MADGRAPH_BASE'}/MG_ME/Models/$model/".$model."_calc.html";
+    system ("cp $modelcalc $dirDATA/$process/HTML/model_calc.html");
+    system("cd $fulldir; sed -e s/my_server_here/$server/g HTML/model_calc.html > HTML/test.html");
+    system("cd $fulldir; sed -e s!proc_name_here!$procname!g HTML/test.html > HTML/model_calc.html");
+
+#------------------------------------------------------------------------------------------
+#   Check if the very same thing has been already generated 
+#------------------------------------------------------------------------------------------
+	   $exists=0;
+	   $temp_max=$temp_id;
+       $temp_id=0;
+       
+       while (-e "$dirDATA/$uname/PROC$temp_id/Cards/proc_card.dat" & ($temp_id < $temp_max) & ($exists == 0)){
+       $file1="$dirDATA/$uname/PROC$temp_id/Cards/proc_card.dat";
+       $file2="$dirDATA/$uname/PROC$temp_max/Cards/proc_card.dat";
+       system ("diff $file1 $file2 > $dirDATA/$uname/diff.txt");
+       open (F1, "$dirDATA/$uname/diff.txt");
+       @f1 = <F1>;
+       close(F1) ; 
+       if ($#f1 < 1){
+         $exists=1;
+         }         
+	   $temp_id++;
+	    }
+       $temp_id=$temp_id-1;
+        
+	if($exists == 1){
+#------------------------------------------------------------------------------------------
+#   If already generated ridirect there 
+#------------------------------------------------------------------------------------------
+         $| = 1; 
+         print "Content-type: text/html\n\n";
+         print  "<HTML> <HEAD>\n";
+         print  "<META HTTP-EQUIV=\"Refresh\" CONTENT=\"5\; ";
+         print "URL=http://$server/$dirHTML/$uname/PROC$temp_id/index.html\"> \n";
+         print "<center><H3> Process already generated by user: $uname, redirecting browser to the corresponding web page: </H3>";
+         print "<a href=\"http://$server/$dirHTML/$uname/PROC$temp_id/index.html\"> http://$server/$dirHTML/$uname/PROC$temp_id/index.html</a> \n";
+         print "</center></BODY></HTML>";
+	     system ("rm -rf $dirDATA/$uname/PROC$temp_max");	     
+          }
+
+    else{
+#--------------------------------------------------------------------
+#  Write out an html page while waiting to process with redirect link
+#--------------------------------------------------------------------
+#
+#   Flush outputs immediately
+#
+    $| = 1; 
+    print "Content-type: text/html\n\n";
+    print  "<HTML> <HEAD> \n";
+    print "<META HTTP-EQUIV=\"Refresh\" CONTENT=\"10\; ";
+    print "URL=http://$server/$dirHTML/$process/index.html\"> \n";
+    print "\n <TITLE>MadGraphII Working</TITLE></HEAD> \n <BODY>";
+
+	$l1=length($interaction);
+	$l2=length($interaction_raw_input);
+    if($l1 < $l2 ) {
+    
+        print "<p><H1> Process requested: <b> $interaction_raw_input </b> </H1> \n";
+    print "<p><H2> Input process interpreted as: $interaction</H2>\n";
+    };    
+    print "<p><H1> Working on process <b> $interaction </b> </H1> \n";
+    print "<p>Maximum <b> QCD </b> order = <b> $qcdOrder </b>  \n";
+    print "<p>Maximum <b> QED </b> order = <b> $qedOrder </b>  \n";
+    print "<P>The results will be placed at the following link ";
+    print "<A HREF=\"http://$server/$dirHTML/$process\/index.html\"> ";
+    print "http://$server/$dirHTML/$process\/index.html </A> <P> ";
+    print "<P> <H2> The browser has been asked to check this link in 10 seconds. </H2><P> \n";
+    print "</BODY></HTML> \n \n";
+#-----------------------------------------------------------
+#  Now run the process
+#-----------------------------------------------------------
+
+   if($ENV{'MADGRAPH_FSQUEUE'}){
+      system("cd $dirDATA/$process;echo \"cd $dirDATA/$process;$loop\" | qsub -q $ENV{'MADGRAPH_FSQUEUE'} -e newprocess.err -o log.txt -V > /dev/null");
+   } else {
+      system ("cd $dirDATA/$process; $loop \>& log.txt &");
+   }
+
+   if($callfrom eq 'upload_banner'){
+       system("rm $dirDATA/$uname/banner.txt");
+   }
+
+}
+
+   system ("rm -f $dirDATA/$uname/diff.txt");
+
+  &WriteToLog($interaction, $model, $qcdOrder, $qedOrder);
+#   system ("rm -rf $dirTEMP");   
+  
+  
+
+#
+#   That's all folks!
+#
+close(STDOUT);
+close(STDERR);
+close(STDIN);
+
+
+#----------------------------------------------------------------
+#  FUNCTIONS: 
+#----------------------------------------------------------------
+
+
+sub WriteProcCard{
+  #---------------------------------------------------------------
+  # creates the proc_card.dat 
+  #---------------------------------------------------------------
+
+  my($interaction, $qcdOrder, $qedOrder, $model, $nf, $nl, $process)= @_ ;
+
+  open (INCARD,"$dirDATA/$process/Cards/proc_card.dat") || die "Error reading file proc_card.dat"; 
+  @incard=<INCARD>;
+  close (INCARD);
+
+  open (OUTCARD,"> $dirDATA/$process/Cards/proc_card.dat.tmp") || die "Error creating file proc_card.dat.tmp"; 
+
+# process
+$listpos = 0;
+until($listpos>$#incard){
+    if($incard[$listpos] =~ /^#(\s+)Begin(\s+)PROCESS/) {$ini=$listpos};
+    if($incard[$listpos] =~ /^#(\s+)End(\s+)PROCESS/)   {$end=$listpos};
+    $listpos = $listpos + 1;
+    }
+#remove all the old info between the two tags and replace with the new
+if($model eq "heft"){
+#    splice(@incard,$ini+1,$end-$ini-1,$interaction,"\n",$qcdOrder,"\n",$qedOrder," \n","1 \n");
+    splice(@incard,$ini+1,$end-$ini-1,$interaction,"   #  Process \n","QCD=$qcdOrder   # max qcd order \n","QED=$qedOrder   # max qed order\n","HIG=1    # max Higgs coupling order \n","HIW=1    # max weak Higgs coupling order \n","end_coup   # the coupling list is over\n","done       # the process list is over\n");
+    }
+    else{
+#    splice(@incard,$ini+1,$end-$ini-1,$interaction,"\n",$qcdOrder,"\n",$qedOrder," \n");
+    splice(@incard,$ini+1,$end-$ini-1,$interaction,"   #  Process \n","QCD=$qcdOrder   # max qcd order\n","QED=$qedOrder   # max qed order\n","end_coup   # the coupling list is over\n","done       # the process list is over\n" );
+    }
+
+#model
+$listpos = 0;
+until($listpos>$#incard){
+    if($incard[$listpos] =~ /^#(\s+)Begin(\s+)MODEL/) {$ini=$listpos};
+    if($incard[$listpos] =~ /^#(\s+)End(\s+)MODEL/)   {$end=$listpos};
+    $listpos = $listpos + 1;
+    }
+#remove all the old info between the two tags and replace with the new
+    splice(@incard,$ini+1,$end-$ini-1,$model," \n");
+
+#multiparticles
+  @rulesf = split(/&/, $nf);
+  @rulesl = split(/&/, $nl);
+  map { $_ = $_."\n"} @rulesf;
+  map { $_ = $_."\n"} @rulesl;
+ 
+$listpos = 0;
+until($listpos>$#incard){
+    if($incard[$listpos] =~ /^#(\s+)Begin(\s+)MULTIPARTICLES/) {$ini=$listpos};
+    if($incard[$listpos] =~ /^#(\s+)End(\s+)MULTIPARTICLES/)   {$end=$listpos};
+    $listpos = $listpos + 1;
+    }
+#remove all the old info between the two tags and replace with the new
+    splice(@incard,$ini+1,$end-$ini-1,@rulesf,@rulesl);
+  
+  print OUTCARD @incard;
+  close(OUTCARD);
+
+  system("mv $dirDATA/$process/Cards/proc_card.dat.tmp $dirDATA/$process/Cards/proc_card.dat");
+
+}#end sub WriteInputDat
+
+sub WriteToLog {
+  #---------------------------------------------------------------
+  # this creates a log file and appends any new submission to the
+  # log file
+  #
+  # also record processes which were NOT successfully run
+  #---------------------------------------------------------------
+
+  my($interaction, $model, $qcdOrder, $qedOrder, $nf, $nl)= @_ ;
+
+  #---------------get information about the user------------------
+  my $url = $ENV{REMOTE_HOST};
+  my $uname = $ENV{REMOTE_USER};
+  my $now_string = localtime;
+
+  open (OUT,">> $dirLOG/MGrequest.log") || die "Could not open the log file"; 
+  print OUT "Requested from by $uname \n";
+  print OUT "Time requested: $now_string\n";
+#  print OUT "Browser used: $browser \n";
+  print OUT "Interaction : $interaction\n";
+  print OUT "QCD order   : $qcdOrder\n";
+  print OUT "QED order   : $qedOrder\n";
+  if( $_[0]){
+    print OUT "Process file in directory: \\htdocs\\$dirHTML\\$process \n"; 
+  }#end if
+  else{ 
+    print OUT "Process not successful \n"
+  }#end else
+
+  print OUT "\n";
+ 
+  #close the file after writing the requested interaction
+  close(OUT);
+
+}# end of sub WriteToLog
+
+
+sub CleanProcessName {
+    my($process)= @_;
+    
+#-------------------------------------------
+# clean process name
+#-------------------------------------------
+# SM particles
+
+   @s1 = ("u","d","c","s","t","b");
+   push(@s1,"g","a","z","h","p","j",">","/","(",")","\$");
+
+   @s2 = ("u~","d~","c~","s~","t~","b~");
+   push(@s2,"ve","e-","e+","vm","vt");
+   push(@s2,"w-","w+");
+   push(@s2,"l+","l-","vl","le");
+
+   @s3 = ("ve~","vm~","mu-","mu+","ta-","ta+","vt~");
+   push(@s3,"vl~","vle");
+
+# MSSM particles
+
+   push(@s2,"h1", "h2", "h3", "h-","h+");
+   push(@s2,"ul", "ur", "dl", "dr");
+   push(@s2,"cl", "cr", "sl", "sr");
+   push(@s2,"t1", "t2", "b1", "b2");
+   push(@s2,"n1", "n2", "n3", "n4");
+   push(@s2,"go");
+
+   push(@s3,"ul~", "ur~", "dl~", "dr~");
+   push(@s3,"cl~", "cr~", "sl~", "sr~");
+   push(@s3,"t1~", "t2~", "b1~", "b2~");
+   push(@s3,"el-", "el+", "er-", "er+");
+   push(@s3,"x1-", "x1+", "x2-", "x2+");
+   push(@s3,"sve", "svm", "svt");
+
+   @s4 = ("mul-", "mul+", "mur-","mur+");
+   push(@s4,"ta1-", "ta1+", "ta2-", "ta2+");
+   push(@s4,"sve~", "svm~", "svt~");
+
+#get rid of spaces
+    $process =~ s/\s+//g; 
+
+#special treatment for quarkonium production
+#  1. put in backup the "[???]" information
+#  2. apply the standard modification on the remaining string
+    $onium=0;
+    if ($process=~ m/\[/){
+	$onium=1;
+	@splitted_proc= split(/\[/, $process);
+	$process=$splitted_proc[0];
+    };
+
+
+
+
+#set everything to lowercase
+    $process =~ s/(.)/\L$1/g;
+
+# start parsing
+
+     $result="                                                             ";
+
+     foreach $ciccio (@s4){
+     $pos=0;
+     while ($pos>-1){
+     $pos=index($process,$ciccio);
+#     print "$ciccio = $pos\n";
+     if ($pos>-1) {substr($result,$pos,4,$ciccio);
+     substr($process,$pos,4,'    ')};
+     };
+#     print "$result\n";
+#     print "$process\n";
+     };
+
+
+     foreach $ciccio (@s3){
+     $pos=0;
+     while ($pos>-1){
+     $pos=index($process,$ciccio);
+#     print "$ciccio = $pos\n";
+     if ($pos>-1) {substr($result,$pos,3,$ciccio);
+     substr($process,$pos,3,'   ')};
+     };
+#     print "$result\n";
+#     print "$process\n";
+     };
+
+     foreach $ciccio (@s2){
+     $pos=0;
+     while ($pos>-1){
+     $pos=index($process,$ciccio);
+#     print "$ciccio = $pos\n";
+     if ($pos>-1) {substr($result,$pos,2,$ciccio);
+     substr($process,$pos,2,'  ')};
+     };
+#     print "$result\n";
+#     print "$process\n";
+     };
+
+     foreach $ciccio (@s1){
+     $pos=0;
+     while ($pos>-1){
+     $pos=index($process,$ciccio);
+#     print "$ciccio = $pos\n";
+     if ($pos>-1) {substr($result,$pos,1,$ciccio);
+     substr($process,$pos,1,' ')};
+     };
+#     print "$result\n";
+#     print "$process\n";
+     };
+
+
+#get rid of spaces
+    $result =~ s/\s+//g; 
+
+# recompose onium process
+    if ($onium==1){
+	$result=$result."[".$splitted_proc[1];
+    };
+
+
+
+
+
+#-------------------------
+# end keyword generation
+#-------------------------
+
+# final result
+    $result;
+}
+
+
+
+
+
+
+
+
+
+#sub writeInputCardForm {
+##---------------------------------------------------------------
+##   Creates html file InputCardForm used for generating events 
+##   via the web.
+##---------------------------------------------------------------
+#    system("cd $dirDATA/$process ; sed -e 's/my_server_here/$server/g' Process/input-card-form.html > input-card-form.html");
+#}
+
+#sub writeHtmlProcessPage {
+##--------------------------------------------------------------- 
+##
+##---------------------------------------------------------------  
+#my($interaction, $model, $qcdOrder, $qedOrder, $nf, $nl)= @_ ;
+#
+#   $htfile =  "index" . "\.html"; #name the file
+##   $htfile =  $process . "\.html"; #name the file
+##   print "Open file $dirMAD/$process/$htfile \n";
+#   open(PAGE,"> $dirDATA/$process/$htfile");
+#   print PAGE "\<HTML\> \n";
+#   print PAGE "\<HEAD\> \n";
+#   print PAGE "\<TITLE\>MadGraphII $interaction Subprocesses\<\/TITLE\> \n";
+#   print PAGE "\<\/HEAD\> \n";
+#   print PAGE "\<BODY\> \n";
+#   print PAGE "\<H1 id=\"TOP\" \>MadGraph ll\<\/H1\> \n";
+#   print PAGE "\<H2\>The requested interaction was:  $interaction <\/H2\> \n";
+#   print PAGE "\<P\>QCD order:  $qcdOrder  \<BR\> \n";
+#   print PAGE "QED order:  $qedOrder  \<BR\> \n";
+#
+#  print PAGE "<TABLE> \n <TR> <TD> \n";
+#  print PAGE "<P>Quarks:<font color=blue> d u s c b t d~ u~ s~ c~ b~ t~ </font>\n";
+#  print PAGE "<P>Leptons:<font color=blue> e- mu- ta- ve vm vt e+ mu+ ta+ ve~ vm~ vt~ </font>\n";
+#  print PAGE "<P>Bosons:<font color=blue> A Z W+ W- h g </font>\n";
+#  print PAGE "<P>Special:<font color=blue> P j </font> (sums over d u s c d~ u~ s~ c~ g)\n";
+#  print PAGE "</TABLE>";
+#
+#  print PAGE "<FORM NAME=\"particle\" METHOD=\"POST\" ACTION=\"http://$server/cgi-bin/webnewprocess> \n"; 
+#  print PAGE "<TABLE> \n <TR> <TD> \n";
+#  print PAGE "<P>Process: \n <TD> \n";
+#  print PAGE "<INPUT TYPE=\"text\" NAME=\"description\" VALUE=\"$interaction\"> \n";
+#  print PAGE "<TD> \n ";
+#  print PAGE "<INPUT TYPE=\"submit\" VALUE=\"Resubmit\">";
+#
+#  print PAGE "</TABLE> \n <TABLE> \n <TR> \n <TD> \n";
+#  print PAGE "<P> QCD Order: \n <TD> \n";
+#  print PAGE "<INPUT TYPE=\"text\" NAME=\"qcd\" VALUE=\"$qcdOrder\" SIZE=3> \n";
+#  print PAGE "QED Order: \n <TD> \n";
+#  print PAGE "<INPUT TYPE=\"text\" NAME=\"qed\" VALUE=\"$qedOrder\" SIZE=3> \n";
+#
+##  print PAGE "Process \n <TD> \n";
+##
+## This could be a security problem. Really need to check the procid which comes back 
+##
+#  print PAGE "<INPUT TYPE=\"hidden\" NAME=\"procid\" VALUE=\"$process\" SIZE=0> \n";
+#
+#  print PAGE "</TABLE> \n";
+#
+#  print PAGE "</FORM>";
+#
+##  if ($pages >0) {
+#  if (-e "subproc.mg") {
+#
+#   print PAGE "\<H2\>Links to Madgraph Results \<\/H2/> \n";
+##   print PAGE "<P>\<A HREF\=\"matrix.f\" onMouseOver=\"window\.status=\'Fortran code for this process\'\; return true\" onMouseOut=\"window.status=\'  \'\; return true\" >Fortran Code \<\/A\> \<BR\> \n";
+##   print PAGE "<A HREF\=\"matrix.ps\" onMouseOver=\"window\.status=\'Postscript file of the diagrams\'\; return true\" onMouseOut=\"window.status=\'  \'\; return true\">Diagrams in Postscript format \<\/A\>\<BR\> \n";
+#   print PAGE "<P><A HREF\=\"package\.tar\.gz\" onMouseOver=\"window\.status=\'A tar gzipped version of package which should run on a unix machine.\'\; return true\" onMouseOut=\"window.status=\'  \'\; return true\">package.tar.gz \<\/A\> A complete package which should run on your unix machine";
+#   print PAGE "<H4>";
+#   print PAGE " <P> 1) gunzip package.tar.gz \n";
+#   print PAGE " <p> 2) tar -xvf package.tar \n";
+#   print PAGE " <p> 3) ./goloop \<BR\> \<BR\> \n";
+#   print PAGE "<\/H4>";
+#
+##   print PAGE "<P>\<A HREF\=\"results.html\"\> Results \<\/A\> \<BR\> \n";
+#
+#   print PAGE "<P>\<A HREF\=\"http://$server/madgraph.html\"\> New Process \<\/A\> \<BR\> \n";
+#   print PAGE "\<H2\>Processes: \<\/H2/> \<BR\>\n";
+#
+#
+#   #the links to subprocess
+#
+#   my($line);
+#   $line= "Failed";
+#   if (open FILE, "$dirMAD/$process/subproc.mg"){
+#       while ($line = <FILE>){
+#	   chomp $line;
+#	   print PAGE "\<A HREF=\"$line/diagrams.html\" \> $line \<\/A\> \n";
+#	   print PAGE "\<BR\>";
+#       }
+#       close FILE;
+#   }
+#
+#
+#
+#   for($j=1;$j<$pages+1;$j++){
+#       print PAGE "\<A HREF=\"\#$process$j\" onMouseOver=\"window\.status=\'Click to go to page $j of diagrams\'\; return true\" onMouseOut=\"window.status=\'  \'\; return true\" \>$j\<\/A\> \n";
+#   }#end for
+#
+#   print PAGE "\<BR\> \n";
+#
+#   for($j=1;$j<$pages+1;$j++){
+#       print PAGE "\<P>\<A NAME=\"$process$j\" \> \<B\>Page $j of $pages for $interaction \<\/B\> \<BR\> \n";
+#       print PAGE "\<A HREF=\"\#TOP\" onMouseOver=\"window\.status=\'Back to top of page\'\; return true\" onMouseOut=\"window.status=\'  \'\; return true\"  \>back to top of page<\/A\> \<BR\> \n";
+#       print PAGE "\<IMG SRC=\"$process$j.jpg\" ALT=\"Page $j of $pages for $interaction\" \> \<BR\> \n";
+#   }#end of for
+#   }  #endif process worked, print error if it didn't work
+#  else{
+#      if (-e "$dirMAD/$process/P*_*") {
+#	  print PAGE "It Worked";
+#	  }
+#      else {
+#	  print PAGE "<H1> No diagrams generated. <\/H1>";
+#	  print PAGE "Recheck the process and maximum orders.";
+#	  print PAGE "\<P>\<A HREF\=\"log.txt\"\> Log File \<\/A\>";
+#      }
+#  }
+#   print PAGE "\<\/BODY\> \n";
+#   print PAGE "\<\/HTML\> \n";
+#   close(PAGE);
+#
+#}#end sub writeHtmlProcessPage
+
+
+
+

@@ -1,0 +1,13 @@
+
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+includedir=@includedir@
+libdir=@libdir@
+
+Name: qcdloop1
+Description: A repository for one-loop scalar integrals
+URL: http://qcdloop.fnal.gov/
+Version: @PACKAGE_VERSION@
+Cflags: -I${includedir}
+Libs: -L${libdir} -lqcdloop1
+Libs.private:

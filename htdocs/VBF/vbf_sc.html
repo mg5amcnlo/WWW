@@ -1,0 +1,30 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<hr>
+<br>
+  <title>Reference scale</title>
+</head><body bgcolor="#F8F4CB">
+<center><font color="#006060"><font size="+3">Reference scale</font></font></center>
+<br>
+<hr>
+The reference scale (RS) of VBF is related to renormalization and 
+factorization scales, i.e. the scales at which the strong coupling and 
+parton distributions are evaluated.<br>
+For the central value of the cross-section, the ren/fact scales are 
+simply set equal to the RS, while they are varied around it in order to 
+assess the theoretical uncertainities.<br>
+<br>
+Actually the code allows to chose the RS among three options: the Higgs-boson mass (mh), the W-boson mass(mw) or the virtuality of the vector bosons(Q).
+If either the choice "mh" or "mw" is made, this scale is set as RS for both the 
+structure functions. By converse, the choice "Q" set the RS of each 
+structure function equal to the virtuality of the attached vector boson.
+ In the latter case the two structure functions are evaluated with two 
+different reference scales.<br><br>
+Because the typical virtuality of the vector boson is of 20-30 GeV, well below the Higgs mass, choosing Q as RS looks more natural with respect to the Higgs mass, in particular it leads to a better perturbative behaviour for the total cross-section.<br>
+The choice "mw" is an intermediate choice between "mh" and "Q", and it can be also used to compare NNLO numbers with the NLO (QCD+EW) computation by Ciccolini, Denner and Dittmaier (<a href="http://arxiv.org/abs/0710.4749">arXiv:0710.4749</a>) implemented in <a href="http://omnibus.uni-freiburg.de/~sd565/programs/hawk/hawk.html">HAWK</a>.
+
+<br><br>
+<hr>
+<a href="http://vbf-nnlo.phys.ucl.ac.be/vbf.html">Back</a>
+
+</body></html>

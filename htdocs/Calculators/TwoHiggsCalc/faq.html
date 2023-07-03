@@ -1,0 +1,53 @@
+<html> 
+<head> 
+<title>TwoHiggsCalc : The 2HDM parameters calculator</title>
+</head>
+
+
+<style type="text/css" media="screen">
+#ParamForm table {
+ background-color: #F9FBFD;
+ width: 360px;
+ border: 1px solid #D7E5F2;
+ border-collapse: collapse;
+}
+html,body {
+ background-color: #FFFFFF;
+ color: #103B61;
+}
+#ParamForm td {
+ border: 1px solid #D7E5F2;
+ padding-left: 4px;
+} 
+</style>
+
+<body>
+
+<center>
+<h1>TwoHiggsCalc</h1>
+<h2>Frequently Asked Questions</h2>
+</center>
+<h3>What is TwoHiggsCalc ?</h3>
+TwoHiggsCalc is a Two Higgs Doublets models Parameters Calculator written in C. It has been designed to compute input values for the 2HDM extension of <A HREF="http://madgraph.phys.ucl.ac.be">MadGraph<A> but it can also be used as an independent tool. Starting from parameters of the Lagrangian, such as the v.e.v. or the Yukawa couplings, the program computes useful physical quantities at <i>leading order</i> such as the mass spectrum, the mixing matrix, the total decay widths and the branching ratios.
+
+<h3>Which basis should I use ?</h3>
+In the general 2HDM, one has the freedom to choose a specific basis for entering parameters. All the possible choice should be physically equivalent (see e.g. <A HREF="http://arxiv.org/abs/hep-ph/0504050">Phys.Rev.D72:035004,2005</A> for a discussion). TwoHiggsCalc works with parameters given in a particular basis, called the "Higgs basis" where only one Higgs doublet gets a vev. An independent software called Gen2HB has been written to allow the user to first convert the parameters given in an arbitrary basis, called the "generic basis" where both Higgs doublet get a vev, to parameters in the Higgs basis. 
+
+<h3>I'm completly lost in the number of parameters, why all this seems so complicated ?</h3>
+Our goal was to implement the most general 2HDM (11 free real parameters, plus 27 complex Yukawa couplings). 2HDM considered in the litterature are often restricted models where additionnal symmetries (CP, suppression of FCNC, ...) have been imposed. On this <A HREF="examples.html">page</A>, you will find several examples of parameters choices leading to conventional (and less conventional) models which could help you.
+
+<h3>What is the input/output format ?</h3>
+The program reads input and writes out results in a specific format close to the "SUSY Les Houches Accord 1.0" (<A HREF="http://arxiv.org/abs/hep-ph/0311123">hep-ph/0311123</A>) convention for SUSY parameters. This format can later be read by <A HREF="http://madgraph.phys.ucl.ac.be">MadGraph<A> or eventually by other programs to perform numerical computations of 2HDM processes.
+
+<h3>Why do I have to enter SM parameters (W mass, ...) ?</h3>
+Many of these parameters (fermions MSbar masses, ...) are needed by TwoHiggsCalc to compute decay widths and are also required if the output is read by MadGraph. In general it is safe to use the default value for all the non 2HDM related stuff. Unfortunately, SLHA1.0 does not fix the convention for many SM parameters that are needed here (e.g. CKM matrix, 1st and 2d generations masses, ...) thus we have been forced to define a "ADDSMINPUTS" block in addition to the normal "SMINPUT" one. This issue should be fixed in SLHA2 and the convention will then be modified to match the accord.
+
+<h3>How should I enter parameters ?</h3>
+If the program is downloaded as a stand alone application, you should read the README file which describe the modified version of LHA used as input convention. To facilitate online use of TwoHiggsCalc, a web form has been designed to simplify the input file writing process. In this form, you can enter numerical values for the parameters, the units being fixed when needed. Some simple algebraic expressions can also be used. The +,-,*,/ operators and the PI reserved keyword, e.g. in PI/2+3*PI/2 is correctly interpreted.
+
+<h3>Who should I congratulate for this wonderful application ?</h3>
+You can send your comments, questions and requests about this software to <A HREF="mailto:mherquet@fyma.ucl.ac.be">me</A> 
+
+</body>
+
+</html>

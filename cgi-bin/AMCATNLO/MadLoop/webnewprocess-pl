@@ -1,0 +1,57 @@
+#!/usr/bin/perl -w
+#------------------------NOTES-------------------------------
+#
+# URL REFERENCES:
+# when putting in url references listing a file without
+# anything in front, like
+#   file
+# will look for the file in the local directory
+#
+# giving the reference as
+#  /file
+# will look in the server/htdocs folder
+#
+#------------------------------------------------------------
+#
+#          This is Denny's code for unwrapping the form replies
+#
+    my($zzi,@marked,$qn,$an);
+    binmode STDIN;
+    read STDIN,$zzi,$ENV{CONTENT_LENGTH};
+    $zzi =~ s/\s$//g;
+    @marked = split(/&/,$zzi);
+    foreach $input (@marked) {
+        ($qn,$an) = split(/=/,$input);
+        $an =~ tr/+/ /;
+        $an =~ s/%([a-fA-F0-9][a-fA-F0-9])/pack("C", hex($1))/eg;
+        $an =~ s/~!/ ~!/g;
+        $in{$qn} = $an
+        }
+
+
+#------------------------------------------------------------
+# set variables for the most common path names
+#------------------------------------------------------------
+
+$dirDATA = "/nfs/madgraph/AMCATNLO";
+$dirTMPLT = "/nfs/madgraph/AMCATNLO/AMCATNLO/Templates";
+$dirLOG = $ENV{'MADGRAPH_DATA'};
+$dirHTML = "MadGraphData";
+$bin = "$ENV{'MADGRAPH_BASE'}/MG_ME/WebBin";
+$server = $ENV{'SERVER_NAME'};
+$loop = "$bin/newprocess --web";
+
+#------------------------------------------
+# The process informations are given by the form
+#------------------------------------------
+
+$procstring = $in{proc_string};
+$alphaew = $in{alphaew};
+$model = $in{model};
+$uname = $ENV{'REMOTE_USER'};
+#this script is just a wrapper to call the python script
+  print "Content-Type: text/html\n\n";
+print " <html><body> ciao $uname $procstring $alphaew $model</body> </html>";
+#system("/var/www/cgi-bin/AMCATNLO/MadLoop/madloop_PS-fromPerl.py $uname \"$procstring\" $model $alphaew");
+
+

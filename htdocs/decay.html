@@ -1,0 +1,111 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <title> Decay Interface </title>
+</head>
+<body link="#0000FF" vlink="#0000FF" alink="#FF0000">
+
+<center><font color="#008080"><font size=+3>Decay Interface</font></font></center>
+
+<form ACTION="/cgi-bin/NewProcess/decay.cgi" METHOD="post"  ENCTYPE="multipart/form-data">
+
+<h3>Zipped LHE event file :  <INPUT TYPE="file" NAME="lhe_file"> </h3>
+
+<h3>SM decay requested : <SELECT name="decay">
+     <OPTGROUP label="t">
+       <OPTION label="t -> b  w+" value="t_1">t -> b  w+</OPTION>
+       <OPTION label="t -> b  ve e+" value="t_2">t -> b  ve e+</OPTION>
+       <OPTION label="t -> b  vm mu+" value="t_3">t -> b  vm mu+</OPTION>
+       <OPTION label="t -> b  vt ta+" value="t_4">t -> b  vt ta+</OPTION>
+       <OPTION label="t -> b  vl l+    (e+mu)" value="t_5">t -> b  vl l+    (e+mu)</OPTION>
+       <OPTION label="t -> b  vl l+    (e+mu+ta)" value="t_6">t -> b  vl l+    (e+mu+ta)</OPTION>
+       <OPTION label="t -> b  j   j    (ud+cs)" value="t_7">t -> b  j   j    (ud+cs)</OPTION>
+       <OPTION label="t -> b  anything (e+mu+ta+ud+cs)" value="t_8">t -> b  anything (e+mu+ta+ud+cs)</OPTION>
+     </OPTGROUP>
+     <OPTGROUP label="t~">
+       <OPTION label="t~ -> b~  w-" value="t~_1">t~ -> b~  w-</OPTION>
+       <OPTION label="t~ -> b~  ve~ e-" value="t~_2">t~ -> b~  ve~ e-</OPTION>
+       <OPTION label="t~ -> b~  vm~ mu-" value="t~_3">t~ -> b~  vm~ mu-</OPTION>
+       <OPTION label="t~ -> b~  vt~ ta-" value="t~_4">t~ -> b~  vt~ ta-</OPTION>
+       <OPTION label="t~ -> b~  vl~ l-    (e+mu)" value="t~_5">t~ -> b~  vl~ l-    (e+mu)</OPTION>
+       <OPTION label="t~ -> b~  vl~ l-    (e+mu+ta)" value="t~_6">t~ -> b~  vl~ l-    (e+mu+t~a)</OPTION>
+       <OPTION label="t~ -> b~  j   j     (ud+cs)" value="t~_7">t~ -> b~  j   j    (ud+cs)</OPTION>
+       <OPTION label="t~ -> b~  anything  (e+mu+ta+ud+cs)" value="t~_8">t~ -> b~  anything (e+mu+ta+ud+cs)</OPTION>
+     </OPTGROUP>
+     <OPTGROUP label="ta-">
+       <OPTION label="ta- -> vt   e- ve~" value="ta-_1">ta- -> vt   e- ve~</OPTION>
+       <OPTION label="ta- -> vt  mu- vm~" value="ta-_2">ta- -> vt  mu- vm~</OPTION>
+       <OPTION label="ta- -> vt   l- vl~ (e+mu)" value="ta-_3">ta- -> vt   l- vl~ (e+mu)</OPTION>
+       <OPTION label="ta- -> vt   pi-" value="ta-_4">ta- -> vt   pi-</OPTION>
+       <OPTION label="ta- -> vt  rho(770)-" value="ta-_5">ta- -> vt  rho(770)-</OPTION>
+     </OPTGROUP>
+     <OPTGROUP label="ta+">
+       <OPTION label="ta+ -> vt~   e+ ve" value="ta+_1">ta+ -> vt~   e- ve~</OPTION>
+       <OPTION label="ta+ -> vt~  mu-+ vm" value="ta+_2">ta+ -> vt~  mu- vm~</OPTION>
+       <OPTION label="ta+ -> vt~   l+ vl (e+mu)" value="ta+_3">ta+ -> vt~   l- vl~ (e+mu)</OPTION>
+       <OPTION label="ta+ -> vt~   pi+" value="ta+_4">ta+ -> vt~   pi-</OPTION>
+       <OPTION label="ta+ -> vt~  rho(770)+" value="ta+_5">ta+ -> vt~  rho(770)-</OPTION>
+     </OPTGROUP>
+     <OPTGROUP label="w+">
+       <OPTION label="w+ -> e+  ve" value="w+_1">w+ -> e+  ve</OPTION>
+       <OPTION label="w+ -> mu+ vm" value="w+_2">w+ -> mu+ vm</OPTION>
+       <OPTION label="w+ -> ta+ vt" value="w+_3">w+ -> ta+ vt</OPTION>
+       <OPTION label="w+ -> l+  vl (e+mu)" value="w+_4">w+ -> l+  vl (e+mu)</OPTION>
+       <OPTION label="w+ -> l+  vl (e+mu+ta)" value="w+_5">w+ -> l+  vl (e+mu+ta)</OPTION>
+       <OPTION label="w+ -> j   j  (ud+cs)" value="w+_6">w+ -> j   j  (ud+cs)</OPTION>
+       <OPTION label="w+ -> anything (e+mu+ta+ud+cs)" value="w+_7">w+ -> anything (e+mu+ta+ud+cs)</OPTION>
+     </OPTGROUP>
+     <OPTGROUP label="w-">
+       <OPTION label="w- -> e-  ve~" value="w-_1">w- -> e-  ve~</OPTION>
+       <OPTION label="w- -> mu- vm~" value="w-_2">w- -> mu- vm~</OPTION>
+       <OPTION label="w- -> ta- vt~" value="w-_3">w- -> ta- vt~</OPTION>
+       <OPTION label="w- -> l-  vl~ (e+mu)" value="w-_4">w- -> l-  vl~ (e+mu)</OPTION>
+       <OPTION label="w- -> l-  vl~ (e+mu+ta)" value="w-_5">w- -> l-  vl~ (e+mu+ta)</OPTION>
+       <OPTION label="w- -> j   j  (ud+cs)" value="w-_6">w- -> j   j  (ud+cs)</OPTION>
+       <OPTION label="w- -> anything (e+mu+ta+ud+cs)" value="w-_7">w- -> anything (e+mu+ta+ud+cs)</OPTION>
+     </OPTGROUP>
+     <OPTGROUP label="z">
+       <OPTION label="z -> e-   e+" value="z_1">z -> e-   e+</OPTION>
+       <OPTION label="z -> mu- mu+" value="z_2">z -> mu- mu+</OPTION>
+       <OPTION label="z -> ta- ta+" value="z_3">z -> ta- ta+</OPTION>
+       <OPTION label="z -> l-   l+  (e+mu)" value="z_4">z -> l-   l+  (e+mu)</OPTION>
+       <OPTION label="z -> l-   l+  (e+mu+ta )" value="z_5">z -> l-   l+  (e+mu+ta )</OPTION>
+       <OPTION label="z -> vl  vl~  (ve+vm+vt)" value="z_6">z -> vl  vl~  (ve+vm+vt)</OPTION>
+       <OPTION label="z -> b    b~" value="z_7">z -> b    b~</OPTION>
+       <OPTION label="z -> c    c~" value="z_8">z -> c    c~</OPTION>
+       <OPTION label="z -> j    j~  (u+d+c+s)" value="z_9">z -> j    j~  (u+d+c+s)</OPTION>
+       <OPTION label="z -> j    j~  (u+d+c+s+b)" value="z_10">z -> j    j~  (u+d+c+s+b)</OPTION>
+       <OPTION label="z -> visible  (e+mu+ta+u+d+c+s+b)" value="z_11">z -> visible  (e+mu+ta+u+d+c+s+b)</OPTION>
+       <OPTION label="z -> anything" value="z_12">z -> anything</OPTION>
+     </OPTGROUP>
+     <OPTGROUP label="h">
+       <OPTION label="h -> b   b~" value="h_1">h -> b   b~</OPTION>
+       <OPTION label="h -> ta- ta+" value="h_2">h -> ta- ta+</OPTION>
+       <OPTION label="h -> mu- mu+" value="h_3">h -> mu- mu+</OPTION>
+       <OPTION label="h -> c   c~" value="h_4">h -> c   c~</OPTION>
+       <OPTION label="h -> t   t~ (when m_h>2*m_t)" value="h_5">h -> t   t~ (when m_h>2*m_t)</OPTION>
+       <OPTION label="h -> g   g" value="h_6">h -> g   g</OPTION>
+       <OPTION label="h -> a   a" value="h_7">h -> a   a</OPTION>
+       <OPTION label="h -> z   a  (when m_h>  m_z)" value="h_8">h -> z   a  (when m_h>  m_z)</OPTION>
+       <OPTION label="h -> w+  w- (when m_h>2*m_w)" value="h_9">h -> w+  w- (when m_h>2*m_w)</OPTION>
+       <OPTION label="h -> w*  w -> l  vl  l' vl' (l,l'=e,mu)" value="h_10">h -> w*  w -> l  vl  l' vl' (l,l'=e,mu)</OPTION>
+       <OPTION label="h -> w*  w -> l  vl  l' vl' (l,l'=e,mu,ta)" value="h_11">h -> w*  w -> l  vl  l' vl' (l,l'=e,mu,ta)</OPTION>
+       <OPTION label="h -> w*  w -> j  j   l  vl  (jj=ud,cs;l=e,mu)" value="h_12">h -> w*  w -> j  j   l  vl  (jj=ud,cs;l=e,mu)</OPTION>
+       <OPTION label="h -> w*  w -> j  j   l  vl  (jj=ud,cs;l=e,mu,ta)" value="h_13">h -> w*  w -> j  j   l  vl  (jj=ud,cs;l=e,mu,ta)</OPTION>
+       <OPTION label="h -> z   z  (when m_h>2*m_z)" value="h_14">h -> z   z  (when m_h>2*m_z)</OPTION>
+       <OPTION label="h -> z*  z -> l- l+  l-' l+'(l,l'=e,mu)" value="h_15">h -> z*  z -> l- l+  l-' l+'(l,l'=e,mu)</OPTION>
+       <OPTION label="h -> z*  z -> l- l+  l-' l+'(l,l'=e,mu,ta)" value="h_16">h -> z*  z -> l- l+  l-' l+'(l,l'=e,mu,ta)</OPTION>
+       <OPTION label="h -> z*  z -> j  j~  l-  l+ (j=u,d,c,s;l=e,mu )" value="h_17">h -> z*  z -> j  j~  l-  l+ (j=u,d,c,s;l=e,mu )</OPTION>
+       <OPTION label="h -> z*  z -> j  j~  l-  l+ (j=u,d,c,s;l=e,mu,ta)" value="h_18">h -> z*  z -> j  j~  l-  l+ (j=u,d,c,s;l=e,mu,ta)</OPTION>
+       <OPTION label="h -> z*  z -> b  b~  l-  l+ (l=e,mu )" value="h_19">h -> z*  z -> b  b~  l-  l+ (l=e,mu )</OPTION>
+       <OPTION label="h -> z*  z -> b  b~  l-  l+ (l=e,mu,ta )" value="h_20">h -> z*  z -> b  b~  l-  l+ (l=e,mu,ta )</OPTION>
+       <OPTION label="h -> z*  z -> vl vl~ l-' l+'(l=e,mu,ta;l'=e,mu)" value="h_21">h -> z*  z -> vl vl~ l-' l+'(l=e,mu,ta;l'=e,mu)</OPTION>
+       <OPTION label="h -> z*  z -> vl vl~ l-' l+'(l,l'=e,mu,ta)" value="h_22">h -> z*  z -> vl vl~ l-' l+'(l,l'=e,mu,ta)</OPTION>
+     </OPTGROUP>
+</SELECT></h3>
+<h3>Do you want a root output ?<input type="radio" name="root" value="yes"> Yes <input type="radio" name="root" value="no" checked="checked"> No</h3>
+<input TYPE="submit" VALUE="Upload & Decay">
+</form>
+
+</body>

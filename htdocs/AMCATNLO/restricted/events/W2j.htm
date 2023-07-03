@@ -1,0 +1,56 @@
+<html>
+	<body>
+	<font  color="#AA0000" face="Courier"  size=+1> <br><br>
+	<i>W<sup>+</sup></i> + 2 jet production<br><br><hr></font>
+        <font  color="#000000" face="Courier"><p style="line-height:150%;">
+
+<p>
+
+<li><font size=+1>Description:</font><br>
+<ul>
+
+	Event files for the production of a <i>W<sup>+</sup></i>-boson in association with two hard jets. The decays of the <i>W</i>-boson to positrons and neutrinos are included (with spin correlations and off-shell effects). Input parameters are the following:<p>
+	<ul>
+	<li> <i>m<sub>W</sub></i> = 80.419 GeV,
+	<li> <i>&Gamma;<sub>W</sub></i> = 2.0476 GeV,
+	<li> &alpha;<sub>EW</sub> = 1/132.507 GeV,
+	<li> <i>m<sub>Z</sub></i> = 91.188 GeV,
+	<li> diagonal CKM matrix,
+	<li> MSTW2008(N)LO for the (N)LO,
+	<li> <i>&mu;<sub>R</sub></i> = <i>&mu;<sub>F</sub></i> = <i>H<sub>T</sub></i>/2 (Scalar sum of transverse momentum of all final state particles at the matrix element level (including neutrino) divided by two),
+	<li> jets are defined with anti-<i>k<sub>T</sub></i> algorithm with <i>R</i> = 0.4 (and minimum <i>p<sub>T</sub></i> defined below) 
+	</li></ul>
+
+
+</ul>
+
+
+
+<li><font size=+1>Event files:</font><br>
+<ul>
+	The NLO events are generated with the MC subtraction terms for Herwig 6 and the files contain 10 million events and are for Tevatron. They contain information about the 40 MSTW PDF sets and 3x3 renormalization and factorization scales (0.5 and 2.0 times the central values) to compute the PDF and scale uncertainties. As they are, the NLO events are still non-physical: they need to be showered with herwig 6 to be meaningful. <p>
+	<ul>
+	<li> <i>p<sub>T</sub>(j)</i> > 5 GeV: <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/Tevatron/W2j_5GeV.lhe.gz">NLO Herwig</a> <br><br>
+	<li> <i>p<sub>T</sub>(j)</i> > 10 GeV: <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/Tevatron/W2j_5GeV.lhe.gz">NLO Herwig</a> (has only 9999999 events) <br><br>
+	</li></ul>
+	When plotting distributions, both event files should be used. To have unbiased results, the distributions generate with the two event files should coincide (within statistical fluctuations). If not, jet cuts at the analysis level should be made harder. See also the <a href="W1j.htm" target="main">W1j</a> page
+</ul>
+
+
+
+<li><font size=+1>Technical details:</font><br>
+<ul>
+	The NLO event files use the UseSudakov=.true. and DampMCsubt=.true., using the default values of the code in revision 251. The event files were generated in July, 2011.
+</ul>
+
+<li><font size=+1>Reference:</font><br>
+<ul>
+	<a href="http://arxiv.org/abs/arxiv:1110.5502" target="_top">arXiv:1110.5502</a><br>
+	<b>aMC@NLO predictions for Wjj production at the Tevatron</b><br> 
+	R.&nbsp;Frederix, S.&nbsp;Frixione, V.&nbsp;Hirschi, F.&nbsp;Maltoni, R.&nbsp;Pittau, P.&nbsp;Torrielli 
+</ul>
+
+</li>
+</font>
+</body>
+</html>

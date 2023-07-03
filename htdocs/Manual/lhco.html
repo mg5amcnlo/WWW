@@ -1,0 +1,122 @@
+<h2><a name="how_to_read_lhc_olympics_data_files" id="how_to_read_lhc_olympics_data_files">How to Read LHC Olympics Data Files (by Jesse Thaler, 19 Dic 2006)</a></h2>
+<div class="level2">
+
+<p>
+ The data files are ordinary text files with a long list of &ldquo;events&rdquo;, proton-proton collisions whose spray of outgoing particles has been deemed sufficiently interesting by the (simulated) detector.  Each event consists of a set of rows in the data file.  Each row corresponds to an &ldquo;object&rdquo;: a lepton, photon, jet, or missing transverse momentum.  More information about how objects are identified appears on the particle identification page.
+</p>
+
+
+<p>
+<strong>Note the data format has changed</strong> since the Second LHC Olympics so  be sure to read the following.  The format for b-tagging has changed, the location of charge and some mass information have been adjusted, the default muon isolation cut has been removed, and some other details have changed as well.  Thus some conversion of your old software will be necessary.</p>
+
+<p>
+<strong>Note also that the definition of a jet has changed in the new version of PGS.</strong>  Cone jets have been replaced with kT jets.  This will affect the appearance of kinematic distributions compared to the earlier version used in prior Olympics.
+</p>
+
+
+<h2><a name="column_formats" id="column_formats">Column Formats</a></h2>
+<div class="level2">
+<pre class="code">
+   #   typ     eta    phi       pt  jmass  ntrk  btag   had/em  dummy dummy  
+</pre>
+<ul>
+<li class="level1"><div class="li"> The first column of each row is just a counter that labels the object. </div>
+</li>
+<li class="level1"><div class="li"> The event begins with a row labelled &ldquo;0&rdquo;; this row contains the event number and the triggering information.  The last row of the event is always the missing transverse momentum (MET).  The next event again begins with a row labelled &ldquo;0&rdquo;, etc.  If you are just beginning, this triggering information is probably not of much interest to you and can be ignored.  The rest of the rows are the physics objects in the event, in which you are definitely interested.</div>
+</li>
+<li class="level1"><div class="li"> The second column indicates the type of object whose properties are given in the row.  In particular:</div>
+<ul>
+<li class="level2"><div class="li"> 0 = photon</div>
+</li>
+<li class="level2"><div class="li"> 1 = electron</div>
+</li>
+<li class="level2"><div class="li"> 2 = muon</div>
+</li>
+<li class="level2"><div class="li"> 3 = hadronically-decaying tau</div>
+</li>
+<li class="level2"><div class="li"> 4 = jet</div>
+</li>
+<li class="level2"><div class="li"> 6 = missing transverse energy</div>
+</li>
+</ul>
+</li>
+<li class="level1"><div class="li"> The next three columns give the pseudorapidity, the azimuthal angle, and the transverse momentum of the object.  For massless objects, this infomation can be used to construct the entire four-vector of the physics object.</div>
+</li>
+<li class="level1"><div class="li"> The sixth column gives the invariant mass of the object; for a jet, this is a constructed from all the energy and momentum that are contained within it.  In order to calculate the correct object four-vector for jets, one must be sure to include the invariant mass information.</div>
+</li>
+</ul>
+
+<p>
+ The above is sufficient to specify the kinematic information in the event.  One can make a lot of progress with just this information.  We have output some additional information that can also be useful: 
+</p>
+<ul>
+<li class="level1"><div class="li"> The seventh column gives the number of tracks associated with the object; in the case of a lepton, this number is multiplied by the charge of the lepton.  (Thus a muon will appear as -1, a positron as +1, a tau- as -1 or -3, and a jet a positive number or zero.)</div>
+</li>
+<li class="level1"><div class="li"> The eighth column is 1 or 2 for a jet that has been &ldquo;tagged&rdquo; as containing a b-quark (actually a heavy flavor tag that sometimes indicates c-quarks), otherwise it is 0.  The difference between 1 or 2 is described in the heavy flavor tagging section. For muons, this column has a special meaning.  The integer part of this number is the identity of the jet (see column 1) that is closest ot this muon in Delta R. </div>
+</li>
+<li class="level1"><div class="li"> The ninth column is the ratio of the hadronic versus electromagnetic energy deposited in the calorimeter cells associated with the object; it is typically &gt;1 for a jet and &laquo; 1 for an electron or photon.  One reason why this column is useful is that photons and electrons are only identified out to eta = 3.0 whereas jets are clustered out to eta = 5.0, so an energetic jet with 3.0 &lt; eta &lt; 5.0 is very likely an electron or a photon if the had/em fraction is low.  Again, this column has special meaning and format for muons.  The format is <code>xxx.yy</code>.  To the left of the decimal point (the &lsquo;xxx&rsquo;) is <em>ptiso</em>,the summed p<sub>T</sub> in a R=0.4 cone (excluding the muon).  To the right of the decimal point is <em>etrat</em>, which is a percentage between .00 and .99.  It is the ratio of the transverse energy in a 3&times;3 grid surrounding the muon to the p<sub>T</sub> of the muon.  For well-isolated muons, both <em>ptiso</em> and <em>etrat</em> will be small.  </div>
+</li>
+<li class="level1"><div class="li"> The tenth and eleventh columns have been added for possible future use; in this round of the Olympics they are always zero.</div>
+</li>
+</ul>
+
+<p>
+ A typical event may look like 
+</p>
+<pre class="code">
+   #   typ     eta    phi       pt  jmass  ntrk  btag   had/em  dummy dummy  
+   0           103   2563                                                    this is event number 103, and its trigger word value is 2563 
+   1    2   -1.219  4.739   449.95   0.11   1.0   0.0    12.15   0.0   0.0   a (positively-charged) muon with a pT of 450 GeV, ptiso= 12 GeV, etrat=0.15 
+   2    4   -1.729  1.557   687.76 592.46  37.0   0.0     4.41   0.0   0.0   a jet with a pT of 688 GeV, invariant mass of 592 GeV, and 37 charged tracks 
+   3    4   -0.829  2.540    67.26  20.33   5.0   0.0     3.55   0.0   0.0   a jet with a pT of 67 GeV, invariant mass of 20 GeV, and 5 charged tracks 
+   4    6    0.000  4.857   275.16   0.00   0.0   0.0     0.00   0.0   0.0   the &quot;missing transverse energy&quot; in the event is 275 GeV 
+</pre>
+
+<p>
+Here is another one, probably containing jets from a b quark and an b antiquark (one jet is tagged with a displaced vertex, the other has a nearby soft muon) 
+</p>
+<pre class="code">
+   #   typ     eta    phi       pt  jmass  ntrk  btag   had/em  dummy dummy  
+   0             5   3587                                                    this is event number 5, and the trigger word is 3587
+   1    2    1.169  4.197    6.30    0.11   1.0   3.0     0.00   0.0   0.0   a muon with a pT of 6 GeV, the 3 in the b tag column tells you it is close to the third object
+   2    4   -0.121  1.278  330.12  206.58   6.0   2.0     3.50   0.0   0.0   a jet that passed a &quot;tight&quot; b-tag criterion
+   3    4    1.207  4.216  306.56   27.99  16.0   0.0     0.73   0.0   0.0   the jet that is close to the muon
+   4    4   -0.357  5.635   79.27   10.92   8.0   0.0     1.31   0.0   0.0   
+   5    4   -0.965  4.076   17.42    7.24   3.0   0.0     0.63   0.0   0.0
+   6    4   -2.073  0.696    8.75    4.07   1.0   0.0     1.93   0.0   0.0
+   7    4   -3.717  1.975    6.81    2.30   1.0   0.0     0.15   0.0   0.0
+   8    6    0.000  1.926   12.42    0.00   0.0   0.0     0.00   0.0   0.0
+</pre>
+
+<p>
+ This event has an energetic electon and positron: 
+</p>
+<pre class="code">
+   #   typ     eta    phi       pt  jmass  ntrk  btag   had/em  dummy dummy  
+   0             3   3599
+   1    1   -0.060  2.878  359.51    0.00  -1.0   0.0     0.02   0.0   0.0   electron
+   2    1    0.398  6.041  368.07    0.00   1.0   0.0     0.01   0.0   0.0   positron
+   3    4    3.516  4.651   25.72   36.62   5.0   0.0     1.44   0.0   0.0
+   4    4   -0.036  1.763   13.38   10.65   1.0   0.0     0.83   0.0   0.0
+   5    4   -2.793  3.500   12.06    7.75   5.0   0.0    12.24   0.0   0.0
+   6    4    1.068  1.243   10.00    4.53   3.0   0.0     7.71   0.0   0.0
+   7    4   -3.969  0.688    9.79    3.79   5.0   0.0     7.78   0.0   0.0
+   8    6    0.000  2.612   11.76    0.00   0.0   0.0     0.00   0.0   0.0
+</pre>
+
+<h2><a name="kinematics" id="kinematics">Kinematics</a></h2>
+<div class="level2">
+<ul>
+<li class="level1"><div class="li"> <strong>pseudorapidity</strong> &mdash; &ldquo;eta&rdquo; is related to the angle &ldquo;theta&rdquo; relative to the beam axis via eta = -ln[tan(theta/2)]. For massless particles, eta is the same as the rapidity y. </div>
+</li>
+<li class="level1"><div class="li"> <strong>azimuthal angle</strong> &mdash; the angle &ldquo;phi&rdquo; is the angle around the beam axis in cylindrical coordinates. </div>
+</li>
+<li class="level1"><div class="li"> <strong>R</strong> &mdash; denotes the angular distance Sqrt[(eta2-eta1)^2+(phi2-phi1)^2] as measured in (eta,phi) space. </div>
+</li>
+<li class="level1"><div class="li"> <strong>transverse momentum</strong> &mdash; components of the momentum orthogonal to the beam axis.  </div>
+</li>
+<li class="level1"><div class="li"> <strong>invariant mass</strong> &mdash; the root square of the sum of the four-momenta of two (or more) objects.  The invariant mass of the jet is the root square of the sum of all the mini-object four-momenta.  Note that this is generally much larger than the mass of the quark which generated it.</div>
+</li>
+</ul>
+
+</html>

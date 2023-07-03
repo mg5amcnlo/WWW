@@ -1,0 +1,65 @@
+#**********************************************************
+#                  MadGraph/MadEvent                      *
+#               http://madgraph.hep.uiuc.edu              *
+#                                                         *
+#                   proc_card.dat                         *
+#                                                         *
+# This file is used to generate the code for a            *
+# a specific process. Some notation/conventions:          *
+#                                                         *
+# 0. Do not modify the TAGS and their order.              *
+# 1. hash/pound is a comment.                             *
+# 2. The charcter after the @ is used as an identifier    *
+#    for the class of processes. It can be a single       *
+#    or a digit.                                          *
+# 3. The number of lines for the max couplings depends on *
+#    how many different classes of couplings are present  *
+#    in the model (interactions.dat).                     *
+#    In the SM these are just QED and QCD                 *
+# 4. Leave a space at the end of the procs list, to tell  *
+#    MG that it's over.                                   *
+# 5. Model names available at present are:                *
+#    sm     =  Standard Model                             *
+#    smckm  =  Standard Model with Cabibbo matrix         *
+#    mssm   =  Minimal Supersymmetric Standard Model      *
+#    2hdm   =  Generic Two Higgs Doublet model            *
+#    heft   =  Higgs EFT (+Standard Model)                *
+#    usrmod =  User Model                                 *
+# 6. Don't leave spaces between the particles name in the *
+#    definition of the multiparticles.                    *
+#**********************************************************
+#---------------------------------------------------------*
+# Process requested                                       *
+#---------------------------------------------------------*
+# Begin PROCESS    # This is TAG. Do not modify this line
+pp>e-ve~  @0       # First Process
+99                 # Max QCD couplings
+2                  # Max QED couplings
+pp>e-ve~j @1       # Second Process
+99                 # Max QCD couplings
+2                  # Max QED couplings
+pp>e-ve~jj @2      # Third Process
+99                 # Max QCD couplings
+2                  # Max QED couplings
+pp>e-ve~jjj @3     # Fourth Process
+99                 # Max QCD couplings
+2                  # Max QED couplings
+                   # Leave a space to tell MG to stop
+# End PROCESS      # This is TAG. Do not modify this line
+#---------------------------------------------------------*
+# Model information                                       *
+#---------------------------------------------------------*
+# Begin MODEL  # This is TAG. Do not modify this line
+sm           
+# End   MODEL  # This is TAG. Do not modify this line
+#---------------------------------------------------------*
+# Start multiparticle definitions                         *
+#---------------------------------------------------------*
+# Begin MULTIPARTICLES # This is TAG. Do not modify this line
+P uu~dd~ss~cc~g          
+J uu~dd~ss~cc~g          
+L e+e-mu+mu-ta+ta-veve~  
+# End  MULTIPARTICLES # This is TAG. Do not modify this line
+
+
+ 

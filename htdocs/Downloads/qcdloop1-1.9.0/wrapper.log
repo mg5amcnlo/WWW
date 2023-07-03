@@ -1,0 +1,159 @@
+    |\^/|     Maple 14 (X86 64 LINUX)
+._|\|   |/|_. Copyright (c) Maplesoft, a division of Waterloo Maple Inc. 2010
+ \  MAPLE  /  All rights reserved. Maple is a trademark of
+ <____ ____>  Waterloo Maple Inc.
+      |       Type ? for help.
+> 
+# make sure that loader can find libqcdloop1.so
+# e.g. by > export LD_LIBRARY_PATH=/usr/local/lib
+> 
+> wrapperpath:="/usr/local/lib/libmwrap_qcdloop1.so";
+              wrapperpath := "/usr/local/lib/libmwrap_qcdloop1.so"
+
+> 
+> qlinit:=define_external('MWRAP_qlinit_','MAPLE','LIB'=wrapperpath);
+qlinit := proc()
+option call_external, define_external(MWRAP_qlinit_, MAPLE,
+LIB = "/usr/local/lib/libmwrap_qcdloop1.so");
+    call_external(0, 140109925403152, true, false, args)
+end proc
+
+> qlinit();
+ ====================================================
+   This is QCDLoop - version 1.9                     
+   Authors: Keith Ellis and Giulia Zanderighi        
+   (ellis@fnal.gov, g.zanderighi1@physics.ox.ac.uk)  
+   For details see FERMILAB-PUB-07-633-T,OUTP-07/16P 
+   arXiv:0712.1851 [hep-ph], published in            
+   JHEP 0802:002,2008.                               
+ ====================================================
+ ====================================================
+   FF 2.0, a package to evaluate one-loop integrals
+ written by G. J. van Oldenborgh, NIKHEF-H, Amsterdam
+ ====================================================
+ for the algorithms used see preprint NIKHEF-H 89/17,
+ 'New Algorithms for One-loop Integrals', by G.J. van
+ Oldenborgh and J.A.M. Vermaseren, published in 
+ Zeitschrift fuer Physik C46(1990)425.
+ ====================================================
+ ffini: precx =   4.44089209850062616E-016
+ ffini: precc =   4.44089209850062616E-016
+ ffini: xalogm =   4.94065645841246544E-324
+ ffini: xclogm =   4.94065645841246544E-324
+> qlI1:=define_external('MWRAP_qli1_','MAPLE','LIB'=wrapperpath);
+qlI1 := proc()
+option call_external, define_external(MWRAP_qli1_, MAPLE,
+LIB = "/usr/local/lib/libmwrap_qcdloop1.so");
+    call_external(0, 140109925403168, true, false, args)
+end proc
+
+> qlI2:=define_external('MWRAP_qli2_','MAPLE','LIB'=wrapperpath);
+qlI2 := proc()
+option call_external, define_external(MWRAP_qli2_, MAPLE,
+LIB = "/usr/local/lib/libmwrap_qcdloop1.so");
+    call_external(0, 140109925403392, true, false, args)
+end proc
+
+> qlI3:=define_external('MWRAP_qli3_','MAPLE','LIB'=wrapperpath);
+qlI3 := proc()
+option call_external, define_external(MWRAP_qli3_, MAPLE,
+LIB = "/usr/local/lib/libmwrap_qcdloop1.so");
+    call_external(0, 140109925403680, true, false, args)
+end proc
+
+> qlI4:=define_external('MWRAP_qli4_','MAPLE','LIB'=wrapperpath);
+qlI4 := proc()
+option call_external, define_external(MWRAP_qli4_, MAPLE,
+LIB = "/usr/local/lib/libmwrap_qcdloop1.so");
+    call_external(0, 140109925404080, true, false, args)
+end proc
+
+> 
+> musq:=1.1;
+                                  musq := 1.1
+
+> m1sq:=3;
+                                   m1sq := 3
+
+> m2sq:=5;
+                                   m2sq := 5
+
+> m3sq:=9;
+                                   m3sq := 9
+
+> m4sq:=1.3;
+                                  m4sq := 1.3
+
+> p1sq:=1.5;
+                                  p1sq := 1.5
+
+> p2sq:=-1.7;
+                                  p2sq := -1.7
+
+> p3sq:=2.3;
+                                  p3sq := 2.3
+
+> p4sq:=2.9;
+                                  p4sq := 2.9
+
+> s12:=37;
+                                   s12 := 37
+
+> s23:=-15.7;
+                                  s23 := -15.7
+
+> 
+> for ep from -2 to 0 do print("ep,qlI1(m1sq,musq,ep)",ep,qlI1(m1sq,musq,ep)); od;
+                     "ep,qlI1(m1sq,musq,ep)", -2, 0. + 0. I
+
+                     "ep,qlI1(m1sq,musq,ep)", -1, 3. + 0. I
+
+           "ep,qlI1(m1sq,musq,ep)", 0, -0.00990632659135437521 + 0. I
+
+> for ep from -2 to 0 do print("ep,qlI2(p1sq,m1sq,m2sq,musq,ep)",ep,qlI2(p1sq,m1sq,m2sq,musq,ep)); od;
+                "ep,qlI2(p1sq,m1sq,m2sq,musq,ep)", -2, 0. + 0. I
+
+                "ep,qlI2(p1sq,m1sq,m2sq,musq,ep)", -1, 1. + 0. I
+
+       "ep,qlI2(p1sq,m1sq,m2sq,musq,ep)", 0, -1.21451447394345213 + 0. I
+
+> for ep from -2 to 0 do print("ep,qlI3(p1sq,p2sq,p3sq,m1sq,m2sq,m3sq,musq,ep)",ep,qlI3(p1sq,p2sq,p3sq,m1sq,m2sq,m3sq,musq,ep)); od;
+        "ep,qlI3(p1sq,p2sq,p3sq,m1sq,m2sq,m3sq,musq,ep)", -2, 0. + 0. I
+
+        "ep,qlI3(p1sq,p2sq,p3sq,m1sq,m2sq,m3sq,musq,ep)", -1, 0. + 0. I
+
+"ep,qlI3(p1sq,p2sq,p3sq,m1sq,m2sq,m3sq,musq,ep)", 0,
+
+    -0.0970094399633451565 + 0. I
+
+> for ep from -2 to 0 do print("ep,qlI4(p1sq,p2sq,p3sq,p4sq,s12,s23,m1sq,m2sq,m3sq,m4sq,musq,ep)",ep,qlI4(p1sq,p2sq,p3sq,p4sq,s12,s23,m1sq,m2sq,m3sq,m4sq,musq,ep)); od;
+"ep,qlI4(p1sq,p2sq,p3sq,p4sq,s12,s23,m1sq,m2sq,m3sq,m4sq,musq,ep)", -2,
+
+    0. + 0. I
+
+"ep,qlI4(p1sq,p2sq,p3sq,p4sq,s12,s23,m1sq,m2sq,m3sq,m4sq,musq,ep)", -1,
+
+    0. + 0. I
+
+"ep,qlI4(p1sq,p2sq,p3sq,p4sq,s12,s23,m1sq,m2sq,m3sq,m4sq,musq,ep)", 0,
+
+    0.00404258528619034704 + 0.0176915481250439696 I
+
+> print("test of divergent boxes");
+                           "test of divergent boxes"
+
+> for ep from -2 to 0 do print("ep,qlI4(0d0,0d0,p3sq,p4sq,s12,s23,0d0,0d0,0d0,m4sq,musq,ep)",ep,qlI4(0,0,p3sq,p4sq,s12,s23,0,0,0,m4sq,musq,ep)); od;
+"ep,qlI4(0d0,0d0,p3sq,p4sq,s12,s23,0d0,0d0,0d0,m4sq,musq,ep)", -2,
+
+    -0.00158982511923688404 + 0. I
+
+"ep,qlI4(0d0,0d0,p3sq,p4sq,s12,s23,0d0,0d0,0d0,m4sq,musq,ep)", -1,
+
+    0.0138506053922203450 + 0.00499458291508710680 I
+
+"ep,qlI4(0d0,0d0,p3sq,p4sq,s12,s23,0d0,0d0,0d0,m4sq,musq,ep)", 0,
+
+    -0.0432798379860825921 + 0.0270258376458452701 I
+
+> quit
+memory used=1.2MB, alloc=1.3MB, time=0.02

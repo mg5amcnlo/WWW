@@ -1,0 +1,68 @@
+<html> 
+<head> 
+<title>TwoHiggsCalc : The 2HDM parameters calculator</title>
+</head>
+
+
+<style type="text/css" media="screen">
+#ParamForm table {
+ background-color: #F9FBFD;
+ 
+ border: 1px solid #D7E5F2;
+ border-collapse: collapse;
+}
+#ParamForm table.normal {
+ background-color: #DEE3E4;
+ border-collapse: separate;
+}
+html,body {
+ background-color: #FFFFFF;
+ color: #103B61;
+}
+#ParamForm td {
+ border: 1px solid #D7E5F2;
+ padding-left: 4px;
+} 
+</style>
+
+<center>
+<h1>Calculation of Higgses Branching Ratio</h1>
+</center>
+
+<FORM ACTION="/cgi-bin/TwoHiggsCalc/parsingbr.cgi" METHOD="post"  ENCTYPE="multipart/form-data">
+Choose the type you want (1 or 2): <input type="text" name="type" id="type" value='' maxlength=1 size=1/><br><br>
+To choose Higgs mass you want to run over put a X in block you corresponding to it, otherwise write the fixed mass:<br><br>
+mh0 <input type="text" name="idparama" id="idparama" value='' maxlength=4 size=10/>
+ mH0 <input type="text" name="idparamb" id="idparamb" value='' maxlength=4 size=10/>
+ mA0 <input type="text" name="idparamc" id="idparamc" value='' maxlength=4 size=10/>
+mH+ <input type="text" name="idparamd" id="idparamb" value='' maxlength=4 size=10/>
+
+
+<br><br>
+The Higgs mass will be run between <input type="text" name="min" id="min" value='' maxlength=10 size=10/> GeV and <input type="text" name="max" id="max" value='' maxlength=10 size=10/> GeV with step <input type="text" name="step" id="step" value='' maxlength=10 size=10/>GeV<br>
+tg beta? <input type="text" name="idparame" id="idparama" value='' maxlength=2 size=10/>
+<br><br>
+Catch the following pdg code of decay result (rules below);
+<oL>
+<LI>1rt particle <input type="text" name="idparam1" id="idparam1" value='' maxlength=10 size=10/>
+<LI>2nd particle <input type="text" name="idparam2" id="idparam2" value='' maxlength=10 size=10/>
+<LI>3rd particle <input type="text" name="idparam3" id="idparam3" value='' maxlength=10 size=10/>
+<LI>4th particle <input type="text" name="idparam4" id="idparam4" value='' maxlength=10 size=10/>
+<LI>5th particle <input type="text" name="idparam5" id="idparam5" value='' maxlength=10 size=10/>
+<LI>6th particle <input type="text" name="idparam6" id="idparam6" value='' maxlength=10 size=10/>
+<LI>7th particle <input type="text" name="idparam7" id="idparam7" value='' maxlength=10 size=10/>
+<LI>8th particle <input type="text" name="idparam8" id="idparam8" value='' maxlength=10 size=10/>
+<LI>9th particle <input type="text" name="idparam9" id="idparam9" value='' maxlength=10 size=10/>
+<LI>10th particle <input type="text" name="idparam10" id="idparam10" value='' maxlength=10 size=10/>
+</oL>
+<input TYPE="submit" VALUE="Upload & Compute"> 
+</form>
+
+rules:<br>
+neutral	S->ff~:	13 -13 <br>
+neutral	S->VV:	21 21 or 24 -24<br>
+neutral	S->S'S':25 25 (h0), 35 35 (H0), 36 36 (A0), 37 37 (H+H-)<br>
+H+->WA':	24 36<br>
+H+->tb~':	6 -5<br>
+H+->nu ta~:	14 -13<br>	
+<br>

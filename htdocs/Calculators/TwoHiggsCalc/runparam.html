@@ -1,0 +1,52 @@
+<html> 
+<head> 
+<title>TwoHiggsCalc : The 2HDM parameters calculator</title>
+</head>
+
+
+<style type="text/css" media="screen">
+#ParamForm table {
+ background-color: #F9FBFD;
+ 
+ border: 1px solid #D7E5F2;
+ border-collapse: collapse;
+}
+#ParamForm table.normal {
+ background-color: #DEE3E4;
+ border-collapse: separate;
+}
+html,body {
+ background-color: #FFFFFF;
+ color: #103B61;
+}
+#ParamForm td {
+ border: 1px solid #D7E5F2;
+ padding-left: 4px;
+} 
+</style>
+
+<center>
+<h1>Execute TwoHiggsCalc for a varying parameter</h1>
+</center>
+
+<FORM ACTION="/cgi-bin/TwoHiggsCalc/parsing.cgi" METHOD="post"  ENCTYPE="multipart/form-data">
+In file : <INPUT TYPE="file" NAME="file"> <br><br>
+Make parameter <input type="text" name="idparam" id="idparam" value='' maxlength=10 size=10/> in block <input type="text" name="block" id="block" value='' maxlength=10 size=10/> running between <input type="text" name="min" id="min" value='' maxlength=10 size=10/> and <input type="text" name="max" id="max" value='' maxlength=10 size=10/> with step <input type="text" name="step" id="step" value='' maxlength=10 size=10/>
+<br><br>
+Catch the following parameters in the output file:
+<oL>
+<LI>In block <input type="text" name="block1" id="block1" value='' maxlength=10 size=10/>, parameter <input type="text" name="idparam1" id="idparam1" value='' maxlength=10 size=10/>
+<LI>In block <input type="text" name="block2" id="block2" value='' maxlength=10 size=10/>, parameter <input type="text" name="idparam2" id="idparam2" value='' maxlength=10 size=10/>
+<LI>In block <input type="text" name="block3" id="block3" value='' maxlength=10 size=10/>, parameter <input type="text" name="idparam3" id="idparam3" value='' maxlength=10 size=10/>
+<LI>In block <input type="text" name="block4" id="block4" value='' maxlength=10 size=10/>, parameter <input type="text" name="idparam4" id="idparam4" value='' maxlength=10 size=10/>
+<LI>In block <input type="text" name="block5" id="block5" value='' maxlength=10 size=10/>, parameter <input type="text" name="idparam5" id="idparam5" value='' maxlength=10 size=10/>
+<LI>In block <input type="text" name="block6" id="block6" value='' maxlength=10 size=10/>, parameter <input type="text" name="idparam6" id="idparam6" value='' maxlength=10 size=10/>
+<LI>In block <input type="text" name="block7" id="block7" value='' maxlength=10 size=10/>, parameter <input type="text" name="idparam7" id="idparam7" value='' maxlength=10 size=10/>
+<LI>In block <input type="text" name="block8" id="block8" value='' maxlength=10 size=10/>, parameter <input type="text" name="idparam8" id="idparam8" value='' maxlength=10 size=10/>
+<LI>In block <input type="text" name="block9" id="block9" value='' maxlength=10 size=10/>, parameter <input type="text" name="idparam9" id="idparam9" value='' maxlength=10 size=10/>
+<LI>In block <input type="text" name="block10" id="block10" value='' maxlength=10 size=10/>, parameter <input type="text" name="idparam10" id="idparam10" value='' maxlength=10 size=10/>
+</oL>
+<input TYPE="submit" VALUE="Upload & Compute"> 
+</form>
+<br>
+Parameters names must be supplied in a LHA format (e.g. "1 1", "3 2 2", ...).

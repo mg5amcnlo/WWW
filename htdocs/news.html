@@ -1,0 +1,97 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 97">
+   <meta name="Template" content="C:\Program Files\Microsoft Office\Office\html.dot">
+   <meta name="GENERATOR" content="Mozilla/4.77 [en]C-gatewaynet  (Win95; U) [Netscape]">
+   <title>Personal Home Page</title>
+</head>
+
+<BODY bgcolor= "#ffffff" TEXT = "#0000aa" LINK = "#aa00aa" ALINK =
+"#0000ff" VLINK = "#aa0000" >
+
+
+<dir>
+<center>
+<font color="#008080"><font size=+3>News and Developments</font></font>
+<br>
+<br>
+<h3><a href="http://madgraph.phys.ucl.ac.be/Downloads/UpdateNotes.txt">Update Notes</a>
+</h3>
+</center>
+
+<br>
+<br>
+<li><FONT COLOR="#990099">Feb-2007:</FONT>An error was introduced in version 4.1.16-17 (Feb 2-9) which drastically degraded the efficiency of unweighting. If you generated a process or down
+loaded code between those dates, please regenerate the process/download a new version.
+<p>
+<li><FONT COLOR="#990099">16-Feb-2007:</FONT> Version 4 available on all the MadGraph severs/clusters.
+<p>
+<li><FONT COLOR="#990099">9-Feb-2007:</FONT>  New standalone version of MadGraph available. This is the current official version of the original program which is mostly meant for "theorists". Given a model and a (multi-)process, MadGraph Standalone creates the corresponding code for the matrix element squared. The resulting file is easily exportable to other codes, since the dependencies are kept to a minimum. The only libraries needed are for HELAS (libdhelas3.a) and for the MODEL (libmodel.a). These are automatically built and available in the libraries directory (lib). Parameters of the model are passed in a standardized format (LesHouchesII-like) through the param_card.dat. A sample program, <font color="#990000"> check </font>, that generates random points in phase space and returns the corresponding value of the matrix element is provided. Detailed instructions can be found in the README file. 
+<p>
+
+<li><FONT COLOR="#990099">19-Dec-2006:</FONT>  Improved structure of the simulation chain
+(MadGraph -> Pythia -> PGS):<br>
+<p>
+Events are available as: 
+<ol>
+<li>  parton-level (Les Houches event file format)
+<li>  hadron-level, after showering and hadronization done in Pythia (stdhep)
+<li>  reconstructed objects after detector simulation (PGS4), with the new LHC Olympics format.
+</ol>
+<p>
+Events at the three levels are also available as root files. Events can be traced from
+one stage to the other, since numbering is kept consistent along the simulation chain.
+A series of standard plots is provided at each step. 
+<li><FONT COLOR="#990099">18-Dec-2006:</FONT>  MadGraph Les Houches events are interfaced to the CMSSW
+framework. Thanks to <a href="http://dkcira.web.cern.ch/dkcira/" target="_top" >Dorian Kcira</a>. More info and
+examples on the <a href="https://twiki.cern.ch/twiki/bin/view/CMS/MadgraphInterface" target="_top"> Wiki CMS page</a>.
+
+<p>
+<li><FONT COLOR="#990099">22-May-2006:</FONT> 
+Version 4.0 ready! Highlights:<br>
+<p>
+<ol>
+<li> The full code (including the web interface) is now managed under CVS and can be exported easily to other clusters.
+<li> Automatic event generation from the web up to PGS events.
+<li> New models available: MSSM, 2HDM, HEFT,...
+<li> Setting up new models has been made easy. USRMOD is a framework where to implement new models. All the "fortran" work is taken care by a Perl script. The user only provides Feynman rules and relations between primary parameters and those appearing in the Feynman rules.
+<li> New card system. From the process generation to the events in PGS. Model parameters are given by a LH friendly file. 
+<li> Calculators for generating LH cards available for the SM, MSSM, 2HDM.
+
+</ol>
+<p>
+<li><FONT COLOR="#990099">16-Feb-2006:</FONT> 
+<a href="http://madgraph.phys.ucl.ac.be/Calculators/TwoHiggsCalc/index.html">TwoHiggsCalc</a>, The new Two Higgs Doublets Model Parameter Calculator, compliant with the SLHA format, has been released! 
+<p>  
+<li><FONT COLOR="#990099">21-Dic-2005:</FONT> 
+<a href="http://web1.pas.rochester.edu/~rain/smadgraph/smadgraph.html" target="_top">SMadGraph</a>, the SuperSymmetric version of MadGraph, has been released! Implementation into MadEvent coming soon..!
+<p>  
+<li><FONT COLOR="#990099">21-Dic-2005:</FONT> 
+New <a href="Downloads/interfaces2ME_V2.0.tar.gz">interface</a> to Pythia by <a href=" http://www3.tsl.uu.se/~alwall/" target="_top">Johan Alwall</a>.<p> 
+<li><FONT COLOR="#990099">18-Nov-2005:</FONT> Number of registered users >500 !!<p>
+<li><FONT COLOR="#990099">16-Nov-2005:</FONT>
+Minimal User Guide updated.<p>
+<li><FONT COLOR="#990099">29-Oct-2005:</FONT>
+System upgrade and migration to new disk completed.<p> 
+  New <a href="Downloads/MadAnalysis.tar.gz">interface</a> to Root by <a href="http://www.pd.infn.it/~zanetti" target="_top">Marco Zanetti</a> (CMS, Padova-Italy) implemented on the web.
+  MadGraph Les-Houches-compliant event files are imported to Root and a tree is created (rootfile) that
+  can be dowloaded from the results page.
+  It contains *all* the information (including the banner) of the original ASCII data file,
+  plus a simple set of plots which can be used for further analysis.<p>
+  <li><FONT COLOR="#990099">08-Aug-2005:</FONT>  
+  New plotting routines implemented. A simple set of plots is automatically generated at the end of
+  the run and showed on the results page.
+  Jets and identical particles are automatically ordered in pt.<p>
+  <li><FONT COLOR="#990099">01-Aug-2005:</FONT>
+  Database beta version in place. Administrator web page functional. Banner upload functional: event sets can be exactly reproduced on the web.<p>
+<li><FONT COLOR="#990099">25-Jun-2005:</FONT>
+  New web version available. Major improvements in the perl scripts and web generation of events.
+  Banner improved: all the information about a run is contained in the input-card.dat that is stored
+  on top of the event file (banner). Handling of multiparticles schemes made automatic.
+  <p>
+</ul>
+
+</body>
+</html>

@@ -1,0 +1,545 @@
+<!DOCTYPE doctype PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+            
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=iso-8859-1">
+            
+  <meta name="Author" content="Fabio Maltoni">
+            
+  <meta name="GENERATOR"
+ content="Mozilla/4.77 [en]C-gatewaynet  (Win95; U) [Netscape]">
+  <title>faq</title>
+    
+</head>
+  <body>
+      
+<center><a name="begin"></a><font color="#008080"><font size="+3">FAQ <br>
+</font></font></center>
+<br>
+<center><small><small><font color="#008080"><font size="+3"><small><small>more
+info can be found in the <a href="Manual.ps">User guide</a></small></small></font></font></small></small></center>
+<h4>
+<center></center>
+</h4>
+      
+<h4> <tt>&nbsp;&nbsp;&nbsp;&nbsp; General</tt></h4>
+      
+<ul>
+   <li> <tt><a href="#q1">What is MadGraph?</a></tt></li>
+    <li> <tt><a href="#q2">What is MadEvent?</a></tt></li>
+    <li> <tt><a href="#q3">What is HELAS?</a></tt></li>
+     
+</ul>
+      
+<h4> <tt>&nbsp;</tt></h4>
+      
+<h4> <tt>&nbsp;&nbsp;&nbsp;&nbsp; Generating the process-dependent information 
+ with MadGraphII</tt></h4>
+      
+<ul>
+   <li> <tt><a href="#q10">How many particles in the final state can a process 
+ have?</a></tt></li>
+    <li> <tt><a href="#q11">How long does it take to generate a MadEvent
+code?</a></tt></li>
+    <li> <tt><a href="#q12">How can I prevent a particle from appearing as
+ an internal line?</a></tt></li>
+    <li> <tt><a href="#q13">How can I select diagrams that have a particle
+ as an internal s-channel line?</a></tt></li>
+     
+</ul>
+      
+<p><b><tt><br>
+&nbsp;&nbsp;&nbsp; &nbsp;Calculating cross sections and generating  events
+with MadEvent</tt></b> </p>
+   
+<ul>
+   <li> <tt><a href="#q19">How do I unpack madevent.tar.gz and run the code
+ on my PC Linux?</a></tt></li>
+    <li> <tt><a href="faq.html#q20">What do the various scripts in the directory 
+ /bin do?</a></tt></li>
+        <li> <tt><a href="#q22">How do I get a quick (and rough) estimate
+of the  cross section?</a></tt></li>
+    <li> <tt><a href="#q23">How do I calculate a cross section at a given 
+precision?</a></tt></li>
+    <li> <tt><a href="#q24">How do I generate unweighted events after I calculated 
+ the cross section at a given precision, without wasting the information gathered
+so far?</a></tt></li>
+    <li> <tt><a href="#q26">How can I save/retrieve/remove the results from
+ a run?</a></tt></li>
+     
+</ul>
+      
+<ul>
+         
+  <h4> <tt>Changing the defaults</tt></h4>
+     
+</ul>
+      
+<ul>
+   <li> <tt><a href="#q30">How do I change the collider type and/or the energy?</a></tt></li>
+    <li> <tt><a href="#q31">How do I change the cuts?</a></tt></li>
+    <li> <tt><a href="#q33">How can I set an event-by-event renormalization
+ or factorization scale?</a></tt></li>
+     
+</ul>
+      
+<p><br>
+<tt><b>&nbsp;&nbsp;&nbsp; &nbsp; Miscellaneous</b></tt> </p>
+   
+<ul>
+   <li> <tt><a href="#q41">How do I make plots?</a></tt></li>
+    <li> <tt><a href="#q42">Should I plot the weighted or the unweighted
+events?</a></tt></li>
+     
+</ul>
+      
+<hr width="100%"> <br>
+  <a name="q1"></a> <br>
+  <b><tt>What is Madgraph?</tt></b>   
+<p><tt>MadGraph is a matrix element generator <a
+ href="http://www.slac.stanford.edu/spires/find/hep/www?rawcmd=eprint+hep-ph%2F9401258">[T. 
+ Stelzer and W.F. Long, Phys. Commun. 81 (1994) 357-371]</a>. Given a process, 
+ it produces a fortran subroutine that computes the squared amplitudes making 
+ suitable calls to the HELAS library. With respect to its first version, now
+MadGraph</tt> </p>
+   
+<ol>
+   <li> <tt>is no longer restricted to the standard model but can be easily
+ extended to other models by editing the files particles.dat and interactions.dat.</tt></li>
+    <li> <tt>produces information on the color structure of QCD amplitudes.</tt></li>
+    <li> <tt>produces information on the structure of the Feynman diagrams
+ that can be used to parameterize the phase space on a diagram-by-diagram
+basis. This information is used by MadEvent.</tt></li>
+    <li> <tt>is able to find all the subprocess contributing to a process 
+that has initial state protons (or antiprotons) and/or jets in the final state.
+ The user can input either a parton level (sub)process (e.g. u~ d &gt; w+
+g) or a "physical" process (p p&gt; w+ j).</tt></li>
+     
+</ol>
+   <tt><a href="#begin">back to faq list</a></tt> <br>
+     
+<hr width="100%"> <br>
+  <a name="q2"></a> <br>
+  <b><tt>What is MadEvent?</tt></b>   
+<p><tt>MadEvent is a multi-purpose event generator. It uses as input the process-dependent
+information (matrix elements, subprocesses, and phase space mappings) produced
+by MadGraph on the user's request. MadEvent exploits a new multi-channel
+integration&nbsp; method, named Single-Diagram-Enhanced, that makes the integration
+on different channels completely independent.</tt> </p>
+   
+<p><tt><a href="#begin">back to faq list</a></tt> <br>
+   </p>
+   
+<hr width="100%"> <br>
+  <a name="q3"></a> <br>
+  <b><tt>What is HELAS?</tt></b>   
+<p><tt>HELAS stands for HELicity amplitude subroutines for Feynman diagram 
+ evaluations <a
+ href="http://www.slac.stanford.edu/spires/find/hep/www?&amp;REPORT-NUM=KEK-91-11">[H. 
+ Murayama, I. Watanabe, and K. Hagiwara, 1991]</a>. It is a library of Fortran 
+ routines which&nbsp; enables the user to compute the helicity amplitudes 
+of an arbitrary tree-level Feynman diagram with a simple sequence of CALL 
+SUBROUTINE statements. Here you find the HELAS <a href="helas.ps"> manual</a>. 
+  </tt>  <br>
+  &nbsp; </p>
+   
+<p><tt><a href="#begin">back to faq list</a></tt> <br>
+   </p>
+   
+<hr width="100%"> <br>
+  <a name="q10"></a> <br>
+  <b><tt>How many particles in the final state can a process have?</tt></b> 
+  
+<p><tt>The web version of MadGraph is configured for up to 8 final state particles
+. This can be increased (upon request), however, the time required to generate
+a sub-process will increase with the number of external particles requested.</tt>
+ <br>
+  &nbsp; </p>
+   
+<p><tt><a href="#begin">back to faq list</a></tt> <br>
+   </p>
+   
+<hr width="100%"> <br>
+  <a name="q11"></a> <br>
+  <b><tt>How long does it take to generate a MadEvent code?</tt></b>   
+<p><tt>It depends on:</tt> </p>
+   
+<ol>
+   <li> <tt>the number of particles;</tt></li>
+    <li> <tt>the number of subprocesses, which are determined by how many 
+"summed  over" particles, such as protons and jets, are requested.</tt></li>
+     
+</ol>
+   <tt>For instance, for a simple process, like pp&gt;tt~bb~, just a few
+seconds.  For a more complicate one, like, W+4jets, to which many subprocesses
+contribute,  several minutes. (time on a 700 Mhz, single CPU, Linux machine).</tt>
+  
+<p><tt><a href="#begin">back to faq list</a></tt> <br>
+   </p>
+   
+<hr width="100%"> <br>
+  <a name="q12"></a> <br>
+  <b><tt>How can I prevent a particle from appearing as an internal line?</tt></b> 
+  
+<p><tt>Add a <font color="#3333ff">/ </font><font color="#000000">and the 
+ name of particle to be excluded at the end of the requested process.</font></tt> 
+ <br>
+  <tt><font color="#000000">(See also <a href="gen_proc_example.html">EXAMPLES</a> 
+ in the main page).</font></tt> </p>
+   
+<p><tt><font color="#000000">For example, consider the production of a tt~
+ pair and bb~ pair from gluon scattering at order alpha_S^2 alpha_EM^2. In
+ this case the input would be</font></tt> <br>
+  <tt><font color="#3333ff">gg &gt; tt~ bb~</font></tt> <br>
+  <tt><font color="#3333ff">QCD=2 QED=2</font></tt> <br>
+  <tt><font color="#000000">which includes diagrams where the Z,photon,Higgs 
+ appear as internal lines. If the interest is on the QED backgrounds to Higgs
+ production in association with a top-quark pair, with H-&gt;bb~, then&nbsp; 
+ the diagrams with the Higgs should be excluded (these are the signal!). To
+this aim is sufficient to input</font></tt> <br>
+  <tt><font color="#3333ff">gg &gt; tt~ bb~/h</font></tt> <br>
+  <tt><font color="#3333ff">QCD=2 QED=2</font></tt> <br>
+  &nbsp; </p>
+   
+<p><tt><a href="#begin">back to faq list</a></tt> <br>
+   </p>
+   
+<hr width="100%"> <br>
+  <a name="q13"></a> <br>
+  <b><tt>How can I select diagrams which have a given particle as an internal
+ s-channel line?</tt></b>   
+<p><tt>Specify it as an intermediate product.</tt> <br>
+  <tt><font color="#000000">(See also <a href="gen_proc_example.html">EXAMPLES</a> 
+ in the main page).</font></tt> </p>
+   
+<p><tt><font color="#000000">For example, consider Higgs production in association
+ with a top-quark pair, and with H-&gt;bb~, from gluon scattering. With the
+ following input</font></tt> <br>
+  <tt><font color="#3333ff">gg &gt; tt~ bb~</font></tt> <br>
+  <tt><font color="#3333ff">QCD=2 QED=2</font></tt> <br>
+  <tt><font color="#000000">we would include diagrams where also the Z,photon
+ appear as a internal lines. To get rid of these contribution input</font></tt> 
+ <br>
+  <tt><font color="#3333ff">gg &gt; h &gt; tt~ bb~</font></tt> <br>
+  <tt><font color="#3333ff">QCD=2 QED=2</font></tt> <br>
+  <tt><font color="#000000">which tells MadGraph to consider only diagrams 
+where the Higgs is in a s-channel line.</font></tt> <br>
+  &nbsp; </p>
+   
+<p><tt><a href="#begin">back to faq list</a></tt> <br>
+   </p>
+   
+<hr align="left" width="99%"> <br>
+  <a name="q19"></a> <br>
+  <b><tt>How do I unpack madevent.tar.gz and run the code on my PC Linux?</tt></b> 
+  
+<p><tt>1. download madevent.tar.gz into an empty directory.</tt> <br>
+  <tt>2. <font color="#3333ff">gunzip madevent.tar.gz</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+ : unzip the archive.</tt> <br>
+  <tt>3. <font color="#3333ff">tar -xvf madevent.tar</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+ : unpack the archive.</tt> </p>
+   
+<p><tt>The following directory structure will appear:</tt> <br>
+  &nbsp;   
+<table border="1" width="590" height="100">
+   <tbody>
+      <tr align="center" valign="CENTER">
+   <td align="center" valign="CENTER"><tt><font color="#000099">Dir name</font></tt></td>
+    <td><tt><font color="#000099">Content</font></tt></td>
+   </tr>
+    <tr>
+   <td align="left" valign="CENTER"><tt><font color="#000099">Events</font></tt></td>
+    <td><tt><font color="#000000">the generated events (weighted and unweighted)</font></tt></td>
+   </tr>
+    <tr>
+   <td><tt><font color="#000099">Process</font></tt></td>
+    <td><tt><font color="#000000">info on the process</font></tt></td>
+   </tr>
+    <tr>
+   <td><tt><font color="#000099">Source</font></tt></td>
+    <td><tt><font color="#000000">source (fortran) files&nbsp;</font></tt></td>
+   </tr>
+    <tr>
+   <td><tt><font color="#000099">SubProcesses</font></tt></td>
+    <td><tt><font color="#000000">directories containing the various subprocesses</font></tt></td>
+   </tr>
+    <tr>
+   <td><tt><font color="#000099">bin</font></tt></td>
+    <td><tt><font color="#000000">executables and scripts (csh and Perl)</font></tt></td>
+   </tr>
+    <tr>
+   <td><tt><font color="#000099">lib</font></tt></td>
+    <td><tt><font color="#000000">libraries</font></tt></td>
+   </tr>
+         
+  </tbody>  
+</table>
+    </p>
+   
+<p><tt><font color="#000000">together with the HTML file </font><font
+ color="#ff0000">index.html</font><font color="#000000"> that contains generic
+ information on the code.</font></tt> </p>
+   
+<p><tt>4. Run the <font color="#3333ff">survey </font><font
+ color="#000000">script that makes all the files and starts a quick integration:</font></tt> 
+ </p>
+   
+<p><tt><font color="#3333ff">./bin/survey</font> <font color="#3333ff">0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</font><font color="#000000">(for more info see </font><a
+ href="faq.html#q20">What do the various scripts in the directory /bin do?
+)</a></tt> </p>
+   
+<p><tt>5. <font color="#3333ff">netscape</font> <font color="#3333ff">SubProcesses/results.html</font>&nbsp; 
+ : to look at your results.</tt> <br>
+  &nbsp; </p>
+   
+<p><tt><a href="#begin">back to faq list</a></tt> <br>
+   </p>
+   
+<hr width="99%"> <br>
+  <a name="q20"></a> <br>
+  <b><tt>What do the various scripts in the directory <font
+ color="#3333ff">/bin </font>do?</tt></b>   
+<p><tt>The basic scripts are three: <font color="#009900">survey</font>, <font
+ color="#009900">refine</font>, and <font color="#009900">unweight_events</font>.
+ These are meant to be run one after the other.</tt> </p>
+   
+<p><tt><font color="#009900"><font size="+1">survey</font></font> performs 
+ a quick integration over the phase space without adjusting the grids. It 
+asks the user to provide the run mode in parallel (1) or on a single machine
+(0). When running in parallel (PBS system is supported)&nbsp; the name of
+the job has to&nbsp; be provided.</tt> <br>
+  <tt>For instance:</tt> <br>
+  <tt><font color="#3333ff">./bin/survey 0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+  </font><font color="#000000">: means that the user has requested to run
+on a single machine</font></tt> <br>
+  <tt><font color="#3333ff">./bin/survey 1 goofy&nbsp;&nbsp; </font><font
+ color="#000000">: means that the user has requested to run  in parallel,
+giving the jobs name "goofy". </font>The results of this first  run (as well
+as all the others) can be looked up with a browser in the file  SubProcesses/results.html.</tt>
+</p>
+   
+<p><tt><font color="#009900"><font size="+1">refine</font> </font><font
+ color="#000000">performs an integration based on the information gathered
+ by </font><font color="#009900">survey</font><font color="#000000">. It
+adjusts  the grids to improve the efficiency. </font>It asks the user to
+provide the  number of desired unweighted events&nbsp; (~10000) or the percent
+accuracy  of the integration (e.g. 0.01 = 1% accuracy). Then, it asks the
+run mode,  parallel (1) or on one machine (0). When running in parallel (PBS
+system is supported) the name of the job can be provided.</tt> <br>
+  <tt>For instance:</tt> <br>
+  <tt><font color="#3333ff">./bin/refine 10000 0&nbsp;&nbsp;&nbsp; </font><font
+ color="#000000">: means that the user has requested to produce enough weighted
+ events that 10000 unweighted events can be extracted,, running on one machine.</font></tt> 
+ <br>
+  <tt><font color="#3333ff">./bin/refine 0.01 1 pippo&nbsp;&nbsp; </font><font
+ color="#000000">: means that the user has requested to obtain a cross section
+ with 1% accuracy, running in parallel, giving the jobs name "pippo". </font>The
+ results of this run can be looked up with a browser in the file SubProcesses/results.html. 
+ The unweighted events are in events.dat in the Les Houches format.</tt> </p>
+   
+<p><tt><font color="#009900"><font size="+1">unweight_events</font>&nbsp;</font><font
+ color="#000000"> performs the unweighting of the events. The events are
+stored in the Les Houches format in the file unweighted_events.dat .</font></tt> 
+ </p>
+   
+<p><tt><a href="#begin">back to faq list</a></tt> <br>
+   </p>
+   
+<hr width="99%"> <br>
+  <a name="q22"></a><b><tt>How do I get a quick (and rough) estimate of the
+cross section?</tt></b>   
+<p><tt>Before going all the way, and spend (CPU) time in long runs, it is
+ always useful to have an idea of how large is the cross section by performing 
+ a quick run. This is also the right time to check that <font
+ color="#000000">the process, the QCD and QED couplings, the cuts, the collider
+ energy, and all the other settings are what are supposed to be.</font></tt> 
+ </p>
+   
+<p><tt><font color="#000000">To this aim, use the script </font><font
+ color="#009900">survey</font> located in the directory <font
+ color="#3333ff">/bin</font>. It performs a quick integration over the phase
+ space without adjusting the grids. It asks the user to provide the run mode
+in parallel (1) or on one machine (0). When  running in parallel (PBS system
+is supported)&nbsp; the name of the job can  be provided.</tt> <br>
+  <tt>For instance:</tt> <br>
+  <tt><font color="#3333ff">./bin/survey 0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+  </font><font color="#000000">: means that the user has requested&nbsp;
+on a single machine</font></tt> <br>
+  <tt><font color="#3333ff">./bin/survey 1 goofy&nbsp;&nbsp; </font><font
+ color="#000000">: means that the user has requested &nbsp;to run in parallel,
+giving the jobs name "goofy". </font>The results of this first run (as well
+as all the others) can be looked up with a browser in the file SubProcesses/results.html.</tt>
+</p>
+   
+<p><tt><a href="#begin">back to faq list</a></tt> <br>
+   </p>
+   
+<hr size="3" width="99%"> <br>
+  <a name="q23"></a> <br>
+  <b><tt>How do I calculate a cross section at a given precision?</tt></b> 
+<br>
+  &nbsp;   
+<p><tt><font color="#000000">Use the script </font><font color="#009900">refine</font><font
+ color="#000000">, after having used </font><font color="#009900">survey,</font><font
+ color="#000000"> </font>located in the directory <font color="#3333ff">/bin</font>. 
+ <font color="#009900">refine </font>performs an integration over the phase
+ space adjusting the grids. It asks the user to provide the run mode in parallel
+(1) or on one machine (0). When running in parallel  (PBS system is supported)&nbsp;
+the name of the job can be provided.</tt>  <br>
+  <tt>For instance:</tt> <br>
+  <tt><font color="#3333ff">./bin/refine 0.01 1 pippo&nbsp; </font><font
+ color="#000000">: means that the user has requested to obtain a cross section&nbsp;
+ with 1% accuracy, running in parallel, giving the jobs name "pippo".</font></tt> 
+ <br>
+  &nbsp; </p>
+   
+<p><tt><a href="#begin">back to faq list</a></tt> <br>
+   </p>
+   
+<hr size="3" width="99%"> <br>
+  <a name="q24"></a> <br>
+  <b><tt>How do I generate unweighted events after I calculated the cross 
+section at a given precision, without wasting the information gathered so 
+far?</tt></b>   
+<p><tt><font color="#000000">First, you can just try running </font><font
+ color="#009900">unweight_events</font><font color="#000000">, which performs
+ the unweighting of the events, and see how many unweighted events are obtained:</font></tt> 
+ <br>
+  <tt><font color="#3333ff">./bin/unweight_events</font></tt> </p>
+   
+<p><tt><font color="#000000">If they are not enough, run </font><font
+ color="#009900">refine </font><font color="#000000">asking for 10000 events.</font></tt> 
+ <br>
+  <tt>For instance:</tt> <br>
+  <tt><font color="#3333ff">./bin/refine 10000 0&nbsp;&nbsp;&nbsp; </font><font
+ color="#000000">: means that the user has requested to produce enough weighted
+ events that 10000 unweighted events can be extracted,, running on one machine.</font></tt> 
+ <br>
+  <tt><font color="#000000">Finally, run </font><font color="#009900">unweight_events 
+ </font><font color="#000000">to unweight the events.</font></tt> <br>
+  &nbsp; </p>
+   
+<p><tt><a href="#begin">back to faq list</a></tt> </p>
+   
+<p> </p>
+   
+<hr size="3" width="99%"> <br>
+  <a name="q26"></a> <br>
+  <b><tt>How do I save/retrieve/remove the results of a run?</tt></b>   
+<p><tt>Use the scripts <font color="#009900">save</font><font
+ color="#000000">, </font><font color="#009900">retrieve</font><font
+ color="#000000">,</font><font color="#009900"> remove </font><font
+ color="#000000">the directory </font><font color="#3333ff">/bin</font><font
+ color="#000000">, followed by the name that identifies the run.</font></tt> 
+ <br>
+  <tt>For instance:</tt> <br>
+  <tt><font color="#3333ff">./bin/save tevatron </font><font
+ color="#000000">: copies all the results.html pages and the events (and
+the grids) into tevatron_results and tevatron_events files, etc. It also
+updates the index.html file in the main directory, so that the relevant information
+ (web pages and events) are accesible from it.</font></tt> <br>
+  <tt><font color="#3333ff">./bin/retrieve&nbsp; tevatron</font><font
+ color="#000000">: copies all the information (results.html, events, grids)
+ to the default (active) run.</font></tt> <br>
+  <tt><font color="#3333ff">./bin/remove&nbsp; tevatron</font><font
+ color="#000000">: deletes all the information (results.html, events, grids)
+ relative to the "tevatron" run.</font></tt> <br>
+  &nbsp; </p>
+   
+<p><tt><a href="#begin">back to faq list</a></tt> <br>
+   </p>
+   
+<hr size="3" width="99%"> <br>
+  <a name="q30"></a> <br>
+  <b><tt>How do I change the collider type and/or the energy?</tt></b>   
+<p><tt>The default is a proton-antiproton collider @ 2 TeV (Tevatron).</tt> 
+ </p>
+   
+<p><tt>Edit the corresponding lines in file <font color="#3333ff">Source/setpara.f.
+<font color="#000000">See the <a href="Manual.ps">Manual</a> for futher info.</font></font></tt>
+</p>
+   
+<p> </p>
+   
+<p><tt><a href="#begin">back to faq list</a></tt> <br>
+   </p>
+   
+<hr size="3" width="99%"> <br>
+  <a name="q31"></a> <br>
+  <b><tt>How do I change the cuts?</tt></b>   
+<p><tt><font color="#000000">The default cuts are:</font></tt> </p>
+   
+<p><tt><font color="#000000">Et(i)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &gt;10 GeV&nbsp;&nbsp;&nbsp;&nbsp; 
+ : min transverse energy</font></tt> <br>
+  <tt>DeltaR(i,j)&gt;0.4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : min
+DeltaR=Sqrt(DeltaEta^2+DeltaPhi^2)</tt>  <br>
+  <tt>|Eta(i)|&nbsp;&nbsp; &lt;2.5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+ : max rapidity</tt> </p>
+   
+<p><tt><font color="#000000">for <u>all</u> i,j particles in the final state.</font></tt> 
+ </p>
+      
+<p><tt>Edit the file <font color="#3333ff">Source/setcuts.f </font><font
+ color="#000000">to change them. The notation is transparent.</font></tt> 
+ <tt><font color="#3333ff"><font color="#000000">See the <a
+ href="Manual.ps">Manual</a> for futher info.</font></font></tt>
+<br>
+  &nbsp; <br>
+   <br>
+<tt><a href="#begin">back to faq list</a></tt> <br>
+   </p>
+   
+<hr size="1" width="100%"> <br>
+  <a name="q33"></a> <br>
+  <b><tt>How can I set an event-by-event renormalization or factorization 
+scale?</tt></b>  <br>
+  &nbsp;   
+<p><tt>The default is:</tt> </p>
+   
+<p><tt>renormalization scale= factorization scale=Z mass</tt> </p>
+   
+<p><tt>To change it, edit the file <font color="#3333ff">Source/setpara.f,</font><font
+ color="#000000">in particular the subroutines<br>
+<font color="#3333ff">set_ren_scale</font> and </font></tt><tt><font
+ color="#000000"><font color="#3333ff">set_fac_scale</font></font></tt><tt><font
+ color="#000000">.&nbsp;</font></tt><tt><font color="#3333ff"><font
+ color="#000000">See the <a href="Manual.ps">Manual</a>
+for futher info.</font></font></tt> </p>
+      
+<p><br>
+<tt><font color="#3333ff"></font></tt> <tt><a href="#begin">back to faq list</a></tt>
+<br>
+   </p>
+   
+<hr width="100%"> <br>
+  <a name="q41"></a> <br>
+  <b><tt>How do I make plots?</tt></b>   <br>
+<br>
+<tt><font color="#3333ff"><font color="#000000">The file</font> Source/plot_events.f</font><font
+ color="#000000">, produces a set of basic plot (topdrawer) of an event file.
+U</font>se the  script <font color="#009900">plot </font><font
+ color="#000000">in </font><font color="#3333ff">/bin</font><font
+ color="#000000">, followed by the name of the file of events you want to
+use.</font></tt>    
+<p><tt><a href="#begin">back to faq list</a></tt> </p>
+   
+<p> </p>
+   
+<hr width="100%"> <br>
+  <a name="q42"></a> <br>
+  <b><tt>Should I plot the weighted or unweighted events?</tt></b>   
+<p><tt>In the unweighting procedure information is lost. So in order to get
+ smoother distributions it certainly better to use the weighted set of events.
+ On the other hand, it can also be useful to check that analogous distributions
+ for the unweighted events are compatible one with the other.</tt> </p>
+   
+<p><tt><a href="#begin">back to faq list</a></tt> <br>
+  &nbsp; <br>
+  &nbsp; <br>
+  &nbsp; </p>
+  <br>
+   
+</body>
+</html>

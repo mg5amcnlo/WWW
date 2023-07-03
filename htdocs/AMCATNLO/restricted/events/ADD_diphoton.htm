@@ -1,0 +1,111 @@
+<html>
+	<body>
+	<font  color="#AA0000" face="Courier"  size=+1> <br><br>
+	Diphoton production in the ADD model<br><br><hr></font>
+        <font  color="#000000" face="Courier"><p style="line-height:150%;">
+
+<p>
+
+
+
+<li><font size=+1>Description:</font><br>
+<ul>
+	Event files for the prompt production of di-photons in the ADD
+	model. Both signal and backgrounds are included (<i>pp &rarr;
+	(Grav &rarr;) &gamma;&gamma;</i>). Input parameters are the
+	following (unless specified below):<p>
+	<ul>
+	<li> <i>&alpha;<sub>EW</sub></i><sup>-1</sup> = 132.507,
+	<li> <i>G<sub>F</sub></i> = 1.16639 10<sup>-5</sup> GeV<sup>-2</sup>,
+	<li> <i>m<sub>Z</sub></i> = 91.188 GeV,
+	<li> MSTW(n)lo2008cl68 for the (N)LO,
+	<li> <i>&mu;<sub>R</sub></i> = <i>&mu;<sub>F</sub></i> = <i>m<sub>&gamma;&gamma;</sub></i> (i.e. the diphoton invariant mass).
+	</li></ul>
+</ul>
+<li><font size=+1>Generation cuts:</font><br>
+	<ul>
+	<ul>
+	<li> Two central photons, |<i>&eta;(&gamma;)</i>| < 2.6,
+	<li> Two hard photons, <i>p<sub>T</sub>(&gamma;)</i> > 20 GeV,
+	<li> Large diphoton invariant mass, <i>m<sub>&gamma;&gamma;</sub></i> > 100 GeV or <i>m<sub>&gamma;&gamma;</sub></i> > 400 GeV (see the event files below),
+	<li> Isolated photons, Frixione isolation with &delta;<sub>0</sub> = 0.38, &epsilon;<sub>&gamma;</sub> = 1 and n = 2,
+	<li> Remove the unphysical region: require <i>m<sub>&gamma;&gamma;</sub></i> < 1.1 <i>M<sub>S</sub></i>, where <i>M<sub>S</sub></i> is the ADD string scale.
+	</li></ul>
+	</ul>
+</ul>
+
+
+
+<li><font size=+1>Event files:</font><br>
+<ul>
+	The (N)LO events are generated with the MC subtraction terms for Herwig 6 (angular-ordered shower) and the files contain 1 million events each and are for LHC 8 TeV. The cross sections are given between the brackets, and the uncertainty is from the MC integration only. Furthermore, they contain information about the 40 MSTW PDF sets and 3x3 renormalization and factorization scales (0.5 and 2.0 times the central values) to compute the PDF and scale uncertainties. As they are, the NLO events are still non-physical: they need to be showered to be meaningful. <p>
+	<ul>
+	<li> Dimension <i>d</i> = 2, <i>M<sub>S</sub></i> = 3.7:
+	<ul>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/8TeV/ADD_diphoton_n2_Ms3.7_HERWIG_NLO.lhe.gz">NLO Herwig 6 <i>m<sub>&gamma;&gamma;</sub></i> > 100 GeV (10.147 +/- 0.019 pb)</a>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/8TeV/ADD_diphoton_n2_Ms3.7_400_HERWIG_NLO.lhe.gz">NLO Herwig 6 <i>m<sub>&gamma;&gamma;</sub></i> > 400 GeV (0.1558 +/- 0.0003 pb)</a>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/8TeV/ADD_diphoton_n2_Ms3.7_LO.lhe.gz">LO <i>m<sub>&gamma;&gamma;</sub></i> > 100 GeV ( 4.812 +/- 0.006 pb)</a>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/8TeV/ADD_diphoton_n2_Ms3.7_400_LO.lhe.gz">LO <i>m<sub>&gamma;&gamma;</sub></i> > 400 GeV ( 0.0943 +/- 0.0001 pb)</a>
+	</li></ul>
+	</li><p>
+	<li> Dimension <i>d</i> = 3, <i>M<sub>S</sub></i> = 3.8:
+	<ul>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/8TeV/ADD_diphoton_n3_Ms3.8_HERWIG_NLO.lhe.gz">NLO Herwig 6 <i>m<sub>&gamma;&gamma;</sub></i> > 100 GeV (10.052 +/- 0.020 pb)</a>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/8TeV/ADD_diphoton_n3_Ms3.8_400_HERWIG_NLO.lhe.gz">NLO Herwig 6 <i>m<sub>&gamma;&gamma;</sub></i> > 400 GeV (0.1376 +/- 0.0003 pb)</a>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/8TeV/ADD_diphoton_n3_Ms3.8_LO.lhe.gz">LO <i>m<sub>&gamma;&gamma;</sub></i> > 100 GeV ( 4.799 +/- 0.006 pb)</a>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/8TeV/ADD_diphoton_n3_Ms3.8_400_LO.lhe.gz">LO <i>m<sub>&gamma;&gamma;</sub></i> > 400 GeV ( 0.0814 +/- 0.0001 pb)</a>
+	</li></ul>
+	</li><p>
+	<li> Dimension <i>d</i> = 4, <i>M<sub>S</sub></i> = 3.2:
+	<ul>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/8TeV/ADD_diphoton_n4_Ms3.2_HERWIG_NLO.lhe.gz">NLO Herwig 6 <i>m<sub>&gamma;&gamma;</sub></i> > 100 GeV (10.050 +/- 0.020 pb)</a>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/8TeV/ADD_diphoton_n4_Ms3.2_400_HERWIG_NLO.lhe.gz">NLO Herwig 6 <i>m<sub>&gamma;&gamma;</sub></i> > 400 GeV (0.1480 +/- 0.0002 pb)</a>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/8TeV/ADD_diphoton_n4_Ms3.2_LO.lhe.gz">LO <i>m<sub>&gamma;&gamma;</sub></i> > 100 GeV ( 4.805 +/- 0.006 pb)</a>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/8TeV/ADD_diphoton_n4_Ms3.2_400_LO.lhe.gz">LO <i>m<sub>&gamma;&gamma;</sub></i> > 400 GeV ( 0.0887 +/- 0.0002 pb)</a>
+	</li></ul>
+	</li><p>
+	<li> Dimension <i>d</i> = 5, <i>M<sub>S</sub></i> = 2.9:
+	<ul>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/8TeV/ADD_diphoton_n5_Ms2.9_HERWIG_NLO.lhe.gz">NLO Herwig 6 <i>m<sub>&gamma;&gamma;</sub></i> > 100 GeV (10.075 +/- 0.020 pb)</a>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/8TeV/ADD_diphoton_n5_Ms2.9_400_HERWIG_NLO.lhe.gz">NLO Herwig 6 <i>m<sub>&gamma;&gamma;</sub></i> > 400 GeV (0.1582 +/- 0.0003 pb)</a>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/8TeV/ADD_diphoton_n5_Ms2.9_LO.lhe.gz">LO <i>m<sub>&gamma;&gamma;</sub></i> > 100 GeV ( 4.809 +/- 0.006 pb)</a>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/8TeV/ADD_diphoton_n5_Ms2.9_400_LO.lhe.gz">LO <i>m<sub>&gamma;&gamma;</sub></i> > 400 GeV ( 0.0957 +/- 0.0001 pb)</a>
+	</li></ul>
+	</li><p>
+	<li> Dimension <i>d</i> = 6, <i>M<sub>S</sub></i> = 2.7:
+	<ul>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/8TeV/ADD_diphoton_n6_Ms2.7_HERWIG_NLO.lhe.gz">NLO Herwig 6 <i>m<sub>&gamma;&gamma;</sub></i> > 100 GeV (10.089 +/- 0.020 pb)</a>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/8TeV/ADD_diphoton_n6_Ms2.7_400_HERWIG_NLO.lhe.gz">NLO Herwig 6 <i>m<sub>&gamma;&gamma;</sub></i> > 400 GeV (0.1673 +/- 0.0005 pb)</a>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/8TeV/ADD_diphoton_n6_Ms2.7_LO.lhe.gz">LO <i>m<sub>&gamma;&gamma;</sub></i> > 100 GeV ( 4.815 +/- 0.006 pb)</a>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/8TeV/ADD_diphoton_n6_Ms2.7_400_LO.lhe.gz">LO <i>m<sub>&gamma;&gamma;</sub></i> > 400 GeV ( 0.1019 +/- 0.0002 pb)</a>
+	</li></ul>
+	</li><p>
+	<li> Background only:
+	<ul>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/8TeV/diphoton_HERWIG_NLO.lhe.gz">NLO Herwig 6 <i>m<sub>&gamma;&gamma;</sub></i> > 100 GeV (10.077 +/- 0.019 pb)</a>
+		<li> <a href="http://madgraph.cism.ucl.ac.be/AMCATNLO/AMCATNLOdata/Event_Samples/8TeV/diphoton_400_HERWIG_NLO.lhe.gz">NLO Herwig 6 <i>m<sub>&gamma;&gamma;</sub></i> > 400 GeV (0.1263 +/- 0.0003 pb)</a>
+	</li></ul>
+	</li></ul>
+</ul>
+
+<li><font size=+1>Technical details:</font><br>
+<ul>
+	The NLO event files use the UseSudakov=.true. and DampMCsubt=.true., using the default values of the FKS5_new_born code in revision 268. Analytic results (which have also been used for <a href="http://arxiv.org/abs/arxiv:0811.1670" target="_top">arXiv:0811.1670</a> and <a href="http://arxiv.org/abs/arxiv:0902.4894" target="_top">arXiv:0902.4894</a>) have been used for the virtual corrections.<p>
+</ul>
+
+
+
+<li><font size=+1>Reference:</font><br>
+<ul>
+	<a href="http://arxiv.org/abs/arxiv:1209.6527" target="_top">arXiv:1209.6527</a><br>
+	<b>Diphoton production at NLO+PS accuracy in the ADD model</b><br> 
+	R.&nbsp;Frederix, M.&nbsp;Mandal, P.&nbsp;Mathews,
+	V.&nbsp;Ravindran, S.&nbsp;Seth, P.&nbsp;Torrielli,
+	M.&nbsp;Zaro
+</ul>
+
+
+</li>
+</font>
+</body>
+</html>

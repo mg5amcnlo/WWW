@@ -1,0 +1,26 @@
+
+# For bbclone...
+#AddType application/x-httpd-php .htm .html  
+# <FilesMatch "\.(html?)$">  
+# php_value short_open_tag "Off"  
+# php_value auto_append_file "/Users/madgraph/WWW/htdocs/bbclone/count.php"  
+# </FilesMatch> 
+# End bbclone 
+
+#<files admin.html>
+AuthUserFile /Users/madgraph/Users/admin_users
+AuthGroupFile /dev/null
+AuthName "Only DVLPT users !!!"
+AuthType Basic
+
+ErrorDocument 401 /error/TEMPError.html
+ErrorDocument 405 /error/TEMPError.html
+
+Order deny,allow
+#deny from all
+#require valid-user
+#allow from .fynu.ucl.ac.be
+#allow from .fyma.ucl.ac.be
+#satisfy any
+#</files>
+

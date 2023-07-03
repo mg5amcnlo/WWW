@@ -1,0 +1,92 @@
+#!/usr/bin/perl -w
+
+#use the CGI.pm module
+#use CGI qw/:standard/;
+
+#------------------------------------------------------------
+#
+#          This is Denny's code for unwrapping the form replies
+#
+my($zzi,@marked,$qn,$an);
+binmode STDIN;
+read STDIN,$zzi,$ENV{CONTENT_LENGTH};
+$zzi =~ s/\s$//g;
+@marked = split(/&/,$zzi);
+foreach $input (@marked) {
+    ($qn,$an) = split(/=/,$input);
+    $an =~ tr/+/ /;
+    $an =~ s/%([a-fA-F0-9][a-fA-F0-9])/pack("C", hex($1))/eg;
+    $an =~ s/~!/ ~!/g;
+    $in{$qn} = $an
+    }
+
+
+#$server = $ENV{'SERVER_NAME'};
+
+#------------------------------------------------------------
+# read in the values passed from the form
+#------------------------------------------------------------
+
+# dir
+$dir     =$in{dir_name};
+$whattodo=$in{whattodo};
+chomp($dir);
+$dir =~ s/\s//g;
+#
+# read User
+#
+if (open FILE, "$dir/User"){
+    @userfile = <FILE>;
+}
+else{
+    @userfile = ("Error: User not present");
+}
+close FILE;
+#
+#   Flush outputs immediately
+#
+$| = 1;
+print "Content-type: text/html\n\n";
+print  "<HTML> <HEAD> \n";
+print "<META HTTP-EQUIV=\"Refresh\" CONTENT=\"5\; ";
+print "URL=$ENV{'HTTP_REFERER'}\"> \n";
+print  "</HEAD> <BODY> <CENTER>\n";
+
+if( $whattodo eq "hold"){
+    system ("cd $dir; ./bin/qholdjob $userfile[1] > /dev/null; touch HoldWeb;")}
+
+if( $whattodo eq "resume"){
+    system ("cd $dir; ./bin/qrlsjob $userfile[1] > /dev/null; rm -f HoldWeb; ")}
+
+if( $whattodo eq "kill"){
+    if ( open IDDATA,"$dir/myprocid") {
+        while ($buffer = <IDDATA>){
+	    print "Killing job $buffer <br> \n";
+	    system("kill -9 $buffer");
+	}
+	close IDDATA;
+        system("rm $dir/myprocid");
+    }
+    system ("cd $dir; ./bin/qdeljob > /dev/null; rm -f HoldWeb; rm -f RunWeb;./bin/clean >/dev/null; ./bin/gen_crossxhtml-pl");
+    system ("cd $dir/Events; rm -f pythia_events.* pgs_events.* pythia_lhe_events.* plots.html > /dev/null");
+}
+if( $whattodo eq "stop_job"){
+    if ( open IDDATA,"$dir/RunWeb") {
+        while ($buffer = <IDDATA>){
+	    print "Killing job $buffer <br> \n";
+	    system("kill -s SIGINT $buffer");
+	}
+	close IDDATA;
+    }
+}
+
+print "<br> You are going to be redirected to the previous page...";
+print "</CENTER></BODY></HTML> \n \n";
+#
+#   That's all folks!
+#
+close(STDOUT);
+close(STDERR);
+close(STDIN);
+
+

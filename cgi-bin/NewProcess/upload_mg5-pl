@@ -1,0 +1,149 @@
+#!/usr/bin/perl -w
+
+#use the CGI.pm module
+use CGI;
+
+#
+#          This is Denny's code for unwrapping the form replies
+#
+
+#------------------------------------------------------------
+
+$dirDATA = $ENV{'MADGRAPH_DATA'};
+#$dirHTML = "MadGraphData";
+$server = $ENV{'SERVER_NAME'};
+
+#------------------------------------------
+# Find a free directory in the private area
+#------------------------------------------
+
+# first check private dir exists and if not create it
+
+  $uname = $ENV{REMOTE_USER};
+  if(! -e "$dirDATA/$uname" ){ 
+  system("mkdir $dirDATA/$uname")};
+  $directory="$dirDATA/$uname";
+  
+#------------------------------------------------------------
+# Upload the form from the web
+#------------------------------------------------------------
+  $query = new CGI; 
+  $mode = $query->param("program");
+  if ( $mode eq "mg4"){
+     $file_name = 'proc_card.dat';
+  }
+  elsif ($mode eq "mg5"){
+     $file_name = 'proc_card_mg5.dat';
+  }
+  else{
+WriteError("Mode $mode not recognized");
+  }
+
+
+
+  $filename = $query->param("proc_card"); 
+  $filename =~ s/.*[\/\\](.*)/$1/; 
+  
+  $upload_filehandle = $query->upload("proc_card");
+
+  if(-e "$directory/$file_name"){system("rm -f $directory/$file_name")};    
+  open(FILE,">$directory/$file_name") or WriteError("File $directory/$file_name could not be opened");
+  
+  $has_proc=0;
+  $has_block=0;
+  $has_generate=0;
+  
+  @content=<$upload_filehandle>;
+  
+  foreach $line (@content) {
+  
+     if($line =~ />/){$has_proc++}
+     if($line =~ /Begin(.+)MODEL/){$has_block++}
+     if($line =~ /End(.+)MODEL/){$has_block++}
+     if($line =~ /Begin(.+)PROCESS/){$has_block++}
+     if($line =~ /End(.+)PROCESS/){$has_block++}   
+     if($line =~ /generate/i){$has_generate++}
+
+  }
+  if($has_proc == 0) {
+     WriteError("File $file_name doesn't contain any process. Please provide another file");
+  }  
+
+  if($has_block != 4 && $mode eq 'mg4') {
+     WriteError("File $file_name doesn't contain correct format name doesn't contain correct format. Please provide another file");
+  }
+  elsif( $has_generate < 0 && $mode eq 'mg5'){
+      WriteError("File $file_name doesnn't contain generation statement. Please provide another file $ok");
+  }
+  
+  foreach $line (@content) {
+  
+     if(length($line)>1){print FILE $line};
+     
+  }
+    
+  close(FILE);
+
+system("tr -d '\r' < $directory/$file_name > $directory/tmp.txt; mv -f $directory/tmp.txt $directory/$file_name");
+
+#------------------------------------------------------------
+# Open the resulting card
+#------------------------------------------------------------
+
+open(CARD,"<$directory/$file_name") or
+  WriteError("The resulting proc_card could not be opened.");
+
+
+#
+#   Flush outputs immediately
+#
+$| = 1;
+print "Content-type: text/html\n\n";
+print "<HTML> <HEAD> \n";
+print "</HEAD>\n";
+print "<FORM METHOD=\"POST\" ACTION=\"http://$server/cgi-bin/NewProcess/webnewprocess_mg5-pl\" >\n";
+print "<INPUT TYPE=HIDDEN NAME=callfrom  VALUE=\"upload\">\n";
+if( $mode eq "mg4"){
+      print "<INPUT TYPE=HIDDEN NAME=program  VALUE=\"mg5\">\n";
+}
+else
+{
+      print "<INPUT TYPE=HIDDEN NAME=program  VALUE=\"mg5_full\">\n";
+}
+
+print "<CENTER> File upload ok <BR>";
+print "<INPUT TYPE=SUBMIT VALUE=\"Continue\"> \n";
+print "</center>";
+print "<BR><hr>\n";
+print "Resulting $file_name:\n";
+print "<PRE>\n";
+while(<CARD>){
+  print "$_";
+}
+print "</PRE>\n";
+close CARD;
+print "</BODY></HTML> \n \n";
+#
+#   That's all folks!
+#
+
+#------------------------------------------------------------
+# Display error message in browser and kill process
+#------------------------------------------------------------
+
+sub WriteError {
+$errormsg=shift;
+$| = 1;
+print "Content-type: text/html\n\n";
+print "<HTML>\n<HEAD> \n";
+print "<TITLE>Proc card upload failed</TITLE></HEAD>\n<BODY>\n";
+print "<H2>Proc upload failed</H2>\n";
+print "$errormsg";
+print "<BR>Click the \"backwards\" button in you browser and correct the error.\n";
+print "</BODY>\n</HTML>\n";
+die;
+}
+
+
+
+

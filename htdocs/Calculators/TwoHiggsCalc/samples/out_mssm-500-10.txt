@@ -1,0 +1,195 @@
+# 2HDM Parameters in the Higgs Basis
+# Spectrum and decay, produced by TwoHiggsCalc
+# ****************************************************
+# *******************BEGIN INPUT FILE*****************
+# 2HDM Parameters in the Higgs Basis
+# Produced from parameters in a generic basis by GEN2HB
+# ****************************************************
+Block MODSEL # Select Model
+     1   10    # 10=2HDM
+Block SMINPUTS      # Standard Model inputs
+Block SMINPUTS      # Standard Model inputs
+     1        1.27934000e+02   # alpha em(MZ)(-1) SM MSbar
+     2        1.16637000e-05   # G Fermi
+     3        1.17200000e-01   # alpha s(MZ) SM MSbar
+     4        9.11876000e+01   # MZ(Pole)
+Block ADDSMINPUTS   # Additional SM inputs needed
+     1        1.05000000e-01   # Ms(pole)
+     2        4.20000000e+00   # Mb(pole)
+     3        1.25000000e+00   # Mc(pole)
+     4        1.74300000e+02   # Mt(pole)
+     5        1.06000000e-01   # Mmu(pole)
+     6        1.77700000e+00   # Mtau(pole)
+     7        1.05000000e-01   # Ms MSbar
+     8        4.20000000e+00   # Mb MSbar
+     9        1.25000000e+00   # Mc MSbar
+    10        1.74300000e+02   # Mt MSbar
+    11        1.06000000e-01   # Mmu MSbar
+    12        1.77700000e+00   # Mtau MSbar
+    13        9.74500000e-01   # Vud
+    14        2.24000000e-01   # Vus
+    15        3.70000000e-03   # Vub
+    16        2.24000000e-01   # Vcd
+    17        9.73700000e-01   # Vcs
+    18        4.20000000e-02   # Vcb
+    19        1.00000000e-02   # Vtd
+    20        4.00000000e-02   # Vts
+    21        9.99100000e-01   # Vtb
+Block BASIS # Basis choice
+     1   1    # Higgs Basis
+Block MINPAR # Potential parameters
+     1     1      6.63665400e-02 # lambda1
+     2     1      6.63665400e-02 # lambda2
+     3     1      7.96969199e-02 # lambda3
+     4     1     -2.07003080e-01 # lambda4
+     5     1      2.70845995e-03 # lambda5
+     5     2      0.00000000e+00 # Im of lambda5
+     6     1      2.68137536e-02 # Real part of lambda6
+     6     2      0.00000000e+00 # Im part of lambda6
+     7     1     -2.68137536e-02 # Real part of lambda7
+     7     2      3.28373775e-18 # Im part of lambda7
+     8     1      5.06398248e+02 # Mass of charged Higgs
+Block INVARIANTS # Invariants values for 2HDM, see hep-ph/0504050
+     1     1     -4.02344286e+03 # Y1
+     2     1      2.54023390e+05 # Y2
+     3     1      6.60621279e+05 # |Y3|^2
+     4     1      1.32733080e-01 # Z1
+     5     1      1.32733080e-01 # Z2
+     6     1      7.96969199e-02 # Z3
+     7     1     -2.07003080e-01 # Z4
+     8     1      2.93430213e-05 # |Z5|^2
+     9     1      7.18977380e-04 # |Z6|^2
+    10     1      7.18977380e-04 # |Z7|^2
+    11     1      3.57853256e+03 # Real part of Y_3^2 Z_5^* 
+    11     2      0.00000000e+00 # Im part of Y_3^2 Z_5^* 
+    12     1     -2.17938467e+01 # Real part of Y_3^2 Z_6^* 
+    12     2      0.00000000e+00 # Im part of Y_3^2 Z_6^* 
+    13     1      2.17938467e+01 # Real part of Y_3^2 Z_7^* 
+    13     2      0.00000000e+00 # Im part of Y_3^2 Z_7^* 
+Block YUKAWA2 # Couplings of the second doublet
+    1     1     1      0.00000000e+00 # Y1DR 
+    1     1     2      0.00000000e+00 # Y1DI 
+    1     2     1      0.00000000e+00 # Y2DR 
+    1     2     2      0.00000000e+00 # Y2DI 
+    1     3     1      0.00000000e+00 # Y3DR 
+    1     3     2      0.00000000e+00 # Y3DI 
+    2     1     1      0.00000000e+00 # Y1SR 
+    2     1     2      0.00000000e+00 # Y1SI 
+    2     2     1     -1.05000000e+00 # Y2SR 
+    2     2     2      0.00000000e+00 # Y2SI 
+    2     3     1      0.00000000e+00 # Y3SR 
+    2     3     2      0.00000000e+00 # Y3SI 
+    3     1     1      0.00000000e+00 # Y1BR 
+    3     1     2      0.00000000e+00 # Y1BI 
+    3     2     1      0.00000000e+00 # Y2BR 
+    3     2     2      0.00000000e+00 # Y2BI 
+    3     3     1     -4.20000000e+01 # Y3BR 
+    3     3     2      0.00000000e+00 # Y3BI 
+    4     1     1      0.00000000e+00 # Y1UR 
+    4     1     2      0.00000000e+00 # Y1UI 
+    4     2     1      0.00000000e+00 # Y2UR 
+    4     2     2      0.00000000e+00 # Y2UI 
+    4     3     1      0.00000000e+00 # Y3UR 
+    4     3     2      0.00000000e+00 # Y3UI 
+    5     1     1      0.00000000e+00 # Y1CR 
+    5     1     2      0.00000000e+00 # Y1CI 
+    5     2     1      1.25156249e-01 # Y2CR 
+    5     2     2      0.00000000e+00 # Y2CI 
+    5     3     1      0.00000000e+00 # Y3CR 
+    5     3     2      0.00000000e+00 # Y3CI 
+    6     1     1      0.00000000e+00 # Y1TR 
+    6     1     2      0.00000000e+00 # Y1TI 
+    6     2     1      0.00000000e+00 # Y2TR 
+    6     2     2      0.00000000e+00 # Y2TI 
+    6     3     1      1.77382088e+01 # Y3TR 
+    6     3     2      0.00000000e+00 # Y3TI 
+    7     1     1      0.00000000e+00 # Y1ER 
+    7     1     2      0.00000000e+00 # Y1EI 
+    7     2     1      0.00000000e+00 # Y2ER 
+    7     2     2      0.00000000e+00 # Y2EI 
+    7     3     1      0.00000000e+00 # Y3ER 
+    7     3     2      0.00000000e+00 # Y3EI 
+    8     1     1      0.00000000e+00 # Y1MUR 
+    8     1     2      0.00000000e+00 # Y1MUI 
+    8     2     1     -1.06000000e+00 # Y2MUR 
+    8     2     2      0.00000000e+00 # Y2MUI 
+    8     3     1      0.00000000e+00 # Y3MUR 
+    8     3     2      0.00000000e+00 # Y3MUI 
+    9     1     1      0.00000000e+00 # Y1TAR 
+    9     1     2      0.00000000e+00 # Y1TAI 
+    9     2     1      0.00000000e+00 # Y2TAR 
+    9     2     2      0.00000000e+00 # Y2TAI 
+    9     3     1     -1.77700000e+01 # Y3TAR 
+    9     3     2      0.00000000e+00 # Y3TAI 
+
+# *******************END INPUT FILE*****************
+# **********************SPECTRUM*********************
+Block SPINFO       # Program information
+     1   THIDOPAC  # Spectrum calculator
+     2   1.2       # Version number
+Block MASS # Mass spectrum
+# PDG Code                mass    particle
+        25      8.96436253e+01    # Higgs 1
+        35      5.00000250e+02    # Higgs 2
+        36      5.00339440e+02    # Higgs 3
+        37      5.06398248e+02    # Charged Higgs
+Block Tmix # T mixing matrix for Higgs
+  1  1    -9.99977495e-01  #T_{H,1}
+  1  2     0.00000000e+00  #T_{H,2}
+  1  3     6.70897583e-03  #T_{H,3}
+  2  1     6.70897583e-03  #T_{N,1}
+  2  2     0.00000000e+00  #T_{N,2}
+  2  3     9.99977495e-01  #T_{N,3}
+  3  1    -0.00000000e+00  #T_{A,1}
+  3  2     1.00000000e+00  #T_{A,2}
+  3  3     0.00000000e+00  #T_{A,3}
+# ********************END SPECTRUM*******************
+# **********************DECAY*********************
+Block DCINFO       # Program information
+     1   THIDOPAC  # Decay package
+     2   1.2       # Version number
+#     PDG               Width
+DECAY  25      3.98793274e-03      # H1 decays
+#                BR   NDA     ID1     ID2
+     1.88744687e-04     2      13     -13 # BR(H1 -> mu mu~)
+     5.29196260e-02     2      15     -15 # BR(H1 -> ta ta~)
+     6.89785829e-02     2       4      -4 # BR(H1 -> c c~)
+     5.55600883e-04     2       3      -3 # BR(H1 -> s s~)
+     8.77286070e-01     2       5      -5 # BR(H1 -> b b~)
+     7.13750319e-05     2      24     -24 # BR(H1 -> w+ w-)
+#     PDG               Width
+DECAY  35      2.06750778e+00      # H2 decays
+#                BR   NDA     ID1     ID2
+     1.78338964e-04     2      13     -13 # BR(H2 -> mu mu~)
+     5.01185425e-02     2      15     -15 # BR(H2 -> ta ta~)
+     7.45856797e-06     2       4      -4 # BR(H2 -> c c~)
+     1.07403883e-01     2       6      -6 # BR(H2 -> t t~)
+     5.24969852e-04     2       3      -3 # BR(H2 -> s s~)
+     8.39833294e-01     2       5      -5 # BR(H2 -> b b~)
+     1.93351298e-03     2      23      25 # BR(H2 -> z h1)
+     1.18961971e-44     2      25      25 # BR(H2 -> h1 h1)
+#     PDG               Width
+DECAY  36      1.98407992e+00      # H3 decays
+#                BR   NDA     ID1     ID2
+     1.85706103e-04     2      13     -13 # BR(H3 -> mu mu~)
+     5.21863052e-02     2      15     -15 # BR(H3 -> ta ta~)
+     8.85406134e-06     2       4      -4 # BR(H3 -> c c~)
+     6.55179923e-02     2       6      -6 # BR(H3 -> t t~)
+     5.46656230e-04     2       3      -3 # BR(H3 -> s s~)
+     8.74280436e-01     2       5      -5 # BR(H3 -> b b~)
+     8.00598295e-04     2      24     -24 # BR(H3 -> w+ w-)
+     3.82218452e-04     2      23      23 # BR(H3 -> z z)
+     2.01953551e-03     2      23      25 # BR(H3 -> z h1)
+     4.07169801e-03     2      25      25 # BR(H3 -> h1 h1)
+#     PDG               Width
+DECAY  37      6.33948216e+00      # H+ decays
+#                BR   NDA     ID1     ID2
+     2.35625112e-04     2      14     -13 # BR(H+ -> vmu mu~)
+     6.62176922e-02     2      16     -15 # BR(H+ -> vta ta~)
+     7.03445926e-04     2       4      -3 # BR(H+ -> c s~)
+     9.31961055e-01     2       6      -5 # BR(H+ -> t b~)
+     8.82181760e-04     2      24      25 # BR(H+ -> w+ h1)
+#     PDG               Width
+DECAY  6      0.00000000e+00      # top SCALAR decays
+# !!! WARNING THIS ONLY THE SCALAR CONTRIBUTION TO TOP TOTAL WIDTH !!!
+# TOTAL WIDTH = SM COMPUTED WIDTH (around 1.5 GeV) + THIS PART

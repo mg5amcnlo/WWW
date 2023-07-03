@@ -1,0 +1,22 @@
+<pre>
+
+To set up a new process:
+------------------------
+1) Run "make" to compile MadGraph (and Pythia-PGS, if it is downloaded
+and unpacked)
+
+2) Copy the Template directory to some other name, e.g. MyProcDir, in
+order to always keep a clean copy of the Template.
+
+3) Edit the file proc_card.dat in the MyProcDir/Cards directory to set
+up one or more processes to be run simultaneously. Don't forget to
+specify choice of model.
+
+4) Go to the MyProcDir directory and run bin/newprocess to set up the
+specified process. Please notice that this will replace the file
+Cards/param_card.dat by the default param_card.dat for the model.
+
+5) Check that the generation worked, using your web browser, by
+looking at index.html in the MyProcDir directory.
+
+

@@ -1,0 +1,14 @@
+/home/madgraph/WWW/cgi-bin/VBF/res/res1270206618.txt:#45-100000-1-7000-120-0-1-1-1
+/home/madgraph/WWW/cgi-bin/VBF/res/res1270206720.txt:#45-100000-1-7000-120-0-1-1-1
+/home/madgraph/WWW/cgi-bin/VBF/res/res1270206854.txt:#45-100000-1-7000-120-0-1-1-1
+/home/madgraph/WWW/cgi-bin/VBF/res/res1270207223.txt:#45-100000-1-7000-120-0-1-1-1
+/home/madgraph/WWW/cgi-bin/VBF/res/res1270207363.txt:#45-100000-1-7000-120-0-1-1-1
+/home/madgraph/WWW/cgi-bin/VBF/res/res1270207691.txt:#45-100000-1-7000-120-0-1-1-1
+/home/madgraph/WWW/cgi-bin/VBF/res/res1270207736.txt:#45-100000-1-7000-120-0-1-1-1
+/home/madgraph/WWW/cgi-bin/VBF/res/res1270207946.txt:#45-100000-1-7000-120-0-1-1-1
+/home/madgraph/WWW/cgi-bin/VBF/res/res1270208035.txt:#45-100000-1-7000-120-0-1-1-1
+/home/madgraph/WWW/cgi-bin/VBF/res/res1270208074.txt:#45-100000-1-7000-120-0-1-1-1
+/home/madgraph/WWW/cgi-bin/VBF/res/res1270208086.txt:#45-100000-1-7000-120-0-1-1-1
+/home/madgraph/WWW/cgi-bin/VBF/res/res1270208096.txt:#45-100000-1-7000-120-0-1-1-1
+/home/madgraph/WWW/cgi-bin/VBF/res/res1270208100.txt:#45-100000-1-7000-120-0-1-1-1
+/home/madgraph/WWW/cgi-bin/VBF/res/res1270208160.txt:#45-100000-1-7000-120-0-1-1-1

@@ -1,0 +1,228 @@
+#!/usr/bin/perl -w
+
+    my($zzi,@marked,$qn,$an);
+    binmode STDIN;
+    read STDIN,$zzi,$ENV{CONTENT_LENGTH};
+    $zzi =~ s/\s$//g;
+    @marked = split(/&/,$zzi);
+    foreach $input (@marked) {
+        ($qn,$an) = split(/=/,$input);
+        $an =~ tr/+/ /;
+        $an =~ s/%([a-fA-F0-9][a-fA-F0-9])/pack("C", hex($1))/eg;
+        $an =~ s/~!/ ~!/g;
+        $in{$qn} = $an
+        }
+$dirDATA = $ENV{'MADGRAPH_DATA'};
+$dirLOG = $ENV{'MADGRAPH_DATA'};
+$dirHTML = "MadGraphData";
+$bin = "$ENV{'MADGRAPH_BASE'}/MG_ME/WebBin";
+$server = $ENV{'SERVER_NAME'};
+$loop = "$bin/newprocess --web";
+
+$uname = $ENV{REMOTE_USER};
+         $iproc=$in{iproc};
+         $order=$in{order};
+         $sqrts=$in{sqrts};
+         $mh=$in{mh};
+         $sc=$in{sc};
+         $scvar=$in{scvar};
+         $icoll=$in{icoll};
+         $iwdth=$in{iwdth};
+         $pdf=$in{pdf};
+         $pdfset=$in{pdfset};
+
+if($iproc eq "1"){
+$xiproc= "SM Higgs"
+}
+if($iproc eq "2"){
+$xiproc= "H<sup>0</sup> (only WW fusion)"
+}
+if($iproc eq "3"){
+$xiproc= "H<sup>0</sup> (only ZZ fusion)"
+}
+if($iproc eq "4"){
+$xiproc= "H<sup>+</sup>/H<sup>-</sup>"
+}
+if($iproc eq "5"){
+$xiproc= "H<sup>++</sup>/H<sup>--</sup>"
+}
+if($iproc eq "6"){
+$xiproc= "Z' (via WW fusion)"
+}
+if($iproc eq "7"){
+$xiproc= "W'<sup>+</sup>/W'<sup>-</sup>"
+}
+
+if($pdfset eq "gjr"){
+$xpdfset="(G)JR08-09 (NLO-NNLO)";
+}
+if($pdfset eq "gjrnl"){
+$xpdfset="GJR08 (NLO)";
+}
+if($pdfset eq "gjrnn"){
+$xpdfset="JR09 (NNLO)";
+}
+if($pdfset eq "abkm09"){
+$xpdfset="ABKM09 (NLO-NNLO)";
+}
+if($pdfset eq "abkm09nl"){
+$xpdfset="ABKM09 (NLO)";
+}
+if($pdfset eq "abkm09nn"){
+$xpdfset="ABKM09 (NNLO)";
+}
+if($pdfset eq "cteq66"){
+$xpdfset="CTEQ 6.6 (NLO)";
+}
+if($pdfset eq "ct10"){
+$xpdfset="CT10 (NLO-NNLO)";
+}
+if($pdfset eq "ct10nl"){
+$xpdfset="CT10 (NLO)";
+}
+if($pdfset eq "ct10nn"){
+$xpdfset="CT10 (NNLO)";
+}
+if($pdfset eq "mstw68"){
+$xpdfset="MSTW08 68\%CL (LO-NLO-NNLO)";
+}
+if($pdfset eq "mstw90"){
+$xpdfset="MSTW 90\%CL (LO-NLO-NNLO)";
+}
+if($pdfset eq "mstw68lo"){
+$xpdfset="MSTW08 68\%CL (LO)";
+}
+if($pdfset eq "mstw90lo"){
+$xpdfset="MSTW 90\%CL (LO)";
+}
+if($pdfset eq "mstw68nl"){
+$xpdfset="MSTW08 68\%CL (NLO)";
+}
+if($pdfset eq "mstw90nl"){
+$xpdfset="MSTW 90\%CL (NLO)";
+}
+if($pdfset eq "mstw68nn"){
+$xpdfset="MSTW08 68\%CL (NNLO)";
+}
+if($pdfset eq "mstw90nn"){
+$xpdfset="MSTW 90\%CL (NNLO)";
+}
+if($pdfset eq "nnpdf21"){
+$xpdfset="NNPDF 2.1 (NLO-NNLO)";
+}
+if($pdfset eq "nnpdf21nl"){
+$xpdfset="NNPDF 2.1 (NLO)";
+}
+if($pdfset eq "nnpdf21nn"){
+$xpdfset="NNPDF 2.1 (NNLO)";
+}
+if($pdfset eq "hera15"){
+$xpdfset="HERAPDF 1.5 (NLO-NNLO)";
+}
+if($pdfset eq "hera15nl"){
+$xpdfset="HERAPDF 1.5 (NLO)";
+}
+if($pdfset eq "hera15nn"){
+$xpdfset="HERAPDF 1.5 (NNLO)";
+}
+
+if($order=='1'){
+         $xorder="LO";
+}
+elsif($order=='2'){
+         $xorder="NLO";
+}
+elsif($order=='3'){
+         $xorder="NNLO";
+}
+
+if($icoll=='1'){
+         $xicoll="p-p";
+}
+elsif($icoll=='-1'){
+         $xicoll="p-pbar";
+}
+
+if($sc=='1'){
+         $xsc="Q";
+}
+elsif($sc=='0'){
+         $xsc="mh";
+}
+elsif($sc=='2'){
+         $xsc="mw";
+}
+
+if($scvar=='0'){
+         $xscvar="no";
+}
+elsif($scvar=='3'){
+         $xscvar="standard";
+}
+elsif($scvar=='4'){
+         $xscvar="conservative";
+}
+
+if($pdf=='1'){
+         $xpdf="yes";
+}
+elsif($pdf=='0'){
+         $xpdf="no";
+}
+
+if($iwdth=='1' and $iproc=='1'){
+         $xiwdth="complex-pole scheme";
+}
+elsif($iwdth=='1' ){
+         $xiwdth="no (only available for SM Higgs)";
+         $iwdth=0;
+}
+elsif($iwdth=='0'){
+         $xiwdth="no";
+}
+         print "Content-type: text/html\n\n";
+         print  "<HTML> <BODY bgcolor=\"#F8F4CB\">\n";
+
+print" <title> VBF @ NNLO -- Please confirm </title>";
+print"<FORM NAME=\"particle\" METHOD=\"POST\" ACTION=\"/cgi-bin/VBF/vbf-pl \">\n";
+print"<INPUT TYPE=HIDDEN NAME=iproc  VALUE=\"$iproc\">"; 
+print"<INPUT TYPE=HIDDEN NAME=order  VALUE=\"$order\">"; 
+print"<INPUT TYPE=HIDDEN NAME=sqrts  VALUE=\"$sqrts\">";
+print"<INPUT TYPE=HIDDEN NAME=mh  VALUE=\"$mh\">";
+print"<INPUT TYPE=HIDDEN NAME=sc  VALUE=\"$sc\">";
+print"<INPUT TYPE=HIDDEN NAME=scvar  VALUE=\"$scvar\">";
+print"<INPUT TYPE=HIDDEN NAME=icoll  VALUE=\"$icoll\">";
+print"<INPUT TYPE=HIDDEN NAME=iwdth  VALUE=\"$iwdth\">";
+print"<INPUT TYPE=HIDDEN NAME=pdf    VALUE=\"$pdf\">";
+print"<INPUT TYPE=HIDDEN NAME=pdfset    VALUE=\"$pdfset\">";
+print"<INPUT TYPE=HIDDEN NAME=xorder  VALUE=\"$xorder\">"; 
+print"<INPUT TYPE=HIDDEN NAME=xiproc  VALUE=\"$xiproc\">"; 
+print"<INPUT TYPE=HIDDEN NAME=xsc  VALUE=\"$xsc\">";
+print"<INPUT TYPE=HIDDEN NAME=xscvar  VALUE=\"$xscvar\">";
+print"<INPUT TYPE=HIDDEN NAME=xicoll  VALUE=\"$xicoll\">";
+print"<INPUT TYPE=HIDDEN NAME=xiwdth  VALUE=\"$xiwdth\">";
+print"<INPUT TYPE=HIDDEN NAME=xpdf    VALUE=\"$xpdf\">";
+print"<INPUT TYPE=HIDDEN NAME=xpdfset    VALUE=\"$xpdfset\">";
+
+print"<center><hr><br>";
+print"<font color=\"#006060\"><font size=\"+3\"> \n";
+         print "Please confirm your request\n";
+print"</font></font><br><br><hr>";
+         print "<table>\n";
+print"<tr> <td> Process: <td> $xiproc<tr>\n";
+print"<tr> <td> Order: <td> $xorder<tr>\n";
+print"<tr> <td> Collider: <td> $xicoll<tr>\n";
+print"<tr> <td> Energy: <td> $sqrts GeV<tr>\n";
+print"<tr> <td> Higgs mass: <td> $mh GeV<tr>\n";        
+print"<tr> <td> Off-shell effects: <td> $xiwdth<tr>\n";        
+print"<tr> <td> PDF set: <td> $xpdfset<tr>\n";        
+print"<tr> <td> PDF uncertainities: <td> $xpdf<tr>\n";        
+print"<tr> <td> Scale choice: <td> $xsc<tr>\n";        
+print"<tr> <td> Scale uncertainty: <td> $xscvar<tr>\n";  
+print"<tr> <td> User: <td> $uname<tr>\n"; 
+print"</table><br><hr>\n";            
+print"<input TYPE=\"submit\" VALUE=\"Confirm\"><hr>\n";
+print"<br>or go <a href=\"http://vbf-nnlo.phys.ucl.ac.be\">back</a> to the VBF\@NNLO page";
+         print "</center></BODY></HTML>";
+
+

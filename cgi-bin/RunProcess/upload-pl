@@ -1,0 +1,381 @@
+#!/usr/bin/perl -w
+
+#use the CGI.pm module
+#use CGI qw/:standard/;
+
+
+#------------------------NOTES-------------------------------
+#
+# URL REFERENCES:
+# when putting in url references listing a file without
+# anything in front, like
+#   file
+# will look for the file in the local directory
+#
+# giving the reference as
+#  /file
+# will look in the server/htdocs folder
+#
+#------------------------------------------------------------
+
+#------------------------------------------------------------
+# Batch managment
+#------------------------------------------------------------
+
+$para_tag=0;
+#Uncomment this for psb batch managing
+#$para_tag=1
+
+#------------------------------------------------------------
+# set variables for the most common path names
+#------------------------------------------------------------
+$server = $ENV{'SERVER_NAME'};
+$dirMAD = $ENV{'MADGRAPH_DATA'};
+$dirBIN = "$ENV{'MADGRAPH_BASE'}/MG_ME/WebBin";
+$dirHTML= "MadGraphData";
+$uname = $ENV{REMOTE_USER};
+
+#------------------------------------------------------------
+# Read the form sent from the web
+#------------------------------------------------------------
+
+read (STDIN,$buffer,$ENV{'CONTENT_LENGTH'});
+@text=split(/\r\n/,$buffer);
+
+#------------------------------------------------------------
+# Parse the form, look for known variables
+#------------------------------------------------------------
+
+for($i=0;$i<$#text;$i++){
+# Define delimiter by first line
+  if($i==0) {$delim=$text[$i];chomp $delim}
+
+# Look for directory name and set procname
+  elsif($text[$i] =~ /name=\"directory\"/){
+    $i+=2;$directory=$text[$i];
+    ($junk,$procname) = split $dirMAD, $directory;
+  }
+
+  # Look for uploaded file. Write to file defined by "name" (needs $directory and $delim)
+  elsif(($filename,$filegiven)=$text[$i] =~ /name=\"([\d\D]*)?\"; filename=\"([\d\D]*)?\"/){
+    $files{"$filename"}=$filegiven;
+    $filename=$directory."/Cards/$filename";
+    if($filegiven ne ""){
+      $i+=3;
+      open(CICCIO,">$filename") or WriteError("File $filename could not be opened");
+      $fileok=0;
+      while(!($text[$i] =~ "$delim") && ($i<=$#text)){
+	$filecont=$text[$i];
+	if($filecont ne "") {$fileok=1;}
+	print CICCIO "$filecont\n";
+	$i++;
+      }
+      close CICCIO;
+      # Check that the resulting file is not empty
+      if($fileok == 0) {
+	WriteError("File $filegiven empty or absent. Please provide another file");
+      }
+    }
+  }
+# Look for all other variables and put them in the hash $invars
+  elsif(($variable) = $text[$i] =~
+	/Content-Disposition: form-data; name=\"([\d\D]*)?\"/){
+    $i+=2;$in{$variable}=$text[$i];
+  }
+}
+
+#------------------------------------------------------------
+# read in the values passed from the form
+#------------------------------------------------------------
+
+# call from 
+$callfrom  = $in{callfrom};
+
+# find the number of file to associate: incremented on every run
+
+$i=1;
+$file = $directory."/Events/run_".$i."_unweighted_events.lhe.gz";
+while(-e $file){
+    $i++;
+    $file = $directory."/Events/run_".$i."_unweighted_events.lhe.gz";
+}; #end of while
+$longname="run_" . $i;
+
+if($callfrom eq 'upload'){
+
+#----------------------------------------------------------------
+# Check if we got a param_card. If not, tell user to generate one
+#----------------------------------------------------------------
+
+    if($files{"param_card.dat"} eq ""){
+	if(!(-e "$directory/Cards/param_card.dat")){
+	    WriteError("No param_card.dat supplied. Please generate or upload one.");
+	}
+    }	
+
+#--------------------------------------------------
+# Check if we got a run_card. If not, generate one
+#--------------------------------------------------
+
+    if($files{"run_card.dat"} eq ""){
+
+	$collider = $in{"collider"};
+	
+	if($collider eq 'TeV2' ){
+	    $in{"lpp1"}=1;
+	    $in{"lpp2"}=-1;
+	    $in{"ebeam1"}=980;
+	    $in{"ebeam2"}=980;
+	};
+	if($collider eq 'LHC' ){
+	    $in{"lpp1"}=1;
+	    $in{"lpp2"}=1;
+	    $in{"ebeam1"}=7000;
+	    $in{"ebeam2"}=7000;
+	};
+	if($collider eq 'NLC' ){
+	    $in{"lpp1"}=0;
+	    $in{"lpp2"}=0;
+	    $in{"ebeam1"}=250;
+	    $in{"ebeam2"}=250;
+	};
+	
+# scales
+	$in{"dsqrt_q2fact1"}=$in{"scale"};
+	$in{"dsqrt_q2fact2"}=$in{"scale"};
+	
+	&WriteRunCard($dirMAD);
+    }
+#--------------------------------------------------
+# Check if we got a pythia_card. If not, generate one
+#--------------------------------------------------
+
+    if($files{"pythia_card.dat"} eq ""){
+
+	$showering=$in{"showering"};
+	$hadronization=$in{"hadronization"};
+	$minteractions=$in{"minteractions"};
+	&WritePythiaCard($dirMAD);
+    }
+
+#--------------------------------------------------
+# Check if we got a pgs_card. If not, generate one
+#--------------------------------------------------
+
+    if($files{"pgs_card.dat"} eq ""){
+
+    if($collider eq 'LHC' || $collider eq 'NLC'){
+	system ("cp  $dirBIN/pythia-pgs/lhc_detector_parameters.set $directory/Cards/pgs_card.dat")}
+    elsif($collider eq 'TeV2'){
+	system ("cp  $dirBIN/pythia-pgs/tevatron_detector_parameters.set $directory/Cards/pgs_card.dat")}
+}
+ 
+
+#------------------------------------------------------------
+# Write input-card.dat starting from the one already present
+# in the directory. 
+#------------------------------------------------------------
+
+  &WriteConfirmForm($dirMAD);
+
+}#endif the call was from input-card-form.html
+
+
+
+elsif($callfrom eq "confirm-form"){
+
+#------------------------------------------------------------
+# Run the code given the input-card.dat above
+#------------------------------------------------------------
+    $| = 1; 
+
+    print "Content-type: text/html\n\n";
+    print "<HTML> <HEAD> \n";
+    print "<META HTTP-EQUIV=\"Refresh\" CONTENT=\"10\; ";
+    print "URL=http://$server/$dirHTML$procname/crossx.html\"> \n";
+    print "\n <TITLE>Web Run $directory </TITLE></HEAD> \n <BODY>";
+    my $url = $ENV{REMOTE_HOST};
+    my $uname = $ENV{REMOTE_USER};
+    if (-e "$directory") {
+	if (! -e "$directory/RunWeb") {
+
+# find the number of file to associate: incremented on every run
+	    $i=1;
+	    $file = $dirMAD."/WebRuns/Webrun_".$i.".log";
+	    while(-e $file){
+		$i++;
+		$file = $dirMAD."/WebRuns/Webrun_".$i.".log";
+	    }                  #end of while
+	    
+	    $runname="Webrun_".$i;	    
+	    if ( open( USER, ">$directory/User" )){
+		print USER "$longname \n";
+		print USER "$runname \n $uname \n";
+		print USER "$url \n";
+		print USER localtime ;
+		close(USER);
+	    }
+
+	    if ( open( USER, ">$dirMAD/WebRuns/$runname".".log" )){
+		print USER "$procname \n";
+		print USER "$uname \n";
+		print USER "$runname \n";
+		print USER localtime ;
+		close(USER);
+	    }
+
+	    system ("rm -f $directory/confirm-form.html");
+	    print "<p><H3 align=center>Submitting jobs on $server </H3>\n";
+	    print "<p><H4> Page will update automatically in 10 seconds or click \n";
+	    print "<a href=\"http://$server/$dirHTML$procname/crossx.html\"> here </a> </H4>";
+
+	    print "\n";
+	    print "</BODY></HTML>\n";
+	    
+#	    $gen_events = "$ENV{'MADGRAPH_BASE'}/MG_ME/WebBin/generate_events 10000 $para_tag $runname $longname";
+	    $gen_events = "./bin/generate_events 10000 $para_tag $runname $longname --web";
+	    
+	    exec ("cd $directory; $gen_events !>& $longname.log &");
+	}
+	else {
+	    print "<p><H3 align=center>Submitting jobs on $server <\\H3>\n";
+	    print  "Already running events in directory $directory";
+	    print "</BODY></HTML> \n";
+	}
+    }
+    else {
+	print "Directory not found \n";
+	print "</BODY></HTML> \n";
+    }
+
+}#endif the call was from confirm-form.html
+
+    else {
+	WriteError("Unknown callfrom = $callfrom - contact your server administrator");
+    }
+    
+#
+#   That's all folks!
+#
+close(STDOUT);
+close(STDERR);
+close(STDIN);
+
+
+#----------------------------------------------------------------
+#  SubRoutines
+#----------------------------------------------------------------
+
+
+sub WritePythiaCard{
+  #---------------------------------------------------------------
+  # creates the PythiaCard
+  #---------------------------------------------------------------
+
+  open(OUTCARD,"> $directory/Cards/pythia_card.dat") or die "Could not write to pythia_input.dat\n";
+
+          print OUTCARD "!...Parton showering on or off  \n";
+          print OUTCARD "      MSTP(61)=$showering\n";
+          print OUTCARD "      MSTP(71)=$showering\n";
+          print OUTCARD " \n";
+          print OUTCARD "!...Fragmentation/hadronization on or off \n";
+          print OUTCARD "      MSTJ(1)=$hadronization\n";
+          print OUTCARD " \n";
+          print OUTCARD "!...Multiple interactions on or off \n";
+          print OUTCARD "      MSTP(81)=$minteractions \n";
+          print OUTCARD " \n";
+
+  close(OUTCARD);
+
+}#end sub WritePythiaCard
+
+
+sub WriteRunCard{
+  #---------------------------------------------------------------
+  # creates the input-card.dat to send to madgraph
+  #---------------------------------------------------------------
+
+  open(INCARD,"$directory/Cards/run_card_default.dat")  or die "Could not read from $directory/Cards/run_card_default.dat\n";
+  open(OUTCARD,"> $directory/Cards/run_card.dat") or die "Could not write to run_card.dat\n";
+
+  while(<INCARD>) {
+      $Line = $_;
+#    print "$Line \n";
+    if($Line =~ /^##/){
+       print OUTCARD $Line;}
+    elsif($Line =~ /^#(.+)\=(.+)\!/){
+	  $Value=$1;
+	  $Key  =$2;
+	  ($dummy, $comment) = split(/!/,$Line);
+          $Key=~ s/\s+//g;  # get rid of spaces
+          chomp($comment);  # get rid of the carriage return
+# check the Key is in the "in" hash
+          $NewValue=$Value;
+          $NewValue=$in{$Key} if exists $in{$Key};
+          print OUTCARD "# $NewValue = $ Key ! $comment \n";
+#          print CICCIO "# $NewValue = $ Key ! $comment \n";
+
+      } 
+  }
+
+  close(OUTCARD);
+  close(INCARD);
+}#end sub WriteRunCard
+
+sub WriteConfirmForm{
+  #---------------------------------------------------------------
+  # writes the html form back to the user
+  #---------------------------------------------------------------
+
+    $urlCARDS="http://$server/$dirHTML$procname/Cards";
+
+    $| = 1;
+    print "Content-type: text/html\n\n";
+    print "<HTML>\n<HEAD> \n";
+    print "<TITLE>Param card generation</TITLE></HEAD>\n<BODY>\n";
+    print " <FORM METHOD=\"POST\" ACTION=\"http://$server/cgi-bin/RunProcess/upload-pl\"";
+    print " ENCTYPE=\"multipart/form-data\">\n";
+  
+    print "<P> Save the cards for future use/reference:</P>\n";
+    print "<TABLE BORDER=2 align=\"center\">\n<tr>";
+    print "<td><a href=\"$urlCARDS/param_card.dat\">param_card.dat</a></td>\n";
+    print "<td><a href=\"$urlCARDS/run_card.dat\">run_card.dat</a></td>\n";
+    print "<td><a href=\"$urlCARDS/pythia_card.dat\">pythia_card.dat</a></td>\n";
+    print "<td><a href=\"$urlCARDS/pgs_card.dat\">pgs_card.dat</a></td>\n";
+    print "</tr>\n</table>\n";
+    print "<P> <a href=\"/webqstat.html\">Check</a> the status of the cluster before submitting the job.</P>\n";
+    
+    print " <input name=\"directory\" value=\"$directory\" type=\"hidden\" > \n";
+#  print " <input name=\"nevents\" value=\"".$in{"nevents"}."\" type=\"hidden\" > \n";
+    print " <input name=\"nevents\" value=\"10000\" type=\"hidden\" > \n";
+    print "<input name=\"callfrom\" value=\"confirm-form\" type=\"hidden\" > \n";
+    print "<P> <INPUT TYPE=SUBMIT VALUE=Send> it to the server and start the run.\n";
+    
+    print "<PRE>\n";
+    open (TEMP,"$directory/input-card.dat") || die "Error reading $directory/input-card.dat";
+    while ($line  = <TEMP>){ 
+#      chomp $line;
+	print "$line" ;
+    };
+    close(TEMP);
+    print " </PRE> \n";
+    print "</BODY>\n</HTML>\n";
+    die;
+}#end sub WriteConfirmForm
+
+sub WriteError {
+#------------------------------------------------------------
+# Display error message in browser and kill process
+#------------------------------------------------------------
+
+$errormsg=shift;
+$| = 1;
+print "Content-type: text/html\n\n";
+print "<HTML>\n<HEAD> \n";
+print "<TITLE>Param card generation</TITLE></HEAD>\n<BODY>\n";
+print "<H2>Generation failed</H2>\n";
+print "$errormsg";
+print "<BR>Click the \"backwards\" button in you browser and correct the error.\n";
+print "</BODY>\n</HTML>\n";
+die;
+} # end sub WriteError

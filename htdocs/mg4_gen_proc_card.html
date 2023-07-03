@@ -1,0 +1,137 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.77 [en]C-gatewaynet  (Win95; U) [Netscape]">
+   <title> MadGraphII Card Web Site </title>
+
+</head>
+<body>
+
+<center><font color="#008080"><font size=+3>Generate Code On-Line</font></font></center>
+
+<br>
+<p>
+To improve our web services we request that you register.
+Registration is quick and free. 
+You may register for a password by clicking <a href="/cgi-bin/Register/register_page.pl" target="F3"> here </a>
+<br>We recommend using <b>MadGraph 5</b> for process generation instead, by clicking 
+<a href="./new_gen_proc_card.html">here</a>.
+</p>
+
+<br>
+Code can be generated either by:
+<HR>
+
+<!-- second form -->
+<FORM NAME="particle" 
+      METHOD="POST" 
+      ACTION="/cgi-bin/NewProcess/webnewprocess-pl">
+<INPUT TYPE=HIDDEN NAME=callfrom  VALUE="form"> 
+
+<font size="+2">I.</font> Fill the form:
+<table>
+<tr>
+<td>Model:</td>
+<td>  <select name = model>
+      <option value="sm" selected> SM
+      <option value="sm_nohiggs"> SM w/o Higgs boson
+      <option value="smckm"> SM (with CKM)
+      <option value="heft" id='heft'> HiggsEFT
+      <option value="mssm">  MSSM 
+      <option value="2hdm"> Simplified 2HDM
+      <option value="2hdm_full"> Full 2HDM
+      <option value="topBSM"> BSM with tops
+      <option value="sm_onium" id='onium'> Quarkonium production in SM
+      </select> 
+<td> <a href="particles.html">Model descriptions</a>
+
+</tr>
+<td>Input Process:&nbsp;</td>
+
+<td><input TYPE="text" NAME="description" VALUE=" " id="process"></td>
+
+<td> <a id=helpformat href="EXAMPLES/example.html">Examples/format</a>
+
+
+</tr>
+<tr id='qcd'>
+<td>Max QCD Order:</td><td><input TYPE="text" NAME="qcd" VALUE="99" SIZE=3></td><td></td>
+</tr>
+
+<tr id='qed'>
+<td>Max QED Order:</td><td><input TYPE="text" NAME="qed" VALUE="99" SIZE=3></td>
+</tr>
+</table>
+<table>
+<tr>
+</tr>
+<tr>
+<td>  p and j definitions:
+<td>  <select name = nf> 
+      <option value="p uu~dd~ss~g &j uu~dd~ss~g"                > <font color="#0000FF">p</font>=<font color="#0000FF">j</font>=d u s d~ u~ s~ g
+      <option value="p uu~cc~dd~ss~g &j uu~cc~dd~ss~g" selected > <font color="#0000FF">p</font>=<font color="#0000FF">j</font>=d u s c d~ u~ s~ c~ g
+      <option value="p uu~cc~dd~ss~bb~g &j uu~cc~dd~ss~bb~g"    > <font color="#0000FF">p</font>=<font color="#0000FF">j</font>=d u s c b d~ u~ s~ c~ b~ g
+      </select>
+</td>
+</tr>
+<tr>
+<td>  sum over leptons:
+<td>  <select name = nl>
+      <option value="l+ e+mu+ &l- e-mu- &vl vevm &vl~ ve~vm~" selected > 
+      l+ = e+, mu+ ;
+      l- = e-, mu- ; 
+      vl = ve, vm ; 
+      vl~ = ve~, vm~
+      <option value="l+ e+mu+ta+ &l- e-mu-ta- &vl vevmvt &vl~ ve~vm~vt~"  > 
+      l+ = e+, mu+, ta+ ; 
+      l- = e-, mu-, ta- ; 
+      vl = ve, vm, vt ; 
+      vl~=ve~, vm~, vt~
+      <option value="le e+mu+e-mu- &vle vevmve~vm~" > 
+      le = e+, mu+, e-, mu-; 
+      vle = ve, vm, ve~, vm~
+      <option value="le e+mu+ta+e-mu-ta- &vle vevmvtve~vm~vt~" > 
+      le = e+, mu+, ta+, e-, mu-, ta- ; 
+      vle = ve, vm, vt, ve~, vm~, vt~
+      </select>
+</td>
+</tr>
+</table>
+<tr>
+<td><input TYPE="submit" VALUE="Submit"></td>
+</form>
+
+<hr>
+
+
+<!-- first form -->
+<FORM ACTION="/cgi-bin/NewProcess/upload-pl" 
+      ENCTYPE="multipart/form-data" 
+      METHOD=POST>
+<font size="+2">II.</font> Upload the proc_card.dat
+<table>
+<td> <a href="EXAMPLES/proc_card_examples.html">Process card examples</a>
+<tr><td> 
+<INPUT TYPE="FILE" NAME="proc_card"> 
+ </td><td>and <INPUT TYPE=SUBMIT VALUE="send"> it to the server.
+</table>
+</FORM>
+
+<hr>
+<FORM ACTION="/cgi-bin/NewProcess/upload_banner.pl" 
+      ENCTYPE="multipart/form-data" 
+      METHOD=POST>
+<font size="+2">III.</font> Upload the full banner (all cards are uploaded as the "current" ones)
+<br>
+<INPUT TYPE="FILE" NAME="banner"> 
+and <INPUT TYPE=SUBMIT VALUE="send"> it to the server.
+</FORM>
+
+
+
+
+
+
+</body>
+</html>

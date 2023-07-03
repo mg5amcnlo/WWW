@@ -1,0 +1,404 @@
+#!/usr/bin/perl -w
+use POSIX qw(floor);
+use Sys::Hostname;
+use Mail::Sendmail;
+use Email::Valid;
+use Scalar::Util qw(looks_like_number);
+
+#------------------------NOTES-------------------------------
+#
+# URL REFERENCES:
+# when putting in url references listing a file without
+# anything in front, like
+#   file
+# will look for the file in the local directory
+#
+# giving the reference as
+#  /file
+# will look in the server/htdocs folder
+#
+#------------------------------------------------------------
+#
+#          This is Denny's code for unwrapping the form replies
+#
+    my($zzi,@marked,$qn,$an);
+    binmode STDIN;
+    read STDIN,$zzi,$ENV{CONTENT_LENGTH};
+    $zzi =~ s/\s$//g;
+    @marked = split(/&/,$zzi);
+    foreach $input (@marked) {
+        ($qn,$an) = split(/=/,$input);
+        $an =~ tr/+/ /;
+        $an =~ s/%([a-fA-F0-9][a-fA-F0-9])/pack("C", hex($1))/eg;
+        $an =~ s/~!/ ~!/g;
+        $in{$qn} = $an
+        }
+
+
+#------------------------------------------------------------
+# set variables for the most common path names
+#------------------------------------------------------------
+
+$dirDATA = $ENV{'MADGRAPH_DATA'};
+$dirLOG = $ENV{'MADGRAPH_DATA'};
+$dirHTML = "MadGraphData";
+$bin = "$ENV{'MADGRAPH_BASE'}/MG_ME/WebBin";
+$server = $ENV{'SERVER_NAME'};
+$loop = "$bin/newprocess --web";
+
+
+
+#------------------------------------------
+# Find a free directory in the private area
+#------------------------------------------
+
+# first check private dir exists and if not create it
+
+  $uname = $ENV{REMOTE_USER};
+#  if(! -e "$dirDATA/$uname" ){ 
+#  system("mkdir $dirDATA/$uname")};
+
+# If no dirname is given or it already exists then use a generic PROC#
+#       $temp_id=0;
+#       while (-e "$dirDATA/$uname/PROC$temp_id"){
+#       $temp_id++;
+#       }
+#      $procname="PROC$temp_id";
+#      $process="$uname/PROC$temp_id";
+#      $fulldir="$dirDATA/$process";
+
+#------------------------------------------------------------
+# call
+#------------------------------------------------------------
+
+   $callfrom = $in{callfrom};
+
+#------------------------------------------------------------
+# prepare the directory
+#------------------------------------------------------------
+
+#    system("cp -RP  $ENV{'MADGRAPH_BASE'}/MG_ME/Template $dirDATA/$process");
+#    system("rm -rf `find $dirDATA/$process -name CVS -type d`");
+#    system("cd $fulldir; sed -e s/my_server_here/$server/g HTML/web_run_form.html > HTML/test.html");
+#    system("cd $fulldir; sed -e s!dir_name_here!$fulldir!g HTML/test.html > HTML/web_run_form.html");     
+            
+#------------------------------------------------------------
+# read in the values passed from the form
+#------------------------------------------------------------
+
+$rundir="/home/madgraph/WWW/cgi-bin/VBF/run";
+$resdir="/home/madgraph/WWW/cgi-bin/VBF/res";
+$logdir="/home/madgraph/WWW/cgi-bin/VBF/log";
+$headir="/home/madgraph/WWW/cgi-bin/VBF/head";
+
+$version="45i-300000";
+   $order = $in{order};
+   $sqrts = $in{sqrts};
+   $mh = $in{mh};
+   $sc = $in{sc};
+   $scvar = $in{scvar};
+   $icoll=$in{icoll};
+   $pdf=$in{pdf};
+   $cnt='0';
+   $now=time();
+   $runname="run$now-";
+#check if variables are numbers
+&check($sqrts);
+&check($mh);
+
+system("g++ -o $rundir/analyse $rundir/analyse.c");
+
+
+#------------------------------------------------------------
+#write an html page to confirm the run started
+#------------------------------------------------------------
+print "Content-type: text/html\n\n";
+print "<HTML> <BODY>\n";
+print " <title> VBF @ NNLO -- Process Submitted </title>";
+print "<center>\n";
+print "<br><br>  <font color=\"#008080\"><font size=+3>VBF @ NNLO</font></font><br><br><br>\n";
+print "The process you requested is being computed.<br><br>\n";
+print "An e-mail will be sent to <span style=\"color:blue\">$uname</span> once the computation is completed.<br><br>\n";
+print "Click <a href=\"http://madgraph.phys.ucl.ac.be/vbf.html\">here</a> to go back to the VBF\@NNLO main page.";
+print "</center></BODY></HTML>";
+
+
+
+
+
+
+
+$header="#$version-$order-$sqrts-$mh-$pdf-$sc-$scvar-$icoll\n";
+$headgrep="#$version-$order-$sqrts-$mh-$pdf-$sc-$scvar-$icoll";
+
+#look if the same process has already been generated
+#system("touch $rundir/search.txt");
+system("grep \"$headgrep\" $resdir/* >$rundir/search.txt");
+open (TMP, "$rundir/search.txt");
+$srcres='';
+while (<TMP>) { $srcres .= $_; }
+close TMP;
+
+
+if(length($srcres)>1){
+$l=index($srcses,res);
+$filetoanalyse=substr($srcres,35,17);
+
+}
+else {
+#write header file
+open (HEAD, ">$rundir/head$now.txt");
+print HEAD $header;
+close HEAD;
+
+if ($scvar=='0'){
+$imur=0;
+$imuf=0;
+&WriteRun($rundir,$cnt,$order,$icoll, $sqrts, $mh,$pdf, $sc, $imur,$imuf,$now);
+$cnt++;
+}
+
+elsif($scvar=='1'){
+for($imuf=-1; $imuf<2; $imuf++){
+$imur=$imuf;
+&WriteRun($rundir,$cnt,$order,$icoll, $sqrts, $mh, $pdf,$sc, $imur,$imuf,$now);
+$cnt++;
+}
+}
+
+elsif($scvar=='2'){
+for($imuf=-2; $imuf<3; $imuf++){
+$imur=$imuf;
+&WriteRun($rundir,$cnt,$order,$icoll, $sqrts, $mh, $pdf, $sc, $imur,$imuf,$now);
+$cnt++;
+}
+}
+
+elsif($scvar=='3'){
+for($imuf=-1; $imuf<2; $imuf++){
+for($imur=-1; $imur<2; $imur++){
+&WriteRun($rundir,$cnt,$order,$icoll, $sqrts, $mh, $pdf, $sc, $imur,$imuf,$now);
+$cnt++;
+}
+}
+}
+
+elsif($scvar=='4'){
+for($imuf=-2; $imuf<3; $imuf++){
+for($imur=-2; $imur<3; $imur++){
+&WriteRun($rundir,$cnt,$order,$icoll, $sqrts, $mh, $pdf, $sc, $imur,$imuf,$now);
+$cnt++;
+}
+}
+}
+
+$nruns=$cnt;
+
+# sleep n -> delay n secs
+#  $#pippo ->length of pippo
+
+
+
+#wait the process to be completed
+$tmpcnt="pippo";
+system("/home/condor/release/bin/condor_q | grep $now > $rundir/tmp.dat");
+open (TMP, "$rundir/tmp.dat");
+$tmpcnt='';
+while (<TMP>) { $tmpcnt .= $_; }
+close TMP;
+
+
+$cc=0;
+
+if (length($tmpcnt)>1){
+system("echo $now  $uname $nruns | $rundir/check-pl");
+}
+else
+{
+
+system("cat $rundir/head$now.txt >$resdir/res$now.txt");
+
+system("rm $rundir/head$now.txt");
+
+for($i=0; $i<$nruns; $i++){
+system("cat $rundir/res$now-$i.dat >>$resdir/res$now.txt");
+
+#clean
+system("rm $rundir/res$now-$i.dat");
+system("rm $rundir/log$now-$i.dat");
+system("rm $rundir/run$now-$i.sh");
+system("rm $rundir/run$now-$i.cmd");
+
+}
+$filetoanalyse="res$now.txt";
+}
+
+#&sendFilesemail($uname, $resdir,$filetoanalyse);
+&makeanalyse($filetoanalyse,$resdir,$rundir,$uname);
+}
+
+exit;
+
+#----------------------------------------------------------------
+#  FUNCTIONS: 
+#----------------------------------------------------------------
+
+
+sub check{
+#---check if a variable is a number
+my($var)=@_;
+
+unless (looks_like_number($var)) {
+print "Content-type: text/html\n\n";
+print  "<HTML> <BODY>\n";
+print" <title> Wrong Arguments </title>";
+print"<center>\n";
+print"Some of the variable you inserted are not numbers.<br><br>\n";
+print"Please go back to the <a href=\"http://madgraph.phys.ucl.ac.be/vbf.html\">VBF page</a> and re-submit the job.";
+         print "</center></BODY></HTML>";
+exit;
+}
+
+}
+
+sub makeanalyse{
+
+my($file,$dir, $rundir, $name)=@_;
+system("cp $dir/$file $rundir");
+#remove commented lines
+for ($i=0; $i<18 ; $i++){
+system("sed -i '1d' $rundir/$file");
+}
+#analyse the result
+system("echo \"$rundir/$file\" | $rundir/analyse >$rundir/result.txt");
+
+#send via mail the result
+
+&sendFilesemail($name, $rundir,"result.txt");
+
+#clean
+system("rm $rundir/$file $rundir/result.txt");
+
+}
+
+
+sub WriteRun{
+  #---------------------------------------------------------------
+  # creates the run files and submit them
+  #---------------------------------------------------------------
+
+
+my($rundir, $cnt, $order,$icoll, $sqrts, $mh,$pdf, $sc,$imur,$imuf,$now)= @_ ;
+
+
+$SCH='0';
+$OUTNAME="res$now-$cnt";
+$PDFLO='MSTW2008lo68cl.LHgrid';
+$PDFNLO='MSTW2008nlo68cl.LHgrid';
+$PDFNNLO='MSTW2008nnlo68cl.LHgrid';
+
+
+open(RUN, ">$rundir/run$now-$cnt.sh");
+print RUN "#bin/bash -l \n 
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/nfs/soft/madgraph/lhapdf/lib\n
+export PATH=$PATH:/nfs/soft/madgraph/lhapdf/bin\n
+echo \" $cnt $order $SCH $icoll $sqrts $mh $sc $imuf $imur $OUTNAME.dat $PDFLO $PDFNLO $PDFNNLO $pdf \" | ./makeruncard\n
+./vbf >log$now-$cnt.dat\n
+rm run_card.dat\n
+";
+close(RUN);
+#make the run.sh file executable
+system("chmod +wx $rundir/run$now-$cnt.sh");
+
+#now writes the condor.cmd file
+$cmdcont=<<CMDEND;
+
+    executable     = $rundir/run$now-$cnt.sh
+
+# here you specify where to put .log, .out and .err files
+    output         = /dev/null
+    error          = /dev/null
+    log            = /dev/null
+
+# the following two parameters enable the file transfer mechanism
+# any specify that the output files should be transferred back
+# to the submit machine from the remote machine where the job executes
+    initialdir              =/home/madgraph/WWW/cgi-bin/VBF/run
+    should_transfer_files   = YES
+    transfer_input_files    =/home/madgraph/WWW/cgi-bin/VBF/run/makeruncard, /home/madgraph/WWW/cgi-bin/VBF/run/vbf
+    when_to_transfer_output = ON_EXIT
+
+# the following two parameters are required for the ingrid cluster
+    universe       = vanilla
+    requirements   = (MADGRAPH =?= TRUE)
+
+    queue 1
+
+CMDEND
+
+
+open(CMD, ">$rundir/run$now-$cnt.cmd");
+print CMD $cmdcont;
+close(CMD);
+
+
+system("chmod +w $rundir/run$now-$cnt.sh");
+
+#launch the job
+system("/home/condor/release/bin/condor_submit $rundir/run$now-$cnt.cmd &>$rundir/pippo");
+
+}#end sub 
+
+#-------------------------
+# Send e-mail
+#-------------------------
+
+sub sendFilesemail {
+	my($useremail,$filepath,$filename)= @_ ; 
+
+  my $mail_smtp = 'localhost';
+  if($ENV{'MADGRAPH_SMTP'}){
+    $mail_smtp=$ENV{'MADGRAPH_SMTP'};
+  }
+
+  $mail{'smtp'} = $mail_smtp;
+  $mail{'from'} = 'Marco Zaro <marco.zaro@lpthe.jussieu.fr>';
+  $mail{'to'} = $useremail;
+  $mail{'bcc'} = 'Marco Zaro <marco.zaro@lpthe.jussieu.fr>';
+  $mail{'subject'} = 'VBF@NNLO results';
+
+  $boundary = "====" . time() . "====";
+   $mail{'content-type'} = "multipart/mixed; boundary=\"$boundary\"";
+
+
+my $filecontent = '';
+open (F, "$filepath/$filename") or die "Cannot read $filename: $!";
+while (<F>) { $filecontent .= $_; }
+
+
+close F;
+
+
+  $boundary = '--'.$boundary;
+  $mail{'body'} = <<ENDMSG;
+$boundary
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+Dear user,
+
+Please find enclosed the results of the VBF calculations.
+
+Cheers,
+
+Marco Zaro
+
+$boundary
+Content-Type: application/octet-stream; name="$filename"
+Content-Disposition: attachment; filename="$filename"
+$filecontent
+$boundary--
+ENDMSG
+
+	sendmail(%mail) or die "Error: $Mail::Sendmail::error\n";
+
+}

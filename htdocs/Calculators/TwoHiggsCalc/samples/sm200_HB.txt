@@ -1,0 +1,102 @@
+# Input file for TwoHiggsCalc generated from the web interface
+Block MODSEL # Select Model
+     1   10    # 10=2HDM
+Block SMINPUTS      # Standard Model inputs
+     1        1.27934000e+02   # alpha_em(MZ)(-1) SM MSbar
+     2        1.16637000e-05   # G_Fermi
+     3        1.17200000e-01   # alpha_s(MZ) SM MSbar
+     4        9.11876000e+01   # MZ(Pole)
+Block MGSMPARAM   # Additional SM param needed
+Block MGYUKAWA # Yukawa masses
+     3        1.05000000e-01   # Ms MSbar
+     5        4.20000000e+00   # Mb MSbar
+     4        1.25000000e+00   # Mc MSbar
+     6        1.74300000e+02   # Mt MSbar
+    13        1.06000000e-01   # Mmu MSbar
+    15        1.77700000e+00   # Mtau MSbar
+Block MGCKM  # CKM matrix
+    1   1        9.74500000e-01   # Vud
+    1   2        2.24000000e-01   # Vus
+    1   3        3.70000000e-03   # Vub
+    2   1        2.24000000e-01   # Vcd
+    2   2        9.73700000e-01   # Vcs
+    2   3        4.20000000e-02   # Vcb
+    3   1        1.00000000e-02   # Vtd
+    3   2        4.00000000e-02   # Vts
+    3   3        9.99100000e-01   # Vtb
+Block BASIS  # Basis convention choice
+     1   1   # Higgs Basis
+Block MINPAR  # Minimal parameter set
+     1   1       3.29954380e-01   # lambda1, coeff of 1111
+     2   1       0.00000000e+00   # lambda2, coeff of 2222
+     3   1       0.00000000e+00   # lambda3, coeff of 1122
+     4   1       0.00000000e+00   # lambda4, coeff of 1221
+     5   1       0.00000000e+00   # Re part of lambda5, coeff of 1212
+     5   2       0.00000000e+00   # Im part of lambda5, coeff of 1212
+     6   1       0.00000000e+00   # Re part of lambda6, coeff of 1112
+     6   2       0.00000000e+00   # Im part of lambda6, coeff of 1112
+     7   1       0.00000000e+00   # Re part of lambda7, coeff of 2212
+     7   2       0.00000000e+00   # Im part of lambda7, coeff of 2212
+     8   1       1.00000000e+03   # mass of charged Higgses
+Block YUKAWA2  # Yukawa couplings of second doublet, only in the Higgs basis
+     1   1   1       0.00000000e+00   # Y_1D Real part
+     1   1   2       0.00000000e+00   # Y_1D Imaginary part
+     1   2   1       0.00000000e+00   # Y_2D Real part
+     1   2   2       0.00000000e+00   # Y_2D Imaginary part
+     1   3   1       0.00000000e+00   # Y_3D Real part
+     1   3   2       0.00000000e+00   # Y_3D Imaginary part
+     2   1   1       0.00000000e+00   # Y_1S Real part
+     2   1   2       0.00000000e+00   # Y_1S Imaginary part
+     2   2   1       0.00000000e+00   # Y_2S Real part
+     2   2   2       0.00000000e+00   # Y_2S Imaginary part
+     2   3   1       0.00000000e+00   # Y_3S Real part
+     2   3   2       0.00000000e+00   # Y_3S Imaginary part
+     3   1   1       0.00000000e+00   # Y_1B Real part
+     3   1   2       0.00000000e+00   # Y_1B Imaginary part
+     3   2   1       0.00000000e+00   # Y_2B Real part
+     3   2   2       0.00000000e+00   # Y_2B Imaginary part
+     3   3   1       0.00000000e+00   # Y_3B Real part
+     3   3   2       0.00000000e+00   # Y_3B Imaginary part
+     4   1   1       0.00000000e+00   # Y_1U Real part
+     4   1   2       0.00000000e+00   # Y_1U Imaginary part
+     4   2   1       0.00000000e+00   # Y_2U Real part
+     4   2   2       0.00000000e+00   # Y_2U Imaginary part
+     4   3   1       0.00000000e+00   # Y_3U Real part
+     4   3   2       0.00000000e+00   # Y_3U Imaginary part
+     5   1   1       0.00000000e+00   # Y_1C Real part
+     5   1   2       0.00000000e+00   # Y_1C Imaginary part
+     5   2   1       0.00000000e+00   # Y_2C Real part
+     5   2   2       0.00000000e+00   # Y_2C Imaginary part
+     5   3   1       0.00000000e+00   # Y_3C Real part
+     5   3   2       0.00000000e+00   # Y_3C Imaginary part
+     6   1   1       0.00000000e+00   # Y_1T Real part
+     6   1   2       0.00000000e+00   # Y_1T Imaginary part
+     6   2   1       0.00000000e+00   # Y_2T Real part
+     6   2   2       0.00000000e+00   # Y_2T Imaginary part
+     6   3   1       0.00000000e+00   # Y_3T Real part
+     6   3   2       0.00000000e+00   # Y_3T Imaginary part
+     7   1   1       0.00000000e+00   # Y_1E Real part
+     7   1   2       0.00000000e+00   # Y_1E Imaginary part
+     7   2   1       0.00000000e+00   # Y_2E Real part
+     7   2   2       0.00000000e+00   # Y_2E Imaginary part
+     7   3   1       0.00000000e+00   # Y_3E Real part
+     7   3   2       0.00000000e+00   # Y_3E Imaginary part
+     8   1   1       0.00000000e+00   # Y_1MU Real part
+     8   1   2       0.00000000e+00   # Y_1MU Imaginary part
+     8   2   1       0.00000000e+00   # Y_2MU Real part
+     8   2   2       0.00000000e+00   # Y_2MU Imaginary part
+     8   3   1       0.00000000e+00   # Y_3MU Real part
+     8   3   2       0.00000000e+00   # Y_3MU Imaginary part
+     9   1   1       0.00000000e+00   # Y_1TA Real part
+     9   1   2       0.00000000e+00   # Y_1TA Imaginary part
+     9   2   1       0.00000000e+00   # Y_2TA Real part
+     9   2   2       0.00000000e+00   # Y_2TA Imaginary part
+     9   3   1       0.00000000e+00   # Y_3TA Real part
+     9   3   2       0.00000000e+00   # Y_3TA Imaginary part
+Block MASS  # Masses
+     3        1.05000000e-01   # Ms
+     4        1.25000000e+00   # Mc
+     5        4.20000000e+00   # Mb
+     6        1.74300000e+02   # Mt
+    13        1.06000000e-01   # Mmu
+    15        1.77700000e+00   # Mta

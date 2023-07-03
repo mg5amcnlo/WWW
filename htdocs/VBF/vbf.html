@@ -1,0 +1,229 @@
+<!DOCTYPE HTML PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html><head>
+
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta
+ name="GENERATOR" content="Mozilla/4.77 [en]C-gatewaynet  
+(Win95; U) [Netscape]"><title> VBF @ NNLO Web Page </title></head><body 
+bgcolor="#F8F4CB"> 
+   
+   
+   
+
+<hr>
+<br>
+<center><font color="#006060"><font size="+3">VBF @ NNLO : Cross-Section
+ Calculator</font></font></center>
+<center><font color="#006060"><font size="+1">by P. Bolzoni,
+      F. Maltoni, S.-O. Moch and M. Zaro</font></font><br>
+</center>
+
+<hr>
+
+
+<center><table width="800">
+<tbody><tr>
+<td><img src="VBF/vbf_pic_trasp.png" align="CENTER" height="231" width="272">
+</td><td>Higgs production in vector-boson fusion (VBF) is computed via a
+ structure-function approach, as
+ reported in <a href="http://arxiv.org/abs/1003.4451">arXiv:1003.4451
+  [hep-ph]</a> and <a href="http://arxiv.org/abs/1109.3717">arXiv:1109.3717
+  [hep-ph]</a>.<br>
+  In addition to the SM Higgs boson, it is also possible to compute the VBF cross-section
+ for a generic neutral, single or double charged scalar or to a new vector that <a href="http://vbf-nnlo.phys.ucl.ac.be/vbf_coupl.html">couples</a> to the SM vector bosons.<br>
+  This simple interface allows any <a 
+href="http://madgraph.phys.ucl.ac.be/cgi-bin/Register/register_page_vbf.pl"
+ target="F3">registered</a> user to obtain a cross section up to
+  NNLO in QCD, including an estimate of the theoretical uncertaintes
+  coming  from scale variation and PDF uncertaintes.  <br>
+  The electro-weak parameters used for the cross-section computation are
+ set to their respective <a href="http://pdg.lbl.gov/">PDG</a> values 
+(see the list <a href="http://vbf-nnlo.phys.ucl.ac.be/vbf_ewpar.html"> 
+here</a>). <br>
+  The code runs over the CP3-MadGraph cluster and <u> might take up to a few
+ hours</u> depending
+  on the actual request. An e-mail with a link to the results page is 
+sent to the
+  user as soon as results are available.<br>
+  Please note that results for the production of a SM Higgs boson at the LHC, obtained with this code possibly also including 
+  EW corrections (as computed in 
+  <a href="http://arxiv.org/abs/arXiv:0707.0381">arXiv:0707.0381 [hep-ph]</a> and
+  <a href="http://arxiv.org/abs/arXiv:0710.4749">arXiv:0710.4749 [hep-ph]</a>), 
+  can be found in the CERN Yellow Reports 
+  <a href="http://arxiv.org/abs/arXiv:1101.0593">Handbook of LHC Higgs cross-section 1</a>
+  and 
+  <a href="http://arxiv.org/abs/arXiv:1307.1347">3</a>, as well as on the 
+  <a href="https://twiki.cern.ch/twiki/bin/view/LHCPhysics/CrossSections">Higgs Cross-Section Working Group page</a>.
+</td>
+</tr>
+</tbody></table>
+
+<hr>
+<table>
+<tr>
+<td><a 
+href="http://vbf-nnlo.phys.ucl.ac.be/cgi-bin/Register/register_page_vbf.pl"
+ target="F3">Registration</a></td>
+<td><font color="#F8F4CB">-------</font>  </td>
+<td><a href="http://vbf-nnlo.phys.ucl.ac.be/VBF/vbf_talks.html">Talks & Conferences</a></td>
+<td><font color="#F8F4CB">-------</font>  </td>
+<td><a href="http://theory.fi.infn.it/grazzini/hcalculators.html">HNNLO web page (gg->H)</a> </td>
+</tr></table>
+<hr>
+<br>
+
+<!-- second form -->
+<form name="particle" method="POST" action="/cgi-bin/VBF/confirm-pl">
+<input name="callfrom" value="form" type="HIDDEN"> 
+<font color="#990000">
+</font>
+<table>
+
+<tbody>
+<tr>
+<td>Process:
+</td><td>  <select name="iproc">
+      <option value="1" selected="selected"> SM Higgs 
+      </option><option value="2"> H0 (only WW fusion)
+      </option><option value="3"> H0 (only ZZ fusion)
+      </option><option value="4"> H+ /H-
+      </option><option value="5"> H++ /H--
+      </option><option value="6"> Z' (via WW fusion)
+      </option><option value="7"> W'+ /W'-
+      </option></select> 
+</td><td>  <a href="http://vbf-nnlo.phys.ucl.ac.be/vbf_coupl.html">Couplings</a>
+</td></tr>
+
+<tr>
+<td>Up to order:
+</td><td>  <select name="order">
+      <option value="1"> LO
+      </option><option value="2"> NLO
+      </option><option value="3" selected="selected"> NNLO
+      </option></select> 
+</td><td>
+</td></tr>
+
+<tr>
+<td>Collider type:
+</td><td>  <select name="icoll">
+      <option value="1" selected="selected"> p-p
+      </option><option value="-1"> p-pbar
+      </option></select> 
+</td><td>
+</td></tr>
+
+<tr>
+<td>Center of mass energy: </td><td><input name="sqrts" value="13000" 
+size="5" type="text"></td><td>GeV</td>
+</tr>
+
+<tr>
+<td>Higgs boson mass: </td><td><input name="mh" value="120" size="4" 
+type="text"></td><td>GeV</td>
+</tr>
+
+<tr>
+  <td>Off-shell effects:<br>(Only for SM Higgs)
+</td><td>  <select name="iwdth">
+      <option value="0" selected="selected"> no
+      </option><option value="1"> complex-pole scheme
+      </option></select> 
+</td><td>
+</td></tr>
+
+<tr>
+<td>PDF set:
+</td><td>  <select name="pdfset">
+      <option value="gjr"> (G)JR08-09 (NLO-NNLO)</option>
+      <option value="gjrnl"> GJR08 (NLO) </option>
+      <option value="gjrnn"> JR09 (NNLO)</option>
+      <option value="abkm09"> ABKM09 (NLO-NNLO)</option>
+      <option value="abkm09nl"> ABKM09 (NLO) </option>
+      <option value="abkm09nn"> ABKM09 (NNLO)</option>
+      <option value="hera15"> HERAPDF 1.5 (NLO-NNLO)</option>
+      <option value="hera15nl"> HERAPDF 1.5 (NLO) </option>
+      <option value="hera15nn"> HERAPDF 1.5 (NNLO)</option>
+      <option value="ct10"> CT10 (NLO-NNLO) </option>
+      <option value="ct10nl"> CT10 (NLO) </option>
+      <option value="ct10nn"> CT10 (NNLO) </option>
+      <option value="cteq66"> CTEQ 6.6 (NLO) </option>
+      <option value="nnpdf21"> NNPDF 2.1 - 100 replicas (NLO-NNLO) </option>
+      <option value="nnpdf21nl"> NNPDF 2.1 - 100 replicas (NLO) </option>
+      <option value="nnpdf21nn"> NNPDF 2.1 - 100 replicas (NNLO) </option>
+      <option value="mstw68" selected="selected"> MSTW08 68%cl (LO-NLO-NNLO) </option>
+      <option value="mstw68lo"> MSTW08 68%cl (LO)</option>
+      <option value="mstw68nl"> MSTW08 68%cl (NLO)</option>
+      <option value="mstw68nn"> MSTW08 68%cl (NNLO)</option>
+      <option value="mstw90"> MSTW08 90%cl (LO-NLO-NNLO)</option>
+      <option value="mstw90lo"> MSTW08 90%cl (LO)</option>
+      <option value="mstw90nl"> MSTW08 90%cl (NLO)</option>
+      <option value="mstw90nn"> MSTW08 90%cl (NNLO)</option>
+</select> 
+</td><td><a href="http://vbf-nnlo.phys.ucl.ac.be/VBF/vbf_pdf.html"> 
+Description</a>
+</td></tr>
+
+
+<tr>
+<td>PDF uncertainities:
+</td><td>  <select name="pdf">
+      <option value="0" selected="selected"> no
+      </option><option value="1"> yes
+      </option></select> 
+</td><td>
+</td></tr>
+
+<tr>
+<td>Reference scale:
+</td><td>  <select name="sc">
+      <option value="0"> mh
+      </option><option value="2">mw
+      </option><option value="1" selected="selected"> Q (recommended)
+      </option></select> 
+</td><td><a href="http://vbf-nnlo.phys.ucl.ac.be/VBF/vbf_sc.html"> 
+Description</a>
+</td></tr>
+
+<!--
+<tr>
+<td>Scale variations:
+</td><td>  <select name="scvar">
+      <option value="0" selected="selected">x_f=x_r=1
+      </option><option value="1"> 1/2&lt; x_f=x_r&lt; 2
+      </option><option value="2"> 1/4&lt; x_f=x_r&lt; 4
+      </option><option value="3"> 1/2&lt; x_f,x_r&lt; 2
+      </option><option value="4"> 1/4&lt; x_f,x_r&lt; 4
+      </option></select> 
+</td><td>
+</td></tr>
+-->
+
+<tr><td>Scale uncertainities:
+</td><td>  <select name="scvar">
+      <option value="0" selected="selected">no
+      </option><option value="3"> standard
+      </option><option value="4"> conservative
+      </option></select> 
+</td><td><a href="http://vbf-nnlo.phys.ucl.ac.be/VBF/vbf_sc_unc.html"> 
+Description</a>
+</td></tr>
+
+</tbody></table>
+<table>
+<tbody><tr>
+</tr>
+</tbody></table>
+<br>
+<!--<input value="Submit" type="submit"> --!>
+<input value="Submit" type="submit">
+</form>
+
+<hr>
+<font size="-1"color="#990000">Pleae send comments/requests/bug reports to Marco Zaro (e-mail: Marco.Zaro AT lpthe.jussieu.fr).  Last update 9 Jan. 2014.</font>
+ 
+
+
+
+</center></body></html>
