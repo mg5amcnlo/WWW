@@ -113,7 +113,7 @@ shift key while you click on the link)</font></center>
 
 <tr>
 <td>
-<center><font size=+2><a href=\"http://launchpad.net/madgraph5/2.0/$MG5MILESTONEVersion.x/+download/MG5_aMC_v$MG5Version.tar.gz\">MadGraph5_aMC\@NLO</a><br> Long Term Stable Version</font></center>
+<center><font size=+2><a href=\"https://launchpad.net/mg5amcnlo/lts/2.9.x/+download/MG5_aMC_v$MG5Version.tar.gz\">MadGraph5_aMC\@NLO</a><br> Long Term Stable Version</font></center>
 </td>
 
 <td><font size=+1>
